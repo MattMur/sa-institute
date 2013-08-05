@@ -6,10 +6,12 @@
  * To change this template use File | Settings | File Templates.
  */
 
+
 exports.handle = function(req, res, next){
+    var sql = require('../sqlconn');
 
     if (req.method == "GET") {
-        sql.perform('SELECT * FROM studyCard', function(err, rows, features) {
+        sql.query('SELECT * FROM studyCard', function(err, rows, features) {
             if (err) {
                 console.log(err);
                 next(err);
@@ -18,10 +20,10 @@ exports.handle = function(req, res, next){
                 res.json(rows);
             }
         });
+
     } else if (req.method == "POST") {
         console.log(req.method);
-        //res.setHeader("Content-Type","text/html");
-
+        res.setHeader('Content-Type','text/html');
         res.send("<p>Thank you for your submission</p><br>" + JSON.stringify(req.body) + "<br>");
     }
 

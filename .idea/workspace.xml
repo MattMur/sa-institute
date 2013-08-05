@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" name="Default" comment="" />
+    <list default="true" id="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/class.js" afterPath="$PROJECT_DIR$/routes/class.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sqlconn.js" afterPath="$PROJECT_DIR$/sqlconn.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/studyCards.js" afterPath="$PROJECT_DIR$/routes/studyCards.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/teachers.js" afterPath="$PROJECT_DIR$/routes/teachers.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/users.js" afterPath="$PROJECT_DIR$/routes/users.js" />
+    </list>
     <ignored path="node-express.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/app.js" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375630081175" ignored="false" />
     <file path="/mysite.html" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375192920794" ignored="false" />
     <file path="/router.js" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375593586307" ignored="false" />
     <file path="/user.js" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375424568438" ignored="false" />
-    <file path="/sqlconn.js" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375671803362" ignored="false" />
-    <file path="/class.js" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375423814843" ignored="false" />
+    <file path="/sqlconn.js" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375677371201" ignored="false" />
+    <file path="/class.js" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375675363359" ignored="false" />
     <file path="/studyCard.js" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375424150950" ignored="false" />
     <file path="/teacher.js" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375424212443" ignored="false" />
     <file path="/index.html" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375628986761" ignored="false" />
     <file path="/studyCardCntrl.js" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375570585786" ignored="false" />
-    <file path="/studyCards.js" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375629994881" ignored="false" />
+    <file path="/studyCards.js" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375674640664" ignored="false" />
     <file path="/controllers.js" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375594066636" ignored="false" />
     <file path="/package.json" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375671531046" ignored="false" />
+    <file path="/Dummy.txt" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375672373783" ignored="false" />
+    <file path="/teachers.js" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375677473739" ignored="false" />
+    <file path="/users.js" changelist="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" time="1375675502818" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +52,7 @@
       <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="3" selection-start="469" selection-end="469" vertical-scroll-proportion="0.0">
+            <state line="22" column="2" selection-start="530" selection-end="530" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -68,7 +81,7 @@
       <file leaf-file-name="router.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/router.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="38" selection-start="507" selection-end="507" vertical-scroll-proportion="0.0">
+            <state line="14" column="16" selection-start="400" selection-end="400" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -86,7 +99,16 @@
       <file leaf-file-name="sqlconn.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sqlconn.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="0" selection-start="799" selection-end="799" vertical-scroll-proportion="0.7593985">
+            <state line="17" column="38" selection-start="438" selection-end="438" vertical-scroll-proportion="0.423676">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="class.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/class.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="36" selection-start="242" selection-end="242" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -95,7 +117,25 @@
       <file leaf-file-name="studyCards.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/studyCards.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="20" selection-start="421" selection-end="421" vertical-scroll-proportion="0.0">
+            <state line="22" column="0" selection-start="589" selection-end="589" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="teachers.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/teachers.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="13" selection-start="253" selection-end="258" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="users.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/users.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="7" selection-start="355" selection-end="355" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -108,14 +148,19 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLogSettings">
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/routes/studyCard.js" />
         <option value="$PROJECT_DIR$/routes/teacher.js" />
         <option value="$PROJECT_DIR$/routes/user.js" />
-        <option value="$PROJECT_DIR$/routes/teachers.js" />
-        <option value="$PROJECT_DIR$/routes/class.js" />
         <option value="$USER_HOME$/Dropbox/School/College/CiT 203/Ch 12/multiplyArray.html" />
         <option value="$PROJECT_DIR$/public/controllers/studyCardCntrl.js" />
         <option value="$PROJECT_DIR$/public/controllers/StudyCardCntrl.js" />
@@ -123,10 +168,13 @@
         <option value="$PROJECT_DIR$/router.js" />
         <option value="$PROJECT_DIR$/public/js/controllers.js" />
         <option value="$PROJECT_DIR$/public/index.html" />
-        <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/routes/studyCards.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/sqlconn.js" />
+        <option value="$PROJECT_DIR$/routes/teachers.js" />
+        <option value="$PROJECT_DIR$/routes/class.js" />
+        <option value="$PROJECT_DIR$/routes/studyCards.js" />
+        <option value="$PROJECT_DIR$/routes/users.js" />
+        <option value="$PROJECT_DIR$/app.js" />
       </list>
     </option>
   </component>
@@ -161,7 +209,7 @@
       </profile-state>
     </entry>
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -220,20 +268,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="node-express" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="institute" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -241,7 +275,7 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="JavaScript.Libraries" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="FullScreen" value="false" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
@@ -282,6 +316,24 @@
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="sslv3">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <configuration useDefault="false">$USER_HOME$/.subversion</configuration>
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="6311e3a2-343c-469c-92e9-cb3e1c4c8fda" name="Default" comment="" />
@@ -292,12 +344,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="146" y="124" width="1191" height="715" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1595298" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1595298" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -313,6 +365,7 @@
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
+    <option name="myShow1" value="true" />
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
@@ -373,11 +426,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/routes/users.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="29" selection-start="170" selection-end="170" vertical-scroll-proportion="0.16688396" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/stylesheets/normalize.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="68" column="29" selection-start="1358" selection-end="1358" vertical-scroll-proportion="0.0">
@@ -412,20 +460,6 @@
         <state line="17" column="0" selection-start="482" selection-end="482" vertical-scroll-proportion="0.36657682" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/teachers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="9" selection-start="476" selection-end="476" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/class.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="9" selection-start="508" selection-end="508" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/js/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="30" selection-start="362" selection-end="362" vertical-scroll-proportion="0.0">
@@ -442,13 +476,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="3" selection-start="469" selection-end="469" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="1" selection-start="199" selection-end="199" vertical-scroll-proportion="-7.04">
@@ -456,23 +483,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/router.js">
+    <entry file="file://$PROJECT_DIR$/routes/users.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="38" selection-start="507" selection-end="507" vertical-scroll-proportion="0.0">
+        <state line="15" column="7" selection-start="355" selection-end="355" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/teachers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="13" selection-start="253" selection-end="258" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/studyCards.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="20" selection-start="421" selection-end="421" vertical-scroll-proportion="0.0">
+        <state line="22" column="0" selection-start="589" selection-end="589" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/class.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="36" selection-start="242" selection-end="242" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="2" selection-start="530" selection-end="530" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/router.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="16" selection-start="400" selection-end="400" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sqlconn.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="0" selection-start="799" selection-end="799" vertical-scroll-proportion="0.7593985">
+        <state line="17" column="38" selection-start="438" selection-end="438" vertical-scroll-proportion="0.423676">
           <folding />
         </state>
       </provider>

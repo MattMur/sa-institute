@@ -2,9 +2,9 @@
 
 
 exports.handle = function(req, res, next){
+    var sql = require('../sqlconn');
 
-
-    sql.perform('SELECT * FROM students', function(err, rows, features) {
+    sql.query('SELECT * FROM students', function(err, rows, features) {
         if (err) {
             console.log(err);
             next(err);
@@ -12,9 +12,7 @@ exports.handle = function(req, res, next){
             console.log('users are: \n', JSON.stringify(rows));
             res.json(rows);
         }
-        //sql.end();
+
     });
-
-
 
 };

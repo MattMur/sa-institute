@@ -10,7 +10,7 @@ exports.handle = function(req, res, next){
     var sql = require('../sqlconn');
 
 
-    sql.perform('SELECT * FROM class', function(err, rows, features) {
+    sql.query('SELECT * FROM class', function(err, rows, features) {
         if (err) {
             console.log(err);
             next(err);
@@ -19,6 +19,8 @@ exports.handle = function(req, res, next){
             res.json(rows);
         }
     });
+
+
 
 
 };
