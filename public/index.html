@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <title>Institute Form</title>
+    <link rel="stylesheet" href="stylesheets/normalize.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
+
+    <script src="js/lib/angular.min.js"></script>
+    <script src="js/controllers.js"></script>
+</head>
+<body ng-controller="StudyCardCntrl">
+
+    <h2>Scripture Study</h2>
+
+
+    <form action="studycards" method="post">
+        Class: <select name="class">
+            <option ng-repeat="class in classes" value="{{ class.id }}">{{ class.name }}</option>
+        </select> <br><br>
+        Frequency of read: <input type="number" name="frequency" placeholder="0-7" max="7" min="0" required><br><br>
+        Quality of Study: <input type="number" name="quality" placeholder="0-4" max="4" min="0" required><br><br>
+        Assigned Block: <input type="text" name="block"><br><br>
+
+        Any thoughs/feelings you would like to share:<br>
+        <textarea rows="10" cols="50" name="thoughts"> </textarea><br><br>
+        <input type="submit">
+    </form>
+
+</body>
+</html>
