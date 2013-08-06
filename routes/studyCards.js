@@ -8,13 +8,12 @@
 var sql = require('../sqlconn');
 
 
-exports.getAll = function(req, res, next) {
+exports.getAll = function(req, res) {
 
-    console.log("Did I get this far?");
     sql.query('SELECT * FROM studyCard', function(err, rows, features) {
         if (err) {
             console.log(err);
-            next(err);
+            //next(err);
         } else {
             console.log('studyCards are: \n', JSON.stringify(rows));
             res.json(rows);
@@ -22,7 +21,7 @@ exports.getAll = function(req, res, next) {
     });
 };
 
-exports.post = function(req, res, next) {
+exports.post = function(req, res) {
     console.log(req.method);
     res.setHeader('Content-Type','text/html');
     res.send("<p>Thank you for your submission</p><br>" + JSON.stringify(req.body) + "<br>");

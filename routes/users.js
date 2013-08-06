@@ -1,8 +1,6 @@
+var sql = require('../sqlconn');
 
-
-
-exports.handle = function(req, res, next){
-    var sql = require('../sqlconn');
+exports.getAll = function(req, res, next) {
 
     sql.query('SELECT * FROM students', function(err, rows, features) {
         if (err) {

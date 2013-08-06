@@ -10,7 +10,7 @@ var studyCard = require('./routes/studyCards');
 
 // all environments
 console.log("server started");
-var path_requested = path.join(__dirname, 'public');
+
 
 //filter
 app.use(function(req, res, next){
@@ -20,6 +20,7 @@ app.use(function(req, res, next){
 
 app.use(function(req, res, next) {
     console.log("requestPath: " + req.path);
+    next();
 })
 
 
@@ -27,17 +28,17 @@ app.use(function(req, res, next) {
 app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
 app.use(express.compress());
 app.use(express.bodyParser());
-app.use(app.router);
+//app.use(app.router);
 
 // Routes
-app.get('/studycards/', studyCard.getAll);
-app.post('/studycards/', studyCard.post);
-
-app.use(function(req, res, next) {
-    console.log("stuck: ");
-})
+app.get('/studycards', studyCard.getAll);
+app.post('/studycards', studyCard.post);
+app.get('/teachers', teacher.getAll);
+app.get('/class', classSubject.getALL);
+app.get('/users', user.getAll);
 
 // Static mapping
+var path_requested = path.join(__dirname, 'public');
 app.use(express.static(path_requested, { maxAge : 3600 }));
 
 // Listen
