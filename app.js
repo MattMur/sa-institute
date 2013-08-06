@@ -20,7 +20,7 @@ var path_requested = path.join(__dirname, 'public');
 app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
 app.use(express.compress());
 app.use(express.bodyParser());
-//app.use(app.router);
+app.use(app.router);
 app.use(router.route);
 app.use(express.static(path_requested, { maxAge : 3600 }));
 
