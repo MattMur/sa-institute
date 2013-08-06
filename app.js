@@ -1,11 +1,16 @@
 var express = require('express');
 var path = require('path');
-var router = require('./router');
 var app = express();
-//global.sql = require('./sqlconn');
+
+var user = require('./routes/users');
+var teacher = require('./routes/teachers');
+var classSubject = require('./routes/class');
+var studyCard = require('./routes/studyCards');
+
 
 // all environments
 console.log("server started");
+var path_requested = path.join(__dirname, 'public');
 
 //filter
 app.use(function(req, res, next){
@@ -13,17 +18,29 @@ app.use(function(req, res, next){
     next();
 });
 
+app.use(function(req, res, next) {
+    console.log("requestPath: " + req.path);
+})
 
-var path_requested = path.join(__dirname, 'public');
 
 //app.use(express.logger());
 app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
 app.use(express.compress());
 app.use(express.bodyParser());
 app.use(app.router);
-app.use(router.route);
+
+// Routes
+app.get('/studycards/', studyCard.getAll);
+app.post('/studycards/', studyCard.post);
+
+app.use(function(req, res, next) {
+    console.log("stuck: ");
+})
+
+// Static mapping
 app.use(express.static(path_requested, { maxAge : 3600 }));
 
+// Listen
 app.listen(8888);
 
 
