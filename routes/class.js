@@ -20,3 +20,17 @@ exports.getALL = function(req, res, next) {
     });
 
 };
+
+exports.getOne = function(req, res, next) {
+
+    sql.query('SELECT * FROM class WHERE id = ?', req.params.id, function(err, rows, features) {
+        if (err) {
+            console.log(err);
+            next(err);
+        } else {
+            console.log('classes are: \n', JSON.stringify(rows));
+            res.json(rows);
+        }
+    });
+
+};

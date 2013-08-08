@@ -8,12 +8,12 @@
 var sql = require('../sqlconn');
 
 
-exports.getAll = function(req, res) {
-
+exports.getAll = function(req, res, next) {
+    //console.log('Params:' + JSON.stringify(req));
     sql.query('SELECT * FROM studyCard', function(err, rows, features) {
         if (err) {
             console.log(err);
-            //next(err);
+            next(err);
         } else {
             console.log('studyCards are: \n', JSON.stringify(rows));
             res.json(rows);
@@ -21,8 +21,34 @@ exports.getAll = function(req, res) {
     });
 };
 
-exports.post = function(req, res) {
+exports.getOne = function(req, res, next) {
+    sql.query('SELECT * FROM studyCard WHERE id = ?', req.params.id, function(err, rows) {
+        if (err) {
+            console.log(err);
+            next(err);
+        } else {
+            console.log('studyCards are: \n', JSON.stringify(rows));
+            res.json(rows);
+        }
+    });
+};
+
+
+
+exports.put = function(req, res, next) {
     console.log(req.method);
-    res.setHeader('Content-Type','text/html');
-    res.send("<p>Thank you for your submission</p><br>" + JSON.stringify(req.body) + "<br>");
+    console.log("Studycard json: " + JSON.stringify(req.body));
+    //{"class":"1","frequency":"3","quality":"4","block":"","thoughts":" "}
+    if (req.body) {
+        sql.query('INSERT INTO studyCard SET ?', req.body, function(err, rows) {
+            if (err) {
+                console.log(err);
+                next(err);
+            } else {
+                console.log('studyCards are: \n', JSON.stringify(rows));
+                res.status(200).send('OK');
+            }
+        });
+    }
+
 }

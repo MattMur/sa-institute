@@ -12,6 +12,17 @@ function StudyCardCntrl($scope, $http) {
     }).error(function (data) {
        console.log("The request failed" + data);
     });
+
+    //submit a new studycard from the form
+    $scope.submit = function () {
+        //{"class":"1","frequency":"3","quality":"4","block":"","thoughts":" "}
+        $scope.studycard.students_id = 2;
+        $http.put('studycards', $scope.studycard).success(function(data) {
+            window.location = "#submit";
+        }).error(function(data) {
+            window.alert("Attempt to create new studycard failed " + data);
+        });
+    }
 }
 
 /*var myApp = angular.module('myApp',[]);

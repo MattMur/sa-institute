@@ -2,19 +2,19 @@
   <library name="express.js" type="javaScript">
     <properties>
       <sourceFilesUrls>
-        <item url="file://$USER_HOME$/node_modules/express/node_modules/commander/node_modules/keypress/test.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/session/cookie.js" />
+        <item url="file://$USER_HOME$/node_modules/express/node_modules/commander/node_modules/keypress/test.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/cache.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/connect.js" />
-        <item url="file://$USER_HOME$/node_modules/express/test.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/patch.js" />
+        <item url="file://$USER_HOME$/node_modules/express/test.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/examples/pow.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/buffer-crc32/tests/crc.test.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/test.js" />
-        <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/json.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/chmod.js" />
-        <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/timeout.js" />
+        <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/json.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/perm_sync.js" />
+        <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/timeout.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/race.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/errorHandler.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/static.js" />
@@ -30,16 +30,16 @@
         <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/methodOverride.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/cookieParser.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/query.js" />
-        <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/vhost.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/return.js" />
-        <item url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/umask.js" />
+        <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/vhost.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/session/memory.js" />
-        <item url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/umask_sync.js" />
+        <item url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/umask.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/csrf.js" />
-        <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/session/session.js" />
+        <item url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/umask_sync.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/perm.js" />
-        <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/session/store.js" />
+        <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/session/session.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/root.js" />
+        <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/session/store.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/cookie/test/serialize.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/cookie/test/parse.js" />
         <item url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/cookieSession.js" />
@@ -73,19 +73,19 @@
       </sourceFilesUrls>
     </properties>
     <CLASSES>
-      <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/session/cookie.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/commander/node_modules/keypress/test.js" />
+      <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/session/cookie.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/cache.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/connect.js" />
-      <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/patch.js" />
       <root url="file://$USER_HOME$/node_modules/express/test.js" />
+      <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/patch.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/examples/pow.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/buffer-crc32/tests/crc.test.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/test.js" />
-      <root url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/chmod.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/json.js" />
-      <root url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/perm_sync.js" />
+      <root url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/chmod.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/timeout.js" />
+      <root url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/perm_sync.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/errorHandler.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/race.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/rel.js" />
@@ -101,16 +101,16 @@
       <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/methodOverride.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/cookieParser.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/query.js" />
-      <root url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/return.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/vhost.js" />
-      <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/session/memory.js" />
+      <root url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/return.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/umask.js" />
-      <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/csrf.js" />
+      <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/session/memory.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/umask_sync.js" />
-      <root url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/perm.js" />
+      <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/csrf.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/session/session.js" />
-      <root url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/root.js" />
+      <root url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/perm.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/session/store.js" />
+      <root url="file://$USER_HOME$/node_modules/express/node_modules/mkdirp/test/root.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/cookie/test/serialize.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/cookie/test/parse.js" />
       <root url="file://$USER_HOME$/node_modules/express/node_modules/connect/lib/middleware/cookieSession.js" />

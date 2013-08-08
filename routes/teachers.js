@@ -18,6 +18,19 @@ exports.getAll = function(req, res, next) {
             res.json(rows);
         }
     });
+};
+
+exports.getOne = function(req, res, next) {
+
+    sql.query('SELECT * FROM teachers WHERE id = ?', req.params.id, function(err, rows, features) {
+        if (err) {
+            console.log(err);
+            next(err);
+        } else {
+            console.log('teachers are: \n', JSON.stringify(rows));
+            res.json(rows);
+        }
+    });
 
 
 };
