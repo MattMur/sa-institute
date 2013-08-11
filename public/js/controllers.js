@@ -5,6 +5,22 @@
  * Time: 5:21 PM
  * To change this template use File | Settings | File Templates.
  */
+
+function LoginCntrl($scope, $http) {
+    $scope.login = function() {
+
+        var basicAuth = 'Basic ' + Base64.encode($scope.user + ':' + $scope.pass);
+        $http({method:'POST', url:'http://localhost:8888/login', headers:{'Authorization' : basicAuth}})
+            .success(function(data) {
+            // Now that we are authenticated we redirect to studycard
+            window.location = 'http://localhost:8888/studycard.html';
+        }).error(function(data) {
+            $http.defaults.headers.common['Authorization'] = null;
+            window.alert("Login failed " + data);
+        });
+    }
+}
+
 function StudyCardCntrl($scope, $http) {
     $http.get('http://localhost:8888/class').success( function(data) {
         $scope.classes = data;

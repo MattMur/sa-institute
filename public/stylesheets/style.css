@@ -1,4 +1,24 @@
 /* Put your CSS here */
 html, body {
     margin: 20px;
+    background: url(../images/bg.png) repeat;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight:300;
+    text-align: left;
+    text-decoration: none;
+}
+
+.fancypanel {
+    width: 370px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+
+    background: #f3f3f3;
+    border: 1px solid #fff;
+    border-radius: 5px;
+
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
