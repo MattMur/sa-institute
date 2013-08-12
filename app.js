@@ -8,22 +8,19 @@ var teacher = require('./routes/teachers');
 var classSubject = require('./routes/class');
 var studyCard = require('./routes/studyCards');
 
+console.log("server started");
 
-//filter
+// Setup
 app.use(function(req, res, next){
     if (req.url == "/favicon.ico") return;
     next();
 });
 
-console.log("server started");
-
-
-//app.use(express.logger());
 app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
 app.use(express.compress());
 app.use(express.bodyParser());
 app.use(express.cookieParser());
-app.use(express.cookieSession({secret: 'NEPHIISCOOL'}));
+app.use(express.cookieSession({secret: 'NEPHIISCOOL', key: 'inst.sess'}));
 
 // logger
 app.use(function(req, res, next) {
@@ -32,35 +29,56 @@ app.use(function(req, res, next) {
     next();
 });
 
-// Routes
-app.post('/login', authHandler(express), function(req, res) {
-    console.log('Should be good to go!')
-    res.send(200);
-});
 
-app.get('/users', authHandler(express), user.getAll);
-app.get('/users/:id', authHandler(express), user.getOne);
-//app.get('/users/:name', user.getName);
+// API Routes
+app.get('/api/users', authHandler(express), user.getAll);
+app.get('/api/users/:id', authHandler(express), user.getOne);
+//app.get('/users/:id/studycards', user.getUserStudyCards);
+//app.get('/users/:id/')
 
-app.get('/studycards', authHandler(express), studyCard.getAll);
-app.get('/studycards/:id', authHandler(express), studyCard.getOne)
-app.put('/studycards', authHandler(express), studyCard.put);
+app.get('/api/studycards', authHandler(express), studyCard.getAll);
+app.get('/api/studycards/:id', authHandler(express), studyCard.getOne)
+app.put('/api/studycards', authHandler(express), studyCard.put);
 
 
-app.get('/teachers', teacher.getAll);
-app.get('/teachers/:id', teacher.getOne);
+app.get('/api/teachers', teacher.getAll);
+app.get('/api/teachers/:id', teacher.getOne);
 
-app.get('/class', classSubject.getALL);
-app.get('/class/:id', classSubject.getOne);
+app.get('/api/class', classSubject.getALL);
+app.get('/api/class/:id', classSubject.getOne);
 
-app.get('/studycard.html', authHandler(express), function(req, res, next) {
-    if (!req.session.user) {
-        res.redirect('/');
+
+// HTML Routes
+app.get('/', function(req, res, next) {
+    if (!req.session.userid) {
+        res.redirect('/login.html'); // No userid? need to login
     } else {
-        res.sendfile('public/studycard.html', { maxAge : 3600 }, null);
+        res.redirect('/users/' + req.session.userid + '/studycard'); // send them to their studycard
     }
-
 });
+
+app.post('/login', authHandler(express), function(req, res) {
+    // They should have sent http basic auth headers and should now have session cookie
+    console.log('Should be good to go! User: ' + req.session.userid);
+    res.status(200).send(req.session.userid.toString());
+});
+
+app.get('/users/:id/studycard', function(req, res, next) {
+    if (!req.session.userid) {
+        res.redirect('/login.html'); // No userid? need to login
+    } else {
+        console.log('Checking access:', req.params.id, req.session.userid);
+        var isAuthorized = req.params.id == req.session.userid; // Check that userid matches what they are requesting
+        if (!isAuthorized) res.send(403);  // Unauthorized
+        res.sendfile('public/users/studycard.html', { maxAge : 3600 }, null);
+    }
+});
+
+app.get('/logoff', function(req, res, next) {
+    req.session = null;
+    res.redirect('/login.html');
+});
+
 
 // Static mapping
 var path_requested = path.join(__dirname, 'public');

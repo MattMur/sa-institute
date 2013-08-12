@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="instituteApp">
+<head>
+    <meta charset="utf-8">
+    <title>Institute Form</title>
+    <link rel="stylesheet" href="/stylesheets/normalize.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+    <script src="/js/lib/angular.min.js"></script>
+    <script src="http://code.angularjs.org/1.0.0rc10/angular-cookies-1.0.0rc10.js"></script>
+    <script src="/js/angularrouting.js"></script>
+    <script src="/js/controllers.js"></script>
+</head>
+<body>
+    <div class="userCntrl" ng-controller="UserCntrl">
+    <span>Welcome {{ user.firstname }} |</span>
+        <a href="" ng-click="logoff()">Logoff</a>
+    </div>
+    <div class="fancypanel">
+        <h2>Scripture Study</h2>
+        <div ng-view></div>
+    </div>
+
+</body>
+</html>

@@ -38,14 +38,14 @@ exports.getOne = function(req, res, next) {
 exports.put = function(req, res, next) {
     console.log(req.method);
     console.log("Studycard json: " + JSON.stringify(req.body));
-    //{"class":"1","frequency":"3","quality":"4","block":"","thoughts":" "}
+    //{"class_id":"1","frequency":"3","quality":"4","block":"","thoughts":" "}
     if (req.body) {
         sql.query('INSERT INTO studyCard SET ?', req.body, function(err, rows) {
             if (err) {
                 console.log(err);
                 next(err);
             } else {
-                console.log('studyCards are: \n', JSON.stringify(rows));
+                //console.log('studyCards are: \n', JSON.stringify(rows));
                 res.status(200).send('OK');
             }
         });

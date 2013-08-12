@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html ng-app>
+<html ng-app="loginApp">
 <head>
 
 <!--------------------
@@ -10,7 +10,7 @@ www.amitjakhu.com
 
 <!--META-->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Institute Card Login</title>
+<title>Institute Login</title>
 
 <!--STYLESHEETS-->
 <link href="stylesheets/loginstyle.css" rel="stylesheet" type="text/css" />
@@ -19,7 +19,9 @@ www.amitjakhu.com
 <script type="text/javascript" src="js/lib/angular.min.js"></script>
 <script type="text/javascript" src="js/lib/base64.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
-<script type="text/javascript" src="js/controllers.js"></script>
+<script src="http://code.angularjs.org/1.0.0rc10/angular-cookies-1.0.0rc10.js"></script>
+<script src="js/angularrouting.js"></script>
+<script src="js/controllers.js"></script>
 
 <!--Slider-in icons-->
 <script type="text/javascript">
@@ -57,14 +59,14 @@ $(document).ready(function() {
 
 	<!--HEADER-->
     <div class="header">
-    <!--TITLE--><h1>Login Form</h1><!--END TITLE-->
-    <!--DESCRIPTION--><span>Fill out the form below to login to my super awesome imaginary control panel.</span><!--END DESCRIPTION-->
+    <!--TITLE--><h1>Institute Login</h1><!--END TITLE-->
+    <!--DESCRIPTION--><span>San Antonio, Texas</span><!--END DESCRIPTION-->
     </div>
     <!--END HEADER-->
 	
 	<!--CONTENT-->
     <div class="content">
-	<!--USERNAME--><input ng-model="user" name="username" type="text" class="input username" placeholder="Username" required><!--END USERNAME-->
+	<!--USERNAME--><input ng-model="user" name="username" type="text" class="input username" placeholder="Email" required><!--END USERNAME-->
     <!--PASSWORD--><input ng-model="pass" name="password" type="password" class="input password" placeholder="Password" required><!--END PASSWORD-->
     </div>
     <!--END CONTENT-->
