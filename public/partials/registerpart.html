@@ -1,0 +1,44 @@
+<div id="registerwrapper" >
+    <!--SLIDE-IN ICONS-->
+    <div class="user-icon"></div>
+    <div class="pass-icon"></div>
+    <!--END SLIDE-IN ICONS-->
+
+    <!--LOGIN FORM-->
+    <form name="login-form" class="login-form" ng-submit="register()">
+
+        <!--HEADER-->
+        <div class="header">
+            <!--TITLE--><h1>Institute Registration</h1><!--END TITLE-->
+            <!--DESCRIPTION--><span>San Antonio, Texas</span><!--END DESCRIPTION-->
+        </div>
+        <!--END HEADER-->
+
+        <!--CONTENT-->
+        <div class="content">
+            <!--EMAIL--><input ng-model="newUser.email" name="username" type="email" class="input username" placeholder="Email" required><!--END EMAIL-->
+            <!--PASSWORD--><input ng-model="newUser.password" name="password" type="password" class="input password" placeholder="Password" required><!--END PASSWORD-->
+            <!--FIRSTNAME--><input ng-model="newUser.firstname" name="first" type="text" class="input password" placeholder="First name" required><!--END FIRSTNAME-->
+            <!--LASTNAME--><input ng-model="newUser.lastname" name="last" type="text" class="input password" placeholder="Last name" required><!--END LASTNAME-->
+            <!--PHONE--><input ng-model="newUser.phone" name="phone" type="tel" class="input password" placeholder="Phone (optional)"><!--END PHONE-->
+
+            <!--CLASS (commented out for now)
+            <select name="class" ng-model="studycard.class_id" class="input">
+                <option value="" selected>- Current Class -</option>
+                <option ng-repeat="class in classes" value="{{ class.id }}">{{ class.name }}</option>
+             </select>
+             -->
+        </div>
+        <!--END CONTENT-->
+
+        <!--FOOTER-->
+        <div class="footer">
+            <!--LOGIN BUTTON--><input ng-click="changeToLogin()" type="button" name="login" value="Login" class="register" /><!--END LOGIN BUTTON-->
+            <!--REGISTER BUTTON--><input type="submit" name="submit" value="Register" class="button" /><!--END REGISTER BUTTON-->
+        </div>
+        <!--END FOOTER-->
+
+    </form>
+    <!--END LOGIN FORM-->
+</div>
+

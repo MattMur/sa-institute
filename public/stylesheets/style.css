@@ -1,6 +1,6 @@
 /* Put your CSS here */
 html, body {
-    margin: 20px;
+    margin: 10px;
     background: url(../images/bg.png) repeat;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     font-weight:300;
@@ -26,6 +26,7 @@ html, body {
 .userCntrl {
     margin-left: auto;
     margin-right: 0px;
+    margin-bottom: 10px;
     width: 50%;
     text-align: right;
 }

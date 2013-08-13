@@ -2,7 +2,7 @@ var express = require('express');
 var path = require('path');
 var app = express();
 
-var authHandler = require('./basicAuth');
+var auth = require('./scripts/authentication');
 var user = require('./routes/users');
 var teacher = require('./routes/teachers');
 var classSubject = require('./routes/class');
@@ -31,14 +31,15 @@ app.use(function(req, res, next) {
 
 
 // API Routes
-app.get('/api/users', authHandler(express), user.getAll);
-app.get('/api/users/:id', authHandler(express), user.getOne);
+app.get('/api/users', auth.basicAuth(express), user.getAll);
+app.get('/api/users/:id', auth.basicAuth(express), user.getOne);
+app.put('/api/users', user.createNew);
 //app.get('/users/:id/studycards', user.getUserStudyCards);
 //app.get('/users/:id/')
 
-app.get('/api/studycards', authHandler(express), studyCard.getAll);
-app.get('/api/studycards/:id', authHandler(express), studyCard.getOne)
-app.put('/api/studycards', authHandler(express), studyCard.put);
+app.get('/api/studycards', auth.basicAuth(express), studyCard.getAll);
+app.get('/api/studycards/:id', auth.basicAuth(express), studyCard.getOne)
+app.put('/api/studycards', auth.basicAuth(express), studyCard.createNew);
 
 
 app.get('/api/teachers', teacher.getAll);
@@ -49,18 +50,15 @@ app.get('/api/class/:id', classSubject.getOne);
 
 
 // HTML Routes
+app.post('/login', auth.login);
+app.get('/logoff', auth.logoff);
+
 app.get('/', function(req, res, next) {
     if (!req.session.userid) {
         res.redirect('/login.html'); // No userid? need to login
     } else {
         res.redirect('/users/' + req.session.userid + '/studycard'); // send them to their studycard
     }
-});
-
-app.post('/login', authHandler(express), function(req, res) {
-    // They should have sent http basic auth headers and should now have session cookie
-    console.log('Should be good to go! User: ' + req.session.userid);
-    res.status(200).send(req.session.userid.toString());
 });
 
 app.get('/users/:id/studycard', function(req, res, next) {
@@ -74,11 +72,9 @@ app.get('/users/:id/studycard', function(req, res, next) {
     }
 });
 
-app.get('/logoff', function(req, res, next) {
-    req.session = null;
-    res.redirect('/login.html');
+app.get('/register.html', function(req, res, next) {
+    res.sendfile('public/login.html', { maxAge : 3600 }, null);
 });
-
 
 // Static mapping
 var path_requested = path.join(__dirname, 'public');

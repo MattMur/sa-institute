@@ -1,8 +1,8 @@
-var sql = require('../sqlconn');
+var sql = require('../scripts/sqlconn');
 
 exports.getAll = function(req, res, next) {
 
-    sql.query('SELECT * FROM students', function(err, rows, features) {
+    sql.query('SELECT * FROM students', function(err, rows) {
         if (err) {
             console.log(err);
             next(err);
@@ -23,7 +23,7 @@ exports.getOne = function(req, res, next) {
     var isAuthorized = req.params.id == req.session.userid;
 
     if (isAuthorized) {
-        sql.query('SELECT firstname, lastname, email, phone FROM students WHERE id = ?', req.params.id, function(err, rows, features) {
+        sql.query('SELECT firstname, lastname, email, phone FROM students WHERE id = ?', req.params.id, function(err, rows) {
             if (err) {
                 console.log(err);
                 next(err);
@@ -37,7 +37,18 @@ exports.getOne = function(req, res, next) {
     } else {
         res.send(403); // Send 403 if user ids do not match
     }
-
-
-
 };
+
+exports.createNew = function(req, res, next) {
+    console.log(JSON.stringify(req.body));
+    sql.query('INSERT INTO students SET ?', req.body, function(err, result) {
+        if (err) {
+            console.log(err);
+            next(err);
+        } else {
+            req.session.userid = result.insertId;  // Change session id to newly created user
+            console.log(' added new User', result.insertId);
+            res.send(result.insertId.toString());
+        }
+    });
+}

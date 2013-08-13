@@ -5,7 +5,7 @@
  * Time: 2:02 PM
  * To change this template use File | Settings | File Templates.
  */
-var sql = require('../sqlconn');
+var sql = require('../scripts/sqlconn');
 
 exports.getAll = function(req, res, next) {
 

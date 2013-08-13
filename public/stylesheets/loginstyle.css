@@ -41,7 +41,7 @@ body {
 	text-decoration: none;
 }
 
-#wrapper {
+#loginwrapper {
 	/* Center wrapper perfectly */
 	width: 300px;
 	height: 400px;
@@ -50,6 +50,17 @@ body {
 	top: 50%;
 	margin-left: -150px;
 	margin-top: -200px;
+}
+
+#registerwrapper {
+    width: 300px;
+    height: 600px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -150px;
+    margin-top: -300px;
+    padding-bottom: 100px;
 }
 
 /*
@@ -179,6 +190,13 @@ CONTENT
 	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
 }
 
+.login-form .content select.input {
+    display: block;
+    margin: 25px 0 0 0;
+    height: 40px;
+    text-align: center;
+}
+
 .user-icon, .pass-icon {
 	width: 46px;
 	height: 47px;
@@ -229,8 +247,11 @@ FOOTER
 	-webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.15);
 }
 
+
+
 /* Login button */
 .login-form .footer .button {
+    display: inline;
 	float:right;
 	padding: 11px 25px;
 	
@@ -272,11 +293,11 @@ FOOTER
 
 /* Register button */
 .login-form .footer .register {
-	display: block;
+    display: inline;
 	float: right;
 	padding: 10px;
 	margin-right: 20px;
-	
+
 	background: none;
 	border: none;
 	cursor: pointer;

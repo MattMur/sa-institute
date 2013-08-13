@@ -16,73 +16,20 @@ www.amitjakhu.com
 <link href="stylesheets/loginstyle.css" rel="stylesheet" type="text/css" />
 
 <!--SCRIPTS-->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 <script type="text/javascript" src="js/lib/angular.min.js"></script>
 <script type="text/javascript" src="js/lib/base64.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 <script src="http://code.angularjs.org/1.0.0rc10/angular-cookies-1.0.0rc10.js"></script>
 <script src="js/angularrouting.js"></script>
 <script src="js/controllers.js"></script>
 
-<!--Slider-in icons-->
-<script type="text/javascript">
-$(document).ready(function() {
-	$(".username").focus(function() {
-		$(".user-icon").css("left","-48px");
-	});
-	$(".username").blur(function() {
-		$(".user-icon").css("left","0px");
-	});
-	
-	$(".password").focus(function() {
-		$(".pass-icon").css("left","-48px");
-	});
-	$(".password").blur(function() {
-		$(".pass-icon").css("left","0px");
-	});
-});
-
-</script>
 
 </head>
 <body>
 
 <!--WRAPPER-->
-<div id="wrapper" ng-controller="LoginCntrl">
-
-	<!--SLIDE-IN ICONS-->
-    <div class="user-icon"></div>
-    <div class="pass-icon"></div>
-    <!--END SLIDE-IN ICONS-->
-
-<!--LOGIN FORM-->
-<form name="login-form" class="login-form" ng-submit="login()">
-
-	<!--HEADER-->
-    <div class="header">
-    <!--TITLE--><h1>Institute Login</h1><!--END TITLE-->
-    <!--DESCRIPTION--><span>San Antonio, Texas</span><!--END DESCRIPTION-->
-    </div>
-    <!--END HEADER-->
-	
-	<!--CONTENT-->
-    <div class="content">
-	<!--USERNAME--><input ng-model="user" name="username" type="text" class="input username" placeholder="Email" required><!--END USERNAME-->
-    <!--PASSWORD--><input ng-model="pass" name="password" type="password" class="input password" placeholder="Password" required><!--END PASSWORD-->
-    </div>
-    <!--END CONTENT-->
-    
-    <!--FOOTER-->
-    <div class="footer">
-    <!--LOGIN BUTTON--><input type="submit" name="submit" value="Login" class="button" /><!--END LOGIN BUTTON-->
-    <!--REGISTER BUTTON--><input type="submit" name="submit" value="Register" class="register" /><!--END REGISTER BUTTON-->
-    </div>
-    <!--END FOOTER-->
-
-</form>
-<!--END LOGIN FORM-->
-
+<div ng-view>
 </div>
-<!--END WRAPPER-->
 
 <!--GRADIENT--><div class="gradient"></div><!--END GRADIENT-->
 

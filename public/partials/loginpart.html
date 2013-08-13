@@ -1,0 +1,34 @@
+<div id="loginwrapper" >
+    <!--SLIDE-IN ICONS-->
+    <div class="user-icon"></div>
+    <div class="pass-icon"></div>
+    <!--END SLIDE-IN ICONS-->
+
+    <!--LOGIN FORM-->
+    <form name="login-form" class="login-form" ng-submit="login()">
+
+        <!--HEADER-->
+        <div class="header">
+            <!--TITLE--><h1>Institute Login</h1><!--END TITLE-->
+            <!--DESCRIPTION--><span>San Antonio, Texas</span><!--END DESCRIPTION-->
+        </div>
+        <!--END HEADER-->
+
+        <!--CONTENT-->
+        <div class="content">
+            <!--EMAIL--><input ng-model="user" name="username" type="email" class="input username" placeholder="Email" required><!--EMAIL USERNAME-->
+            <!--PASSWORD--><input ng-model="pass" name="password" type="password" class="input password" placeholder="Password" required><!--END PASSWORD-->
+        </div>
+        <!--END CONTENT-->
+
+        <!--FOOTER-->
+        <div class="footer">
+            <!--LOGIN BUTTON--><input type="submit" name="submit" value="Login" class="button" /><!--END LOGIN BUTTON-->
+            <!--REGISTER BUTTON--><input ng-click="changeToRegister()" type="button" name="register" value="Register" class="register" /><!--END REGISTER BUTTON-->
+        </div>
+        <!--END FOOTER-->
+
+    </form>
+    <!--END LOGIN FORM-->
+</div>
+
