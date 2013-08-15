@@ -25,7 +25,7 @@ app.use(express.cookieSession({secret: 'NEPHIISCOOL', key: 'inst.sess'}));
 // logger
 app.use(function(req, res, next) {
     //console.log("sess: " + JSON.stringify(req.session));
-    console.log("req: " + JSON.stringify([req.method, req.path, req.user, req.session]));
+    console.log(req.method +" "+ req.path);
     next();
 });
 
@@ -55,24 +55,39 @@ app.get('/logoff', auth.logoff);
 
 app.get('/', function(req, res, next) {
     if (!req.session.userid) {
+        console.log("Redirecting to login");
         res.redirect('/login.html'); // No userid? need to login
     } else {
-        res.redirect('/users/' + req.session.userid + '/studycard'); // send them to their studycard
+        console.log("Redirecting to institute app");
+        res.redirect('/users/' + req.session.userid); // send them to their studycard
     }
 });
 
-app.get('/users/:id/studycard', function(req, res, next) {
+app.get('/users/:id', function(req, res, next) {
     if (!req.session.userid) {
+        console.log("Redirecting to login");
         res.redirect('/login.html'); // No userid? need to login
     } else {
+        console.log("Sending to institute app");
         console.log('Checking access:', req.params.id, req.session.userid);
         var isAuthorized = req.params.id == req.session.userid; // Check that userid matches what they are requesting
         if (!isAuthorized) res.send(403);  // Unauthorized
-        res.sendfile('public/users/studycard.html', { maxAge : 3600 }, null);
+        res.sendfile('public/angular/instituteapp.html', { maxAge : 3600 }, null);
+    }
+});
+
+app.get('/users/*', function(req, res, next) {
+    if (!req.session.userid) {
+        console.log("Redirecting to login");
+        res.redirect('/login.html'); // No userid? need to login
+    } else {
+        console.log("Sending to institute app");
+        res.sendfile('public/angular/instituteapp.html', { maxAge : 3600 }, null);
     }
 });
 
 app.get('/register.html', function(req, res, next) {
+    console.log("Sending login");
     res.sendfile('public/login.html', { maxAge : 3600 }, null);
 });
 

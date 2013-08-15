@@ -213,12 +213,12 @@ CONTENT
 }
 
 .user-icon {
-	top:147px; /* Positioning fix for slide-in, got lazy to think up of simpler method. */
+	top:131px; /* Positioning fix for slide-in, got lazy to think up of simpler method. */
 	background: rgba(65,72,72,0.75) url(../images/user-icon.png) no-repeat center;	
 }
 
 .pass-icon {
-	top:221px;
+	top:208px;
 	background: rgba(65,72,72,0.75) url(../images/pass-icon.png) no-repeat center;
 }
 
@@ -316,4 +316,9 @@ FOOTER
 .login-form .footer .register:focus {
 	position: relative;
 	bottom: -1px;
+}
+
+@media only screen and (max-width: 480px), only screen and (max-device-width: 480px) {
+
+
 }

@@ -1,0 +1,11 @@
+<h2>Study Card Details</h2>
+<div>
+    <ul class="list">
+        <li>Class: <strong>{{ studycard.class_id }}</strong></li>
+        <li>Frequency of read: <strong>{{ studycard.frequency }}</strong></li>
+        <li>Quality of Study: <strong>{{ studycard.quality }}</strong></li>
+        <li>Assigned Block: <strong>{{ studycard.assignedBlock }}</strong></li>
+        <li ng-show="studycard.notes">Thoughs & Feelings: </li>
+    </ul>
+    <blockquote ng-show="studycard.notes">{{ studycard.notes }}</blockquote>
+</div>

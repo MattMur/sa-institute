@@ -1,4 +1,5 @@
-<div xmlns="http://www.w3.org/1999/html">
+<h2>Scripture Study</h2>
+<div>
     <form name="studyCardForm" ng-submit="submit()">
         Class: <select name="class" ng-model="studycard.class_id">
         <option value="" selected>- Select One -</option>
@@ -9,8 +10,7 @@
         Assigned Block: <input type="text" ng-model="studycard.assignedBlock"><br><br>
 
         Any thoughs/feelings you would like to share:<br>
-        <textarea rows="10" cols="50" ng-model="studycard.notes"> </textarea><br><br>
-        <input type="hidden" ng-model="studycard.students_id">
+        <textarea rows="10" cols="auto" ng-model="studycard.notes"> </textarea><br><br>
         <input type="submit">
     </form>
 </div>

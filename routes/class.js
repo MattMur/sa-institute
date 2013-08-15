@@ -29,7 +29,7 @@ exports.getOne = function(req, res, next) {
             next(err);
         } else {
             console.log('classes are: \n', JSON.stringify(rows));
-            res.json(rows);
+            res.json(rows[0]);
         }
     });
 

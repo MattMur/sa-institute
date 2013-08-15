@@ -1,0 +1,10 @@
+<h2>Study Cards</h2>
+<div>
+    <ul class="list">
+        <li ng-repeat="studycard in studycards">
+            <a href="studycards/{{ studycard.id }}">
+                {{ studycard.date | date:'short' }} Frequency:{{ studycard.frequency }} Quality:{{ studycard.quality }}
+            </a>
+         </li>
+    </ul>
+</div>

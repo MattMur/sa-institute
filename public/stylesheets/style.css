@@ -1,11 +1,24 @@
 /* Put your CSS here */
 html, body {
-    margin: 10px;
+    margin: 0;
     background: url(../images/bg.png) repeat;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     font-weight:300;
     text-align: left;
     text-decoration: none;
+}
+
+blockquote {
+    background-color: lightsteelblue;
+    border: 2px solid #000;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0;
+}
+
+.smalllink {
+    font-size: 70%;
+    color: darkslateblue;
 }
 
 .fancypanel {
@@ -23,10 +36,33 @@ html, body {
     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 
-.userCntrl {
-    margin-left: auto;
-    margin-right: 0px;
-    margin-bottom: 10px;
-    width: 50%;
+.menuCntrl {
+    display: flex;
+    margin: 10px 10px 10px auto;
+    width: 90%;
     text-align: right;
+}
+
+.fancypanel .list {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0px;
+}
+
+.fancypanel li {
+    margin: 20px 0;
+}
+
+@media only screen and (max-width: 480px), only screen and (max-device-width: 480px) {
+
+    .fancypanel {
+        width: 83%;
+    }
+
+
+    .fancypanel textarea {
+        display: flex;
+        width: 95%;
+    }
+
 }
