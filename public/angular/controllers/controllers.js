@@ -6,7 +6,34 @@
  * To change this template use File | Settings | File Templates.
  */
 
-function UserCntrl($scope, $http, $routeParams) {
+var app = angular.module('instituteApp', ['ngCookies']);
+
+app.config(function($routeProvider, $locationProvider) {
+
+    $routeProvider.when('/users/:id', {
+        templateUrl:'/angular/partials/usermain.html',
+        controller: 'UserCntrl'
+    });
+    $routeProvider.when('/users/:id/newstudycard', {
+        templateUrl:'/angular/partials/newstudycard.html',
+        controller: 'NewStudyCardCntrl'
+    });
+    $routeProvider.when('/users/:id/submit', {
+        templateUrl:'/angular/partials/submitcard.html'
+    });
+    $routeProvider.when('/users/:id/studycards', {
+        templateUrl:'/angular/partials/studycards.html',
+        controller: 'StudyCardsCntrl'
+    });
+    $routeProvider.when('/users/:id/studycards/:cardId', {
+        templateUrl:'/angular/partials/studycarddetails.html',
+        controller: 'StudyCardDetailsCntrl'
+    })
+    $routeProvider.otherwise({redirectTo: '/users/:id'});
+    $locationProvider.html5Mode(true);
+});
+
+app.controller('UserCntrl', function ($scope, $http, $routeParams) {
     //do we have a class id for our user?
     if ($scope.user.class_id) {
         var url = 'http://localhost:8888/api/class/' + $scope.user.class_id;
@@ -20,12 +47,9 @@ function UserCntrl($scope, $http, $routeParams) {
         // Set the class name as 'unregistered'
         $scope.user['class'] = { name: 'Unregistered' };
     }
+});
 
-
-
-}
-
-function NewStudyCardCntrl($scope, $http, $location, $routeParams) {
+app.controller('NewStudyCardCntrl', function ($scope, $http, $location, $routeParams) {
 
     //console.log('routeparams ' + JSON.stringify($routeParams));
 
@@ -47,10 +71,10 @@ function NewStudyCardCntrl($scope, $http, $location, $routeParams) {
             window.alert("Attempt to create new studycard failed " + data);
         });
     }
-}
+});
 
 
-function StudyCardsCntrl($scope, $http, $routeParams) {
+app.controller('StudyCardsCntrl', function($scope, $http, $routeParams) {
 
     // Get all availible study cards
     var url = 'http://localhost:8888/api/users/'+ $routeParams.id +'/studycards';
@@ -64,7 +88,7 @@ function StudyCardsCntrl($scope, $http, $routeParams) {
         // We assume class is Wednesday. Is this always right???
         for (var i = 0; i < studycards.length; i++) {
             var day2 = Date.parseExact(studycards[i].date, dateformat).last().wed();
-            var day1 = Date.parseExact(studycards[i].date, dateformat).last().wed().last().week();
+            var day1 = Date.parseExact(studycards[i].date, dateformat).last().thu().last().week();
 
             // If the dates are in same month then condense
             var day2 = day1.same().month(day2) ? day2.toString('dd') : day2 = day2.toString('MMM dd');
@@ -77,10 +101,10 @@ function StudyCardsCntrl($scope, $http, $routeParams) {
     }).error(function (data) {
         console.log("StudyCards request failed" + data);
     });
-}
+});
 
 
-function StudyCardDetailsCntrl($scope, $http, $routeParams) {
+app.controller('StudyCardDetailsCntrl', function($scope, $http, $routeParams) {
 
     // Get all availible study cards
     $http.get('http://localhost:8888/api/studycards/' + $routeParams.cardId)
@@ -90,10 +114,10 @@ function StudyCardDetailsCntrl($scope, $http, $routeParams) {
     }).error(function (data) {
             console.log("StudyCardDetails request failed" + data);
         });
-}
+});
 
 // Controller used to display Welcome <User> and Logoff function
-function RootCntrl($scope, $http, $cookies) {
+app.controller('RootCntrl', function($scope, $http, $cookies) {
 
     // get the current user from cookie
     console.log("Cookies: " + JSON.stringify($cookies));
@@ -119,4 +143,4 @@ function RootCntrl($scope, $http, $cookies) {
         $scope.user = null;
         window.location = 'http://localhost:8888/logoff';
     }
-}
+});

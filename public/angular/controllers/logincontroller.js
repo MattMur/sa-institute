@@ -5,7 +5,23 @@
  * Time: 12:57 AM
  * To change this template use File | Settings | File Templates.
  */
-function LoginCntrl($scope, $http, $cookies, $location) {
+
+var app = angular.module('loginApp', ['ngCookies']);
+
+app.config(function($routeProvider, $locationProvider) {
+    $routeProvider.when('/login.html', {
+        templateUrl:'/angular/partials/loginpart.html',
+        controller: 'LoginCntrl'
+    });
+    $routeProvider.when('/register.html', {
+        templateUrl:'/angular/partials/registerpart.html',
+        controller: 'RegisterCntrl'
+    });
+    //.otherwise({redirectTo: '/'});
+    $locationProvider.html5Mode(true);
+});
+
+app.controller('LoginCntrl', function($scope, $http, $cookies, $location) {
 
     $(document).ready(function() {
         $(".username").focus(function() {
@@ -33,9 +49,9 @@ function LoginCntrl($scope, $http, $cookies, $location) {
     $scope.changeToRegister = function() {
         $location.path('register.html');
     };
-}
+});
 
-function RegisterCntrl($scope, $http, $cookies, $location) {
+app.controller('RegisterCntrl', function($scope, $http, $cookies, $location) {
 
     $scope.register = function() {
         // Do PUT to register new user
@@ -55,7 +71,7 @@ function RegisterCntrl($scope, $http, $cookies, $location) {
     $scope.changeToLogin = function() {
         $location.path('login.html');
     };
-}
+});
 
 
 // Custom method for logging in. NOT a controller.

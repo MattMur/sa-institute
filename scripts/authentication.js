@@ -53,7 +53,7 @@ exports.basicAuth = function(express, requiredAccessLvl) {
 
                         // check that user has required access
                         if (user.accesslvl < requiredAccessLvl) {
-                           res.status(403); // Not high enough accesslvl. Forbidden!!
+                            res.status(403).send('HTTP 403 user does not have required permissions'); // Not high enough accesslvl. Forbidden!!
                            return;
                         }
                     }
@@ -64,9 +64,8 @@ exports.basicAuth = function(express, requiredAccessLvl) {
           });
           performAuth(req, res, next);
 
-      } else if (user.accesslvl < requiredAccessLvl) {
-          // check that user has required access
-          res.status(403); // Not high enough accesslvl. Forbidden!!
+      } else if (req.session.accesslvl < requiredAccessLvl) {  // check that user has required access
+          res.status(403).send('HTTP 403 user does not have required permissions'); // Not high enough accesslvl. Forbidden!!
       } else {
           next(); // We do have a session, so nothing to worry about
       }
@@ -74,9 +73,9 @@ exports.basicAuth = function(express, requiredAccessLvl) {
 };
 
 
-function login(user, password, callback) {
+function login(email, password, callback) {
     // get email and password and make sure they both match
-    sql.query('SELECT id, email, password, accesslvl FROM students WHERE email = ?', [user], function(err, rows)
+    sql.query('SELECT id, email, password, accesslvl FROM students WHERE email = ?', [email], function(err, rows)
     {
 
         if (err)
