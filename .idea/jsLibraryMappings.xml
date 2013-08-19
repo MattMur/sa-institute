@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{Node.js v0.10.13 Core Modules, express.js, mysql.js}" />
+    <file url="file://$PROJECT_DIR$/public/angular/instituteapp.html" libraries="{date-en-US}" />
+    <file url="PROJECT" libraries="{Node.js v0.10.13 Core Modules, date.js, express.js, mysql.js}" />
     <includedPredefinedLibrary name="Node.js Globals" />
   </component>
 </project>

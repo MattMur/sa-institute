@@ -2,7 +2,7 @@ angular.module('instituteApp', ['ngCookies']).
     config(function($routeProvider, $locationProvider) {
 
         $routeProvider.when('/users/:id', {
-            templateUrl:'/angular/partials/user.html',
+            templateUrl:'/angular/partials/usermain.html',
             controller: UserCntrl
         });
         $routeProvider.when('/users/:id/newstudycard', {

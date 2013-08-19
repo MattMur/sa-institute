@@ -5,7 +5,7 @@ exports.getAll = function(req, res, next) {
     sql.query('SELECT * FROM students', function(err, rows) {
         if (err) {
             console.log(err);
-            next(err);
+            res.send(500);
         } else {
             console.log('users are: \n', JSON.stringify(rows));
             res.json(rows);
@@ -23,15 +23,16 @@ exports.getOne = function(req, res, next) {
     var isAuthorized = req.params.id == req.session.userid;
 
     if (isAuthorized) {
-        sql.query('SELECT firstname, lastname, email, phone FROM students WHERE id = ?', req.params.id, function(err, rows) {
+
+        var queryStr = 'SELECT firstname, lastname, email, phone, class_id, accesslvl FROM students WHERE id = ?';
+
+        sql.query(queryStr, req.params.id, function(err, rows) {
             if (err) {
                 console.log(err);
-                next(err);
+                res.send(500);
             } else {
-                if (rows.length > 0) {
-                    console.log('users are: \n', JSON.stringify(rows));
-                    res.json(rows[0]);
-                }
+                var response = rows.length == 1 ? rows[0] : {};
+                res.json(response);
             }
         });
     } else {
@@ -39,16 +40,54 @@ exports.getOne = function(req, res, next) {
     }
 };
 
+// Get all the studycards that belong to the user
+exports.getUserStudyCards = function(req, res, next) {
+
+    console.log('Getting users study cards');
+    var isAuthorized = req.params.id == req.session.userid;
+    if (isAuthorized) {
+
+        var queryStr = 'SELECT sc.* FROM studycard sc WHERE sc.students_id = ?';
+        sql.query(queryStr, req.params.id, function(err, rows) {
+            if (err) {
+                console.log(err);
+                res.send(500);
+            } else {
+                console.log('studycards are: \n', JSON.stringify(rows));
+                res.json(rows);
+            }
+        });
+    } else {
+        res.send(403); // Send 403 if user ids do not match
+    }
+
+}
+
 exports.createNew = function(req, res, next) {
     console.log(JSON.stringify(req.body));
     sql.query('INSERT INTO students SET ?', req.body, function(err, result) {
         if (err) {
             console.log(err);
-            next(err);
+            res.send(500);
         } else {
             req.session.userid = result.insertId;  // Change session id to newly created user
             console.log(' added new User', result.insertId);
-            res.send(result.insertId.toString());
+            res.send(result.insertId.toString());  // Send back user id they they know who they are
         }
     });
+}
+
+// READ UP ON CASCADING DELETES
+exports.remove  = function(req, res, next) {
+
+        sql.query('DELETE FROM students WHERE students.id = ?', req.params.id, function(err, result) {
+            if (err) {
+                console.log("mysql err: " + err);
+                res.send(500);
+            } else {
+                console.log('Removed user');
+                res.send(200);  // Send back user id they they know who they are
+            }
+        });
+
 }

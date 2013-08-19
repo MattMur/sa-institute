@@ -17,6 +17,7 @@ exports.login = function (req, res, next) {
             // so that user doesnt have to login every time
             console.log('Session cookie has been set');
             req.session.userid = user.id;
+            req.session.accesslvl = user.accesslvl;
             console.log('Should be good to go! User: ' + user.id);
             res.status(200).send(user.id.toString());
         } else {
@@ -33,7 +34,7 @@ exports.logoff = function(req, res, next) {
 
 // Exports the Basic Authentication Middleware
 // When authenticated, populate the session cookie with user
-exports.basicAuth = function(express) {
+exports.basicAuth = function(express, requiredAccessLvl) {
   return function (req, res, next)
   {
       // if we don't have a session, then run basic auth middleware
@@ -42,12 +43,19 @@ exports.basicAuth = function(express) {
           console.log('Auth requested but no session detected. Performing basic auth.');
           var performAuth = express.basicAuth(function (user, password, callback)
           {
-              // Check usernamd and password in database
+              // Login since they don't have a session id
                 login(user, password, function(isAuthorized) {
                     if (isAuthorized)
                     {
                         console.log('Session cookie has been set');
                         req.session.userid = user.id;
+                        req.session.accesslvl = user.accesslvl;
+
+                        // check that user has required access
+                        if (user.accesslvl < requiredAccessLvl) {
+                           res.status(403); // Not high enough accesslvl. Forbidden!!
+                           return;
+                        }
                     }
                     callback(null, isAuthorized);
                 });
@@ -56,6 +64,9 @@ exports.basicAuth = function(express) {
           });
           performAuth(req, res, next);
 
+      } else if (user.accesslvl < requiredAccessLvl) {
+          // check that user has required access
+          res.status(403); // Not high enough accesslvl. Forbidden!!
       } else {
           next(); // We do have a session, so nothing to worry about
       }
@@ -65,7 +76,7 @@ exports.basicAuth = function(express) {
 
 function login(user, password, callback) {
     // get email and password and make sure they both match
-    sql.query('SELECT id, email, password FROM students WHERE email = ?', [user], function(err, rows)
+    sql.query('SELECT id, email, password, accesslvl FROM students WHERE email = ?', [user], function(err, rows)
     {
 
         if (err)

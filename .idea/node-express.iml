@@ -7,6 +7,8 @@
     <orderEntry type="library" name="Node.js v0.10.13 Core Modules" level="application" />
     <orderEntry type="library" name="express.js" level="project" />
     <orderEntry type="library" name="mysql.js" level="application" />
+    <orderEntry type="library" name="date.js" level="project" />
+    <orderEntry type="library" name="date-en-US" level="application" />
   </component>
 </module>
 

@@ -2,9 +2,10 @@
 <div>
     <ul class="list">
         <li ng-repeat="studycard in studycards">
-            <a href="studycards/{{ studycard.id }}">
-                {{ studycard.date | date:'short' }} Frequency:{{ studycard.frequency }} Quality:{{ studycard.quality }}
-            </a>
+            <strong>{{ studycard.weekRange }}</strong> :
+            <strong>Freq: </strong>{{ studycard.frequency }}
+            <strong>Qlty: </strong>{{ studycard.quality }}
+            <a href="studycards/{{ studycard.id }}">(Details)</a>
          </li>
     </ul>
 </div>
