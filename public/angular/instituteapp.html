@@ -5,21 +5,56 @@
     <meta name="viewport" content="width=device-width" />
     <title>Institute Form</title>
     <link rel="stylesheet" href="/stylesheets/normalize.css">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/stylesheets/style.css">
 
-    <script src="/js/lib/angular.min.js"></script>
-    <script src="http://code.angularjs.org/1.0.0rc10/angular-cookies-1.0.0rc10.js"></script>
-    <script type="text/javascript" src="http://datejs.googlecode.com/svn/trunk/build/date-en-US.js"></script>
-    <script src="/angular/controllers/controllers.js"></script>
 </head>
 <body ng-controller="RootCntrl">
-<div class="menuCntrl" >
-    <span>Welcome {{ user.firstname }} |</span>
-    <a href="" ng-click="logoff()">Logoff</a>
+
+<!-- Background Divs -->
+<div class="bg-repeat"></div>
+<div class="bgimage"></div>
+<div class="bg"></div>
+
+
+<div class="row row-top">
+    <div class="col1"></div>
+    <div class="col2 menuCntrl" >
+        <span>Welcome {{ user.firstname }} |</span>
+        <span ng-show="user.accesslvl > 1 && !isLocationAdmin"><a href="/admin">Admin Portal</a> | </span>
+        <span ng-show="isLocationAdmin"><a href="/">Student Portal</a> | </span>
+
+        <a href="" ng-click="logoff()">Logoff</a>
+    </div>
+    <div class="col3"></div>
 </div>
-<div class="fancypanel">
-    <div ng-view></div>
+
+
+<div class="row row-mid">
+    <div class="col1"></div>
+    <div class="col2 fancypanel">
+        <h3 class="title">San Antonio Institute</h3>
+        <div ng-view></div>
+    </div>
+    <div class="col3"></div>
 </div>
+
+<div class="row row-bot">
+    <div class="col1"></div>
+    <div class="col2"></div>
+    <div class="col3"></div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script>
+<script src="http://code.angularjs.org/1.0.0rc10/angular-cookies-1.0.0rc10.js"></script>
+<script src="http://code.angularjs.org/1.2.0-rc.2/angular-route.min.js"></script>
+<script src="https://datejs.googlecode.com/svn/trunk/build/date-en-US.js"></script>
+<script src="/angular/controllers/controllers.js"></script>
+<script src="/js/lib/jquery-1.9.1.js"></script>
+<script src="/js/lib/ui-bootstrap-tpls-0.5.0.js"></script>
+
+
 
 </body>
 </html>

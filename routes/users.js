@@ -47,7 +47,7 @@ exports.getUserStudyCards = function(req, res, next) {
     var isAuthorized = req.params.id == req.session.userid;
     if (isAuthorized) {
 
-        var queryStr = 'SELECT sc.* FROM studycard sc WHERE sc.students_id = ?';
+        var queryStr = 'SELECT sc.* FROM studycard sc WHERE sc.students_id = ? ORDER BY sc.weekNum';
         sql.query(queryStr, req.params.id, function(err, rows) {
             if (err) {
                 console.log(err);

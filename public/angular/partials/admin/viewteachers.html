@@ -1,9 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+<div>
+    <h2>Admin - Teachers</h2>
+    <ul class="list">
+        <li><a href="/admin/teachers/add">Add New Teacher</a></li>
+        <li ng-repeat="teacher in teachers">Brother {{ teacher.firstname }} {{ teacher.lastname }}</li>
+    </ul>
+</div>

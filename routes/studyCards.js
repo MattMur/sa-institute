@@ -9,8 +9,29 @@ var sql = require('../scripts/sqlconn');
 
 
 exports.getAll = function(req, res, next) {
-    //console.log('Params:' + JSON.stringify(req));
-    sql.query('SELECT * FROM studyCard', function(err, rows, features) {
+
+    var queryStr = 'SELECT * FROM studyCard';
+    var filter = req.query.classname ? ' WHERE class_id is null or class_id='
+        + '(SELECT class.id FROM class WHERE class.name is null or class.name = ?)' : "";
+
+    var injects = [req.query.classname]; // array of parameters injected into query
+
+    if (req.query.startdate && req.query.enddate) {
+        filter += filter.length > 0 ? ' AND' : ' WHERE';
+        filter += ' studyCard.date BETWEEN ? AND ?';
+        injects.push(req.query.startdate, req.query.enddate);
+    } else if (req.query.enddate) {
+        filter += filter.length > 0 ? ' AND' : ' WHERE';
+        filter += ' studyCard.date=?';
+        injects.push(req.query.enddate);
+    }
+    filter += ' ORDER BY weekNum';
+    queryStr += filter;
+
+    console.log('StudyCard query: ' + queryStr);
+    console.log('inject: ' + JSON.stringify(injects));
+
+    sql.query(queryStr, injects, function(err, rows, features) {
         if (err) {
             console.log(err);
             res.send(500);

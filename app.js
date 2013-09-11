@@ -38,25 +38,25 @@ var AdminAccess = 2;
 app.get('/api/users', auth.basicAuth(express, 2), user.getAll);
 app.get('/api/users/:id', auth.basicAuth(express, 1), user.getOne);
 app.get('/api/users/:id/studycards', auth.basicAuth(express, 1), user.getUserStudyCards);
-app.put('/api/users', auth.basicAuth(express, 1), user.createNew);
+app.post('/api/users', auth.basicAuth(express, 1), user.createNew);
 app.del('/api/users/:id', auth.basicAuth(express, 2), user.remove);
 
 app.get('/api/studycards', auth.basicAuth(express, 2), studyCard.getAll);
 app.get('/api/studycards/:id', auth.basicAuth(express, 1), studyCard.getOne)
-app.put('/api/studycards', auth.basicAuth(express, 1), studyCard.createNew);
+app.post('/api/studycards', auth.basicAuth(express, 1), studyCard.createNew);
 app.del('api/studycards/:id', auth.basicAuth(express, 1), studyCard.remove);
 
 app.get('/api/teachers', auth.basicAuth(express, 1), teacher.getAll);
 app.get('/api/teachers/:id', auth.basicAuth(express, 1), teacher.getOne);
 app.get('/api/teachers/:id/classes', auth.basicAuth(express, 1), teacher.getClasses);
-app.put('/api/teachers', auth.basicAuth(express, 2), teacher.createNew);
+app.post('/api/teachers', auth.basicAuth(express, 2), teacher.createNew);
 app.del('/api/teachers/:id', auth.basicAuth(express, 2), teacher.remove);
 
 app.get('/api/class', auth.basicAuth(express, 1), classSubject.getALL);
 app.get('/api/class/:id', auth.basicAuth(express, 1), classSubject.getOne);
 app.get('/api/class/:id/teachers', auth.basicAuth(express, 1), classSubject.getTeachers);
 app.get('/api/class/:id/students', auth.basicAuth(express, 1), classSubject.getStudents);
-app.put('/api/class', auth.basicAuth(express, 2), classSubject.createNew);
+app.post('/api/class', auth.basicAuth(express, 2), classSubject.createNew);
 app.del('/api/class/:id', auth.basicAuth(express, 2), classSubject.remove);
 
 
@@ -89,7 +89,8 @@ app.get('/users/:id', function(req, res, next) {
     }
 });
 
-app.get('/users/*', function(req, res, next) {
+// Redirect to desired route ONLY for admin and user. Two supported URIs.
+app.get(/^\/(users|admin)\/?/, function(req, res, next) {
     if (!req.session.userid) {
         console.log("Redirecting to login");
         res.redirect('/login.html'); // No userid? need to login
@@ -98,6 +99,7 @@ app.get('/users/*', function(req, res, next) {
         res.sendfile('public/angular/instituteapp.html', { maxAge : 3600 }, null);
     }
 });
+
 
 app.get('/register.html', function(req, res, next) {
     console.log("Sending login");

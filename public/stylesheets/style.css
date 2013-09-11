@@ -1,12 +1,101 @@
 /* Put your CSS here */
+
+@import url(http://fonts.googleapis.com/css?family=Bree+Serif);
+
 html, body {
     margin: 0;
-    background: url(../images/bg.png) repeat;
+    background-color: rgba(255, 0, 0, 0);
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     font-weight:300;
     text-align: left;
     text-decoration: none;
 }
+
+.bgimage {
+    background: url(../images/temple_crop.jpg) no-repeat;
+    height: 200px;
+    width: 501px;
+    right: 0;
+    position: absolute;
+    z-index: -2;
+}
+
+.bg-repeat {
+    background: url(../images/cloud-repeat.jpg) repeat-x;
+    z-index: -3;
+    margin-right: 500px;
+    height: 200px;
+    position: absolute;
+    width: 100%;
+}
+
+.bg {
+    position: absolute;
+    margin-top: 200px;
+    margin-bottom: -200px;
+    width: 100%;
+    height: 100%;
+    background: url(../images/bg.png) repeat;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 -2px 5px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 -2px 5px rgba(0,0,0,0.5);
+    z-index: -1;
+}
+
+.title {
+    font-family: 'Bree Serif', serif;
+    font-weight: 300;
+    line-height:34px;
+}
+
+h3.title {
+    font-size: 28px;
+
+    color: #414848;
+    text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
+    margin-top: -5px;
+}
+
+h4.title {
+    margin: -10px 0 15px 50px;
+}
+
+.row {
+    display: flex;
+    display: -webkit-flex;
+    justify-content: center;
+    -webkit-justify-content:center;
+}
+
+.row-top {
+    min-height: 100px;
+
+}
+
+.row-top .col2 {
+    margin-top: 100px;
+}
+
+.col1 {
+    min-width: 10px;
+    min-height: 10px;
+    -webkit-flex: 1 0 auto;
+    flex: 1 0 auto;
+}
+
+.col2 {
+    min-width: 450px;
+    -webkit-flex: 0 1 50%;
+    flex: 0 1 70%px;
+}
+
+.col3 {
+    min-width: 10px;
+    min-height: 10px;
+    -webkit-flex: 1 0 auto;
+    flex: 1 0 auto;
+}
+
 
 blockquote {
     background-color: lightsteelblue;
@@ -23,23 +112,20 @@ blockquote {
 
 .fancypanel {
     width: 370px;
-    margin: 0 auto;
     padding: 20px;
-    position: relative;
 
     background: #f3f3f3;
     border: 1px solid #fff;
     border-radius: 5px;
 
-    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    box-shadow: 1px 2px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow: 1px 2px 3px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 1px 2px 3px rgba(0,0,0,0.5);
 }
 
 .menuCntrl {
-    display: flex;
-    margin: 10px 10px 10px auto;
-    width: 90%;
+    margin: 10px 0;
+    min-width: 200px;
     text-align: right;
 }
 
@@ -55,10 +141,20 @@ blockquote {
 
 @media only screen and (max-width: 480px), only screen and (max-device-width: 480px) {
 
-    .fancypanel {
-        width: 83%;
+
+    .bgimage {
+        margin: 0 0 auto 0;
     }
 
+    .bg {
+        margin: 200px 0 0 0;
+    }
+
+    .col2 {
+        min-width: 270px;
+        -webkit-flex: 1 1 300px;
+        flex: 1 1 300px;
+    }
 
     .fancypanel textarea {
         display: flex;

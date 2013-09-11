@@ -1,9 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+<div>
+    <h2>Admin - Classes</h2>
+    <ul class="list">
+        <li><a href="/admin/classes/add">Add New Class</a></li>
+        <li ng-repeat="class in classes">
+            {{ class.name }}
+            <a ng-href="/admin/classes/{{ class.name | lowercase }}/studycards/select">(Studycards)</a>
+            <a ng-href="/admin/classes/{{ class.name | lowercase }}/teachers">(Teacher)</a>
+        </li>
+    </ul>
+</div>

@@ -1,11 +1,16 @@
-<h2>Study Cards</h2>
+<h4 class="title">Study Cards</h4>
 <div>
-    <ul class="list">
-        <li ng-repeat="studycard in studycards">
-            <strong>{{ studycard.weekRange }}</strong> :
-            <strong>Freq: </strong>{{ studycard.frequency }}
-            <strong>Qlty: </strong>{{ studycard.quality }}
-            <a href="studycards/{{ studycard.id }}">(Details)</a>
-         </li>
-    </ul>
+    <accordion>
+        <accordion-group  heading="Week {{ $index+1 }}"  ng-repeat="studyCards in studyCardArray">
+
+            <ul class="list">
+                <li>Class: <strong>{{ studyCards[0].class_id }}</strong></li>
+                <li>Frequency of read: <strong>{{ studyCards[0].frequency }}</strong></li>
+                <li>Quality of Study: <strong>{{ studyCards[0].quality }}</strong></li>
+                <li>Read Assigned Block: <strong>{{ studyCards[0].assignedBlock | yesno }}</strong></li>
+                <li ng-show="studyCards[0].notes">Thoughs & Feelings: </li>
+            </ul>
+            <blockquote ng-show="studyCards[0].notes">{{ studyCards[0].notes }}</blockquote>
+        </accordion-group>
+    </accordion>
 </div>

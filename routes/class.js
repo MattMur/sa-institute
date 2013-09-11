@@ -8,8 +8,17 @@
 var sql = require('../scripts/sqlconn');
 
 exports.getALL = function(req, res, next) {
+    var queryStr = 'SELECT * FROM class';
+    var injects = [];
+    //DATE_FORMAT(NOW(),'%m-%d-%Y')
 
-    sql.query('SELECT * FROM class', function(err, rows) {
+
+    if (req.query.name) {
+        queryStr += ' WHERE name = ?';
+        injects.push(req.query.name);
+    }
+
+    sql.query(queryStr, injects, function(err, rows) {
         if (err) {
             console.log(err);
             next(err);
@@ -23,6 +32,7 @@ exports.getALL = function(req, res, next) {
 
 exports.getOne = function(req, res, next) {
 
+    //DATE_FORMAT(NOW(),'%m-%d-%Y')
     sql.query('SELECT * FROM class WHERE id = ?', req.params.id, function(err, rows) {
         if (err) {
             console.log(err);

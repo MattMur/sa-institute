@@ -57,7 +57,7 @@ app.controller('RegisterCntrl', function($scope, $http, $cookies, $location) {
         // Do PUT to register new user
         var user = $scope.newUser;
         console.log(JSON.stringify(user));
-        $http.put('/api/users', user).success(function(data) {
+        $http.post('/api/users', user).success(function(data) {
             // Success. Now lets login with new user.
             login($http, user.email, user.password, function() {
                 //Set cookie so we remember who they are

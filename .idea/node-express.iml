@@ -9,6 +9,9 @@
     <orderEntry type="library" name="mysql.js" level="application" />
     <orderEntry type="library" name="date.js" level="project" />
     <orderEntry type="library" name="date-en-US" level="application" />
+    <orderEntry type="library" name="angular" level="application" />
+    <orderEntry type="library" name="angular-cookies-1.0.0rc10" level="application" />
+    <orderEntry type="library" name="angular-route" level="application" />
   </component>
 </module>
 

@@ -1,0 +1,19 @@
+<div>
+    <h4 class="title">Study Card Select</h4>
+
+    <accordion>
+        <accordion-group  heading="Week {{ $index+1 }}"  ng-repeat="week in studyCardArray">
+
+            <ul class="list">
+                <li ng-repeat="studycard in week">
+                    Freq: {{ studycard.frequency }}
+                    Qlty: {{ studycard.quality }}
+                    <a href="studycards/{{ studycard.id }}">(Details)</a>
+                </li>
+            </ul>
+        </accordion-group>
+    </accordion>
+
+    <!--({{ studyCardDict[weekNames[$index]].length }})-->
+
+</div>
