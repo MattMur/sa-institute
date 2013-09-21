@@ -3,10 +3,10 @@ sa-institute
 
 RESTful Node.js backend with Angular.js frontend for San Antonio's Institute website.
 
-Node.js content:
-app.js
-/scripts
-/routes
+Node.js content:\n
+app.js\n
+/scripts\n
+/routes\n
 
-Angular.js content:
+Angular.js content:\n
 /public/angular
