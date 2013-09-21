@@ -1,6 +1,25 @@
-<subtitle>Study Cards</subtitle>
-
 <div>
+    <subtitle>Admin - Studycards</subtitle>
+
+
+
+    <dl class="stackpanel">
+        <div class="border-thin">
+            <dt>Class Averages</dt>
+
+        </div>
+    </dl>
+    <section class="border-thin">
+        <div class="section-title">Class Averages</div>
+        <ul>
+            <li>Frequency: {{ averages.frequency }} (mean)</li>
+            <li>Quality: {{ averages.quality }} (mean)</li>
+            <li>Read Block: {{ averages.percentRead }}%</li>
+        </ul>
+    </section>
+
+
+
     <accordion>
         <accordion-group  heading="Week {{ $index+1 }}"  ng-repeat="studyCards in studyCardArray">
 
@@ -14,4 +33,6 @@
             <blockquote ng-show="studyCards[0].notes">{{ studyCards[0].notes }}</blockquote>
         </accordion-group>
     </accordion>
+
+
 </div>

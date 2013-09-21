@@ -6,40 +6,66 @@
  * To change this template use File | Settings | File Templates.
  */
 var sql = require('../scripts/sqlconn');
-
+var squel = require("squel");
 
 exports.getAll = function(req, res, next) {
 
-    var queryStr = 'SELECT * FROM studyCard';
-    var filter = req.query.classname ? ' WHERE class_id is null or class_id='
-        + '(SELECT class.id FROM class WHERE class.name is null or class.name = ?)' : "";
+    var isAuthorized = true;  // We will decide if they are authorized based on what is requested
+    var injects = [];  // array of parameters injected into query
+    var query = squel.select().from('studyCard'); // squel object is used to flexibly build SQL statement
 
-    var injects = [req.query.classname]; // array of parameters injected into query
+    // Filter by id or class name
+    if (req.query.classid) {
+        query = query.where('class_id=?')
+        injects.push(req.query.classid);
+    } else if (req.query.classname) {
+        // find the classid based on class name
+        query = query.where('class_id is null or class_id=(SELECT class.id FROM class WHERE class.name is null or class.name = ?)');
+        injects.push(req.query.classname);
+    }
 
+    // Filter by user id
+    if (req.query.user) {
+        isAuthorized = req.session.userid == req.query.user; //You can't get cards for someone other than yourself
+        query = query.where('students_id=?');
+        injects.push(req.query.user);
+    } else { // you don't have userid so request is for ALL studycards. We need to verify admin access for that.
+        if (req.session.accesslvl != 2) {
+            // If request doesn't have admin then we just get studycards matching their session userid
+            query = query.where('students_id=?');
+            injects.push(req.session.userid);
+        }
+    }
+
+    // Start and and date range filter
     if (req.query.startdate && req.query.enddate) {
-        filter += filter.length > 0 ? ' AND' : ' WHERE';
-        filter += ' studyCard.date BETWEEN ? AND ?';
+        query = query.where('studyCard.date BETWEEN ? AND ?');
         injects.push(req.query.startdate, req.query.enddate);
     } else if (req.query.enddate) {
-        filter += filter.length > 0 ? ' AND' : ' WHERE';
-        filter += ' studyCard.date=?';
+        query = query.where('studyCard.date=?');
         injects.push(req.query.enddate);
     }
-    filter += ' ORDER BY weekNum';
-    queryStr += filter;
+    query = query.order('weekNum');
 
-    console.log('StudyCard query: ' + queryStr);
+    console.log('StudyCard query: ' + query);
     console.log('inject: ' + JSON.stringify(injects));
 
-    sql.query(queryStr, injects, function(err, rows, features) {
-        if (err) {
-            console.log(err);
-            res.send(500);
-        } else {
-            console.log('studyCards are: \n', JSON.stringify(rows));
-            res.json(rows);
-        }
-    });
+    if (isAuthorized) {
+        sql.query(query.toString(), injects, function(err, rows, features) {
+            if (err) {
+                console.log(err);
+                res.send(500);
+            } else {
+                console.log('studyCards are: \n', JSON.stringify(rows));
+                res.json(rows);
+            }
+        });
+
+    } else {
+        res.send(403); // Send 403 if user ids do not match
+    }
+
+
 };
 
 exports.getOne = function(req, res, next) {

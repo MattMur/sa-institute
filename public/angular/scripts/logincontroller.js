@@ -79,14 +79,14 @@ function login($http, user, pass, success) {
 
     //var basicAuth = 'Basic ' + Base64.encode(user + ':' + pass);
     var loginData = { user:user, pass:pass };
-    $http.post('http://localhost:8888/login', loginData)
+    $http.post('/login', loginData)
         .success(function(data) {
 
             //Call callbackfunction
             success(data);
 
             // Now that we are authenticated we redirect to studycard
-            window.location = 'http://localhost:8888/';
+            window.location = '/';
 
         }).error(function(data) {
             $http.defaults.headers.common['Authorization'] = null;

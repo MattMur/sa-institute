@@ -1,11 +1,17 @@
 <div>
-    <h2>Admin - Classes</h2>
-    <ul class="list">
-        <li><a href="/admin/classes/add">Add New Class</a></li>
-        <li ng-repeat="class in classes">
-            {{ class.name }}
-            <a ng-href="/admin/classes/{{ class.name | lowercase }}/studycards/select">(Studycards)</a>
-            <a ng-href="/admin/classes/{{ class.name | lowercase }}/teachers">(Teacher)</a>
-        </li>
-    </ul>
+    <subtitle>Admin - Classes</subtitle>
+
+        <a class="btn btn-primary" href="/admin/classes/add"><i class="icon-plus icon-white"></i> Add New Class</a>
+
+        <dl>
+            <div class="border-thin" ng-repeat="class in classes">
+                <dt>{{ class.name }}</dt>
+                <dd><a ng-href="/admin/classes/{{ class.name | lowercase }}/studycards?classid={{ class.id }}">Studycards</a></dd>
+                <dd><a ng-href="/admin/classes/{{ class.name | lowercase }}/students">Students</a></dd>
+                <dd><a ng-href="/admin/classes/{{ class.name | lowercase }}/teachers">Teacher(s)</a></dd>
+            </div>
+
+        </dl>
+
+
 </div>

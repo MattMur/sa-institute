@@ -12,6 +12,8 @@
     <orderEntry type="library" name="angular" level="application" />
     <orderEntry type="library" name="angular-cookies-1.0.0rc10" level="application" />
     <orderEntry type="library" name="angular-route" level="application" />
+    <orderEntry type="library" name="squel.js" level="application" />
+    <orderEntry type="library" name="spin" level="application" />
   </component>
 </module>
 

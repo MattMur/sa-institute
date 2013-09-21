@@ -6,19 +6,24 @@
  * To change this template use File | Settings | File Templates.
  */
 var sql = require('../scripts/sqlconn');
+var squel = require("squel");
 
 exports.getALL = function(req, res, next) {
-    var queryStr = 'SELECT * FROM class';
+
     var injects = [];
-    //DATE_FORMAT(NOW(),'%m-%d-%Y')
+    query = squel.select().from('class'); // var queryStr = 'SELECT * FROM class';
 
-
-    if (req.query.name) {
-        queryStr += ' WHERE name = ?';
-        injects.push(req.query.name);
+    if (req.query.ondate) {  // Filter by classes that were active during the date given
+        query = query.where('? BETWEEN class.startdate AND class.enddate');  //filter += req.query.date ? ' WHERE ? BETWEEN class.startdate AND class.enddate' : "";
+        injects.push(req.query.ondate);
     }
+    if (req.query.name) {  // Filter by name of class
+        query = query.where('name = ?');  //filter += ' WHERE name = ?';
+        injects.push(req.query.name);
+    } //DATE_FORMAT(NOW(),'%m-%d-%Y')
+    console.log('Get classes query: ' + query.toString());
 
-    sql.query(queryStr, injects, function(err, rows) {
+    sql.query(query.toString(), injects, function(err, rows) {
         if (err) {
             console.log(err);
             next(err);
