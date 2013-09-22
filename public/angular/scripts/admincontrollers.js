@@ -76,7 +76,7 @@ app.controller('AdminCardSelectCntrl', function($scope, $http, $routeParams) {
 app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
 
     // Add classname to scope
-    $scope.className = $routeParams.className;
+    $scope.className = $routeParams.className.capitalize();
 
     // Get studycard from the specific class with start and end dates filter
     var url = '/api/studycards?classid='+ $routeParams.classid; // classid should be on query string
@@ -91,6 +91,7 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
                 if (studyCardArray.length >= studycard.weekNum) {
                     studyCardArray[studycard.weekNum-1].push(studycard); // Add studycard to that week's array
                 } else {
+
                     // Else move to next week  (where we have card data for that week)
                     console.log('Going to week ' + studycard.weekNum);
                     studyCardArray[studycard.weekNum-1] = [studycard]; // create new array for new week
@@ -98,13 +99,13 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
             }
             $scope.studyCardArray = studyCardArray;
         }
-
         $scope.averages = calculateAvg(studycards);
 
 
     }).error(function (data) {
         console.log("StudyCards request failed" + data);
     });
+
 
     var calculateAvg = function(studyCards) {
         var totalFreq = 0, totalQuality= 0, totalReadBlock = 0;
@@ -137,3 +138,7 @@ app.controller('AdminStudyCardsByClassCntrl', function($scope, $http, $routePara
             console.log("StudyCards request failed" + data);
         });
 });
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}

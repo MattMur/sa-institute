@@ -41,7 +41,7 @@ html, body {
     z-index: -1;
 }
 
-.title {
+h1, h2, h3, h4, h5, h6 {
     font-family: 'Bree Serif', serif;
     font-weight: 300;
     line-height:34px;
@@ -141,15 +141,31 @@ blockquote {
     text-shadow: 1px 1px #6d6d6d;
 }
 
+
 .fancypanel .list {
     list-style-type: none;
-    padding: 0;
+    padding: 10px 5px;
     margin: 10px 0px;
+    display: block;
 }
 
-.fancypanel li {
-    padding: 10px 5px;
+section .title {
+    padding: 5px 10px;
+    font-size: 16px;
+    font-weight: ;
+    border-bottom: 1px solid #e5e5e5;
 }
+
+section .flowlist {
+    margin: 10px 0;
+}
+
+section .flowlist li {
+    display: inline-block;
+    padding: 5px 10px 10px 10px;
+    margin: 0;
+}
+
 
 .border-thin {
     margin-top: 10px;

@@ -38,7 +38,7 @@ var AdminAccess = 2;
 app.get('/api/users', auth.basicAuth(express, 2), user.getAll);
 app.get('/api/users/:id', auth.basicAuth(express, 1), user.getOne);
 app.get('/api/users/:id/studycards', auth.basicAuth(express, 1), user.getUserStudyCards);
-app.post('/api/users', auth.basicAuth(express, 1), user.createNew);
+app.post('/api/users', user.createNew);
 app.del('/api/users/:id', auth.basicAuth(express, 2), user.remove);
 
 app.get('/api/studycards', auth.basicAuth(express, 2), studyCard.getAll);

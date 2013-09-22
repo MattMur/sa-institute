@@ -1,23 +1,15 @@
 <div>
-    <subtitle>Admin - Studycards</subtitle>
+    <subtitle>Admin - {{className}}</subtitle>
 
-
-
-    <dl class="stackpanel">
-        <div class="border-thin">
-            <dt>Class Averages</dt>
-
-        </div>
-    </dl>
     <section class="border-thin">
-        <div class="section-title">Class Averages</div>
-        <ul>
-            <li>Frequency: {{ averages.frequency }} (mean)</li>
-            <li>Quality: {{ averages.quality }} (mean)</li>
-            <li>Read Block: {{ averages.percentRead }}%</li>
+        <div class="title">Class Averages</div>
+        <ul class="flowlist">
+            <li><strong>Frequency</strong>: {{ averages.frequency }} (mean)</li>
+            <li><strong>Quality</strong>: {{ averages.quality }} (mean)</li>
+            <li><strong>Read Block</strong>: {{ averages.percentRead }}%</li>
         </ul>
     </section>
-
+    <br>
 
 
     <accordion>
