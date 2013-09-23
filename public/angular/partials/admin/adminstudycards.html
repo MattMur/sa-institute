@@ -1,28 +1,25 @@
-<div>
+<div id="spinnn">
     <subtitle>Admin - {{className}}</subtitle>
 
     <section class="border-thin">
-        <div class="title">Class Averages</div>
+        <div class="title"><strong>Class Averages</strong></div>
         <ul class="flowlist">
-            <li><strong>Frequency</strong>: {{ averages.frequency }} (mean)</li>
-            <li><strong>Quality</strong>: {{ averages.quality }} (mean)</li>
-            <li><strong>Read Block</strong>: {{ averages.percentRead }}%</li>
+            <li>Frequency: <strong>{{ classAverages.frequency }}</strong></li>
+            <li>Quality: <strong>{{ classAverages.quality }}</strong></li>
+            <li>Read Assigned Block: <strong>{{ classAverages.percentRead }}%</strong></li>
         </ul>
     </section>
     <br>
 
 
     <accordion>
-        <accordion-group  heading="Week {{ $index+1 }}"  ng-repeat="studyCards in studyCardArray">
-
-            <ul class="list">
-                <li>Class: <strong>{{ studyCards[0].class_id }}</strong></li>
-                <li>Frequency of read: <strong>{{ studyCards[0].frequency }}</strong></li>
-                <li>Quality of Study: <strong>{{ studyCards[0].quality }}</strong></li>
-                <li>Read Assigned Block: <strong>{{ studyCards[0].assignedBlock | yesno }}</strong></li>
-                <li ng-show="studyCards[0].notes">Thoughs & Feelings: </li>
+        <accordion-group ng-repeat="studyCardForWeek in studyCardArray">
+            <accordion-heading>Week {{ $index+1 }}</accordion-heading>
+            <ul class="flowlist">
+                <li>Frequency: <strong>{{ weekAvg[$index].frequency }}</strong></li>
+                <li>Quality: <strong>{{ weekAvg[$index].quality }}</strong></li>
+                <li>Read Assigned Block: <strong>{{ weekAvg[$index].percentRead }}%</strong></li>
             </ul>
-            <blockquote ng-show="studyCards[0].notes">{{ studyCards[0].notes }}</blockquote>
         </accordion-group>
     </accordion>
 
