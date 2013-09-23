@@ -84,6 +84,7 @@ app.controller('NewStudyCardCntrl', function ($scope, $http, $location, $routePa
 app.controller('StudyCardsCntrl', function($scope, $http, $routeParams) {
 
     // Get all availible study cards
+    window.spinner.start();
     var url = '/api/studycards?user='+ $routeParams.id;
     $http.get(url).success( function(studycards) {
         if (studycards.length > 0) {
@@ -103,7 +104,9 @@ app.controller('StudyCardsCntrl', function($scope, $http, $routeParams) {
             }
             $scope.studyCardArray = studyCardArray;
         }
+        spinner.stop();
     }).error(function (data) {
+        spinner.stop();
         console.log("StudyCards request failed" + data);
     });
 });

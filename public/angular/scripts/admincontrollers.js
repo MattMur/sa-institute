@@ -102,13 +102,14 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
             }
             $scope.studyCardArray = studyCardArray;
         }
+        window.spinner.stop();
         $scope.classAverages = calculateAvg(studycards);
 
         // Calculate averages for each week
         for (var i = 0; i < $scope.studyCardArray.length; i++) {
             calculateWeekAvg(i);
         }
-        window.spinner.stop();
+
 
     }).error(function (data) {
         console.log("StudyCards request failed" + data);

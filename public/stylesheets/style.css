@@ -4,6 +4,7 @@
 
 html, body {
     margin: 0;
+    padding: 0;
     background-color: rgba(255, 0, 0, 0);
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     font-weight:300;
@@ -95,9 +96,9 @@ h4.title {
 }
 
 .col2 {
-    min-width: 450px;
+    min-width: 430px;
     -webkit-flex: 0 1 50%;
-    flex: 0 1 70%px;
+    flex: 0 1 50%px;
 }
 
 .col3 {
@@ -122,7 +123,8 @@ blockquote {
 }
 
 .fancypanel {
-    width: 370px;
+    min-height: 300px;
+    margin: 0;
     padding: 20px;
 
     background: #f3f3f3;
@@ -134,14 +136,6 @@ blockquote {
     -webkit-box-shadow: 1px 2px 3px rgba(0,0,0,0.5);
 }
 
-.menuCntrl {
-    margin: 10px 0;
-    min-width: 200px;
-    text-align: right;
-    text-shadow: 1px 1px #6d6d6d;
-}
-
-
 .fancypanel .list {
     list-style-type: none;
     margin: 10px 0;
@@ -150,6 +144,13 @@ blockquote {
 
 .fancypanel .list li {
     padding: 5px;
+}
+
+.menuCntrl {
+    margin: 10px 0;
+    min-width: 200px;
+    text-align: right;
+    text-shadow: 1px 1px #6d6d6d;
 }
 
 section .title {
@@ -203,34 +204,26 @@ dd {
 
 @media only screen and (max-width: 480px), only screen and (max-device-width: 480px) {
 
-
     .bgimage {
-
+        display: none;
     }
 
     .bg {
-        margin: 200px 0 0 0;
+        top: 0;
     }
 
     .col2 {
-        min-width: 270px;
-        -webkit-flex: 1 1;
-        flex: 1 1;
-    }
-
-    .fancypanel textarea {
-        display: flex;
-        width: 95%;
+        min-width: 300px;
+        -webkit-flex: 0 1 90%;
+        flex: 0 1 90%px;
     }
 
     .row-top {
         min-height: 1px;
-
     }
 
     .row-top .col2 {
-        margin-top: auto;
+        margin: 5px auto;
     }
-
 
 }

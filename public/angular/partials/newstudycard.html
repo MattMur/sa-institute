@@ -1,13 +1,13 @@
 <subtitle>Submit Study Card</subtitle>
 <div>
     <form name="studyCardForm" ng-submit="submit()">
-        Class: <select name="class" ng-model="studycard.class_id">
+        Class: <br><select name="class" ng-model="studycard.class_id">
         <option value="" selected>- Select One -</option>
         <option ng-repeat="class in classes" value="{{ class.id }}">{{ class.name }}</option>
     </select> <br><br>
-        Frequency of read: <input type="number" ng-model="studycard.frequency" placeholder="0-7" max="7" min="0" required><br><br>
-        Quality of Study: <input type="number" ng-model="studycard.quality" placeholder="0-4" max="4" min="0" required><br><br>
-        Assigned Block: <input type="text" ng-model="studycard.assignedBlock"><br><br>
+        Frequency of read: <br><input type="number" ng-model="studycard.frequency" placeholder="0-7" max="7" min="0" required><br><br>
+        Quality of Study: <br><input type="number" ng-model="studycard.quality" placeholder="0-4" max="4" min="0" required><br><br>
+        Assigned Block: <br><input type="text" ng-model="studycard.assignedBlock"><br><br>
 
         Any thoughs/feelings you would like to share:<br>
         <textarea rows="10" cols="50" ng-model="studycard.notes"> </textarea><br><br>

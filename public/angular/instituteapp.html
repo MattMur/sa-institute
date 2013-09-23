@@ -4,10 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Institute Form</title>
-    <link rel="stylesheet" href="/stylesheets/normalize.css">
+    <!-- <link rel="stylesheet" href="/stylesheets/normalize.css"> -->
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/stylesheets/style.css">
-
 </head>
 <body ng-controller="RootCntrl">
 
@@ -45,13 +44,6 @@
     <div class="col3"></div>
 </div>
 
-
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script>
-<script src="http://code.angularjs.org/1.0.0rc10/angular-cookies-1.0.0rc10.js"></script>
-<script src="http://code.angularjs.org/1.2.0-rc.2/angular-route.min.js"></script>
-<script src="https://datejs.googlecode.com/svn/trunk/build/date-en-US.js"></script>
-<script src="/js/lib/jquery-1.9.1.js"></script>
-<script src="/js/lib/ui-bootstrap-tpls-0.5.0.js"></script>
 <!-- SPINNER.JS --><script src="http://fgnass.github.io/spin.js/dist/spin.min.js"></script>
 <script>
     // Create global spinner.. Accesible from ANYWHERE. boom.
@@ -78,13 +70,23 @@
     window.spinner.start = function() {
         this.spin(document.getElementById('centerPanel'));
     };
+    window.spinner.start();
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script>
+<script src="http://code.angularjs.org/1.0.0rc10/angular-cookies-1.0.0rc10.js"></script>
+<script src="http://code.angularjs.org/1.2.0-rc.2/angular-route.min.js"></script>
+<script src="https://datejs.googlecode.com/svn/trunk/build/date-en-US.js"></script>
+<script src="/js/lib/jquery-1.9.1.js"></script>
+<script src="/js/lib/ui-bootstrap-tpls-0.5.0.js"></script>
 
 <script src="/angular/scripts/routing.js"></script>
 <script src="/angular/scripts/controllers.js"></script>
 <script src="/angular/scripts/admincontrollers.js"></script>
 <script src="/angular/scripts/filters.js"></script>
 <script src="/angular/scripts/directives.js"></script>
+<script>
+    window.spinner.stop();
+</script>
 
 
 </body>
