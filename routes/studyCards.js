@@ -6,7 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 var sql = require('../scripts/sqlconn');
-var squel = require("squel");
+var squel = require('squel');
+require('../public/js/lib/date');
 
 exports.getAll = function(req, res, next) {
 
@@ -84,21 +85,36 @@ exports.getOne = function(req, res, next) {
 
 
 exports.createNew = function(req, res, next) {
-
-    console.log("Studycard json: " + JSON.stringify(req.body));
     //{"class_id":"1","frequency":"3","quality":"4","block":"","thoughts":" "}
     if (req.body) {
-        sql.query('INSERT INTO studyCard SET ?', req.body, function(err, result) {
+
+        //Find the current weekNum. Get startdate from the class they selected
+        sql.query('SELECT startdate FROM class WHERE id=? LIMIT 1', req.body.class_id, function(err, result) {
             if (err) {
                 console.log(err);
                 res.send(500);
             } else {
-                //console.log('studyCards are: \n', JSON.stringify(rows));
-                res.status(200).send(result.insertId.toString());
+
+                // Calculate difference in weeks to get current week number
+                var startdate = new Date(result[0].startdate);
+                var weekNum = (Date.today().getWeek() - startdate.getWeek()) + 1;
+                req.body.weekNum = weekNum; // Add one to get current week
+                console.log('Current Week: ' + JSON.stringify(req.body.weekNum));
+                console.log("Studycard json: " + JSON.stringify(req.body));
+
+                // Insert new card into database
+                sql.query('INSERT INTO studyCard SET ?', req.body, function(err, result) {
+                    if (err) {
+                        console.log(err);
+                        res.send(500);
+                    } else {
+                        //console.log('studyCards are: \n', JSON.stringify(rows));
+                        res.status(200).send(result.insertId.toString());
+                    }
+                });
             }
         });
     }
-
 }
 
 exports.remove = function(req, res, next) {
