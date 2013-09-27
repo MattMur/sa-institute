@@ -1,5 +1,5 @@
 <div id="spinnn">
-    <subtitle>Admin - {{className}}</subtitle>
+    <subtitle>Admin - Study Card Stats: {{className}}</subtitle>
 
     <section class="border-thin">
         <div class="title"><strong>Class Averages</strong></div>
@@ -13,11 +13,12 @@
 
 
     <accordion>
-        <accordion-group ng-repeat="studyCardForWeek in studyCardArray">
-            <accordion-heading>Week {{ $index+1 }}</accordion-heading>
+        <accordion-group ng-repeat="studyCards in studyCardArray">
+            <accordion-heading>Week {{ studyCards.weekNum }}</accordion-heading>
             <ul class="flowlist">
-                <li>Frequency: <strong>{{ weekAvg[$index].frequency }}</strong></li>
-                <li>Quality: <strong>{{ weekAvg[$index].quality }}</strong></li>
+                <li>Total: <strong>{{ weekAvg[$index].numCards }}</strong></li>
+                <li>Frequency: <strong>{{ weekAvg[$index].frequency }}</strong> (avg)</li>
+                <li>Quality: <strong>{{ weekAvg[$index].quality }}</strong> (avg)</li>
                 <li>Read Assigned Block: <strong>{{ weekAvg[$index].percentRead }}%</strong></li>
             </ul>
         </accordion-group>
