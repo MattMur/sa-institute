@@ -10,10 +10,10 @@ var app = angular.module('instituteApp', ['ngCookies', 'ngRoute', 'ui.bootstrap'
 
 app.config(function($routeProvider, $locationProvider) {
 
-    $routeProvider.when('/users/:id', {
-        templateUrl:'/angular/partials/usermain.html',
-        controller: 'UserCntrl'
-    });
+    // $routeProvider.when('/users/:id', {
+    //     // templateUrl:'/angular/partials/usermain.html',
+    //     controller: 'UserCntrl'
+    // });
     $routeProvider.when('/users/:id/newstudycard', {
         templateUrl:'/angular/partials/newstudycard.html',
         controller: 'NewStudyCardCntrl'

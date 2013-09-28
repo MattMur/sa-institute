@@ -1,16 +1,53 @@
 <subtitle>Submit Study Card</subtitle>
-<div>
-    <form name="studyCardForm" ng-submit="submit()">
-        Class: <br><select name="class" ng-model="studycard.class_id">
-        <option value="" selected>- Select One -</option>
-        <option ng-repeat="class in classes" value="{{ class.id }}">{{ class.name }}</option>
-    </select> <br><br>
-        Frequency of read: <br><input type="number" ng-model="studycard.frequency" placeholder="0-7" max="7" min="0" required><br><br>
-        Quality of Study: <br><input type="number" ng-model="studycard.quality" placeholder="0-4" max="4" min="0" required><br><br>
-        Assigned Block: <br><input type="text" ng-model="studycard.assignedBlock"><br><br>
+<div class='jumbotron'>
+    
+    <form  name="studyCardForm" ng-submit="submit()">
+        
+        <!-- Class -->
+        <div class="form-group row">
+            <label for='institute-classes' class='col-xs-3 col-md-1 control-label'>Class</label>
+            <div class='col-xs-6 col-md-3'>
+                <select id='institute-classes' class="form-control" name="class" ng-model="studycard.class_id">
+                    <option value="" selected>- Select Class -</option>
+                    <option ng-repeat="class in classes" value="{{ class.id }}">{{ class.name }}</option>
+                </select>
+            </div><!-- /.col-$screen-$percent -->
+        </div><!-- /.form-group row -->
 
-        Any thoughs/feelings you would like to share:<br>
-        <textarea rows="3" cols="80" ng-model="studycard.notes"> </textarea><br><br>
+        <!-- Frequecny & Quality labels -->
+        <div class="form-group row">
+            <label for='frequency' class='col-xs-4 col-md-2 control-label'>Frequency</label>
+            <label for='quality' class='col-xs-4 col-md-2 control-label'>Quality</label>
+        </div><!-- /.form-group row -->
+
+        <!-- Frequecny & Quality inputs -->
+        <div class="form-group row">
+            <div class='col-xs-3 col-md-2'>
+                <input id='frequency' class='form-control' 
+                type="number" ng-model="studycard.frequency" placeholder="0-7" max="7" min="0" required>
+            </div><!-- /.col-$screen-$percent -->
+            <div class='col-xs-3 col-md-2'>
+                <input id='quality' class='form-control' 
+                type="number" ng-model="studycard.quality" placeholder="0-4" max="4" min="0" required>
+            </div><!-- /.col-$screen-$percent -->
+        </div><!-- /.form-group row -->
+
+
+        <!-- Block -->
+        <div class="form-group row">
+            <label for='block' class='col-xs-3 col-md-1 control-label'>Block</label>
+            <div class='col-xs-3 col-md-2'>
+                <input id='block' class='form-control' type="text" ng-model="studycard.assignedBlock">
+            </div><!-- /.col-$screen-$percent -->
+        </div><!-- /.form-group row -->
+
+        <!-- Thoughts & Comments -->
+        <div class="form-group row">
+            <label for='comments' class='control-label'>Thoughts &amp; feelings</label>
+            <textarea id='comments' class='form-control' rows="3" cols="10" ng-model="studycard.notes"> </textarea>
+        </div><!-- /.form-group row -->
+
         <input type="submit" class="btn btn-primary">
     </form>
-</div>
+
+</div><!-- /.jumbotron -->

@@ -5,21 +5,6 @@
  * Time: 5:21 PM
  */
 
-app.controller('UserCntrl', function ($scope, $http) {
-    //do we have a class id for our user?
-    if ($scope.user.class_id) {
-        var url = '/api/class/' + $scope.user.class_id;
-        $http.get(url).success( function(data) {
-            // add class to user scope
-            $scope.user['class'] = data;
-        }).error(function (data) {
-            console.log("The request failed" + data);
-        });
-    } else {
-        // User hasn't registered for a class yet
-        $scope.user['class'] = { name: 'Unregistered' };
-    }
-});
 
 // Controller used to display Welcome <User> and Logoff function
 app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $location) {
@@ -28,6 +13,7 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
     console.log("Cookies: " + JSON.stringify($cookies));
     if ($cookies.userid) {
         var userid = $cookies.userid;
+        var user = {};
 
         // get user data
         $http.get('/api/users/' + userid)
@@ -36,11 +22,28 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
                 // Since this is global scope to the app all other controllers will have access to it
                 $rootScope.user = data;
                 $rootScope.user['id'] = $cookies.userid;
+                getUserSchedule($rootScope.user);
             })
             .error(function(data) {
                 window.alert("Could not get user " + data);
             });
     }
+    
+    // Given a user, find the classes they are currently enrolled in
+    // Abstracted for possible reuse in other controllers
+    function getUserSchedule(user){
+        if (user.class_id){
+            console.log("user.class_id: " + user.class_id);
+            var url = '/api/class/' + user.class_id;
+            $http.get(url).success( function(data) {
+                user['class'] = data;
+            }).error(function (data) {
+                console.log("The request failed" + data);
+            });
+        } else {
+            user['class'] = { name: 'Unregistered' };
+        }     
+    };
 
     $scope.logoff = function() {
         $cookies.userid = null;

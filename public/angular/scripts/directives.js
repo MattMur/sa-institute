@@ -13,7 +13,6 @@ app.directive('subtitle', function() {
         restrict: 'E',   // directive is an element
         replace: true,  // replace html (subtitle)
         template : '<div class="titleContainer">' +
-            '<img class="titlearrow" src="/images/arrow_right.png" />' +
             '<h4 class="title" ng-transclude></h4>' +
             '</div>'
     }
