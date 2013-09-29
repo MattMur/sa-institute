@@ -12,6 +12,8 @@
 </head>
 
 <body ng-controller="RootCntrl">
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 <nav>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -96,6 +98,8 @@
     <script src="/js/lib/ui-bootstrap-tpls-0.6.0.js"></script>
     <script src="/js/lib/script.js"></script>
 =======
+=======
+>>>>>>> Stashed changes
 
 <nav>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -179,6 +183,9 @@
     <script src="/js/lib/jquery-1.9.1.js"></script>
     <script src="/js/lib/ui-bootstrap-tpls-0.6.0.js"></script>
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     <script src="/angular/scripts/routing.js"></script>
     <script src="/angular/scripts/controllers.js"></script>
