@@ -14,19 +14,19 @@ app.config(function($routeProvider, $locationProvider) {
     //     // templateUrl:'/angular/partials/usermain.html',
     //     controller: 'UserCntrl'
     // });
-    $routeProvider.when('/users/:id/newstudycard', {
-        templateUrl:'/angular/partials/newstudycard.html',
+    $routeProvider.when('/users/:id/studycard/new', {
+        templateUrl:'/angular/partials/studycard/new.html',
         controller: 'NewStudyCardCntrl'
     });
-    $routeProvider.when('/users/:id/submit', {
-        templateUrl:'/angular/partials/submitcard.html'
+    $routeProvider.when('/users/:id/studycard/create', {
+        templateUrl:'/angular/partials/studycard/create.html'
     });
-    $routeProvider.when('/users/:id/studycards', {
-        templateUrl:'/angular/partials/studycards.html',
+    $routeProvider.when('/users/:id/studycard/', {
+        templateUrl:'/angular/partials/studycard/index.html',
         controller: 'StudyCardsCntrl'
     });
-    $routeProvider.when('/users/:id/studycards/:cardId', {
-        templateUrl:'/angular/partials/studycarddetails.html',
+    $routeProvider.when('/users/:id/studycard/:cardId', {
+        templateUrl:'/angular/partials/studycard/show.html',
         controller: 'StudyCardDetailsCntrl'
     });
     $routeProvider.when('/admin', {

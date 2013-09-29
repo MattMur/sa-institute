@@ -8,7 +8,6 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.png">
     <title>Institute Form</title>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
@@ -43,11 +42,11 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ user.id }}/newstudycard">New Study Card</a></li>
-                            <li><a href="{{ user.id }}/studycards">View Cards</a></li>
+                            <li><a href="{{ user.id }}/studycard/new">New Study Card</a></li>
+                            <li><a href="{{ user.id }}/studycard/">View Cards</a></li>
                             <li class="divider"></li>
                             <li><a href="">Syllabus</a></li>
-                            <li><a href="#"><i class='glyphicon glyphicon-minus-sign'></i> Drop Class</a></li>
+                            <li><a href=""><i class='glyphicon glyphicon-minus-sign'></i> Drop Class</a></li>
                         </ul><!-- /.dropdown-menu -->
                     </li><!-- /.dropdown -->
                 </ul><!-- /.nav navbar-nav -->
@@ -94,8 +93,8 @@
     <script src="http://code.angularjs.org/1.2.0-rc.2/angular-route.min.js"></script>
     <script src="https://datejs.googlecode.com/svn/trunk/build/date-en-US.js"></script>
     <script src="/js/lib/jquery-1.9.1.js"></script>
-    <script src="/js/lib/ui-bootstrap-tpls-0.5.0.js"></script>
-
+    <script src="/js/lib/ui-bootstrap-tpls-0.6.0.js"></script>
+    <script src="/js/lib/script.js"></script>
     <script src="/angular/scripts/routing.js"></script>
     <script src="/angular/scripts/controllers.js"></script>
     <script src="/angular/scripts/admincontrollers.js"></script>
