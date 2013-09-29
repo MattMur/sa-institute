@@ -16,9 +16,11 @@ exports.login = function (req, res, next) {
             // Session cookie needed to keep state between service calls
             // so that user doesnt have to login every time
             console.log('Session cookie has been set');
+            console.log('Should be good to go! \nUser: ' + user.id);
+            console.log('AccessLvl: '+ user.accesslvl);
             req.session.userid = user.id;
             req.session.accesslvl = user.accesslvl;
-            console.log('Should be good to go! User: ' + user.id);
+
             res.status(200).send(user.id.toString());
         } else {
             res.send(401); // Not authorized
