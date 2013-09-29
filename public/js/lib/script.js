@@ -1,3 +1,3 @@
-$('.accordion-toggle').click(function(){
-	console.log("Click");
+$( "#drop-down" ).click(function() {
+  alert( "Handler for .click() called." );
 });
