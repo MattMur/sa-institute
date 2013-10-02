@@ -145,7 +145,7 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
 
 });
 
-app.controller('AdminStudyCardsByClassCntrl', function($scope, $http, $routeParams) {
+app.controller('AdminStudyCardsByClassCntrl', function($scope, $http) {
 
     // Get all classes that are within today's date range
     var url = '/api/class?ondate=' + Date.today().toString('yyyy-MM-dd');
@@ -154,9 +154,29 @@ app.controller('AdminStudyCardsByClassCntrl', function($scope, $http, $routePara
         console.log(classes);
         $scope.classes = classes;
 
-    }).error(function (data) {
-            console.log("StudyCards request failed" + data);
+    }).error(function(error) {
+            console.log("StudyCards request failed" + error);
         });
+});
+
+app.controller('AdminNewClassCntrl', function($scope, $http) {
+
+    $scope.submit = function() {
+
+        //$('#myModal').modal();
+        $('#myModal').modal('show');
+    };
+    $scope.confirmSubmit = function() {
+        $http.post('/api/class', $scope.class).success(function(id) {
+
+        }).error(function(error) {
+                console.log("Create new class failed" + error);
+        });
+    };
+    $scope.cancel = function() {
+        $('#myModal').modal('hide');
+    };
+
 });
 
 String.prototype.capitalize = function() {

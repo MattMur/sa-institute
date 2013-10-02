@@ -1,17 +1,18 @@
 <div>
     <subtitle>Admin - Classes</subtitle>
 
-        <a class="btn btn-primary" href="/admin/classes/add"><i class="icon-plus icon-white"></i> Add New Class</a>
+    <a class="btn btn-primary" href="/admin/classes/new"><i class="icon-plus icon-white"></i> Add New Class</a>
+    <br><br>
+    <div class="panel panel-default" ng-repeat="class in classes">
+        <div class="panel-heading">{{ class.name }}</div>
+        <div class="panel-body">
+            <ul class="flowlist">
+                <li><a ng-href="/admin/classes/{{ class.name | lowercase }}/studycards?classid={{ class.id }}">Studycards</a></li>
+                <li><a ng-href="/admin/classes/{{ class.name | lowercase }}/students">Students</a></li>
+                <li><a ng-href="/admin/classes/{{ class.name | lowercase }}/teachers">Teacher(s)</a></li>
+            </ul>
 
-        <dl>
-            <div class="border-thin" ng-repeat="class in classes">
-                <dt>{{ class.name }}</dt>
-                <dd><a ng-href="/admin/classes/{{ class.name | lowercase }}/studycards?classid={{ class.id }}">Studycards</a></dd>
-                <dd><a ng-href="/admin/classes/{{ class.name | lowercase }}/students">Students</a></dd>
-                <dd><a ng-href="/admin/classes/{{ class.name | lowercase }}/teachers">Teacher(s)</a></dd>
-            </div>
-
-        </dl>
-
+        </div>
+    </div>
 
 </div>

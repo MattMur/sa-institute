@@ -33,6 +33,13 @@ app.filter('weekRange', function() {
     }
 });
 
+app.filter('time', function() {
+    return function(input) {
+        var date = new Date.parse(input);
+        return date.toString('h:mm tt');
+    }
+});
+
 app.filter('yesno', function() {
     return function(input) {
         return input ? 'Yes' : 'No';

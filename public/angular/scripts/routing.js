@@ -52,6 +52,10 @@ app.config(function($routeProvider, $locationProvider) {
         templateUrl:'/angular/partials/admin/viewstudents.html',
         controller: 'AdminViewStudentsCntrl'
     });
+    $routeProvider.when('/admin/classes/new', {
+        templateUrl:'/angular/partials/admin/newclass.html',
+        controller:'AdminNewClassCntrl'
+    });
 
 
     $routeProvider.otherwise({redirectTo: '/users/:id'});
