@@ -36,13 +36,17 @@ app.config(function($routeProvider, $locationProvider) {
         templateUrl:'/angular/partials/admin/viewclasses.html',
         controller: 'AdminViewClassesCntrl'
     });
+    $routeProvider.when('/admin/classes/new', {
+        templateUrl:'/angular/partials/admin/newclass.html',
+        controller:'AdminNewClassCntrl'
+    });
+    $routeProvider.when('/admin/classes/:className/edit', {
+        templateUrl:'/angular/partials/admin/newclass.html', // Reuse newclass html. Thanks Angular.
+        controller:'AdminEditClassCntrl'
+    });
     $routeProvider.when('/admin/classes/:className/studycards', {
         templateUrl:'/angular/partials/admin/adminstudycards.html',
         controller: 'AdminViewCardsCntrl'
-    });
-    $routeProvider.when('/admin/classes/:className/studycards/select', {
-        templateUrl:'/angular/partials/admin/studycardselect.html',
-        controller: 'AdminCardSelectCntrl'
     });
     $routeProvider.when('/admin/teachers', {
         templateUrl:'/angular/partials/admin/viewteachers.html',
@@ -52,10 +56,7 @@ app.config(function($routeProvider, $locationProvider) {
         templateUrl:'/angular/partials/admin/viewstudents.html',
         controller: 'AdminViewStudentsCntrl'
     });
-    $routeProvider.when('/admin/classes/new', {
-        templateUrl:'/angular/partials/admin/newclass.html',
-        controller:'AdminNewClassCntrl'
-    });
+
 
 
     $routeProvider.otherwise({redirectTo: '/users/:id'});

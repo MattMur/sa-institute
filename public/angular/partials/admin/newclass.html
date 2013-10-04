@@ -1,45 +1,49 @@
-<subtitle>Admin - New Class</subtitle>
+<!-- NOTE: THIS FILE IS USED FOR BOTH NEW AND EDIT -->
+<subtitle>Admin - {{ action }} Class</subtitle>
 
 <section>
-    <form ng-submit="submit()">
-        <label>
-            Class name:<br>
-            <input type="text" id="className" ng-model="class.name" required>
-        </label>
-        <label>
-            Start date:<br>
-            <input type="date" id="startDate" ng-model="class.startDate" required>
-        </label>
-        <label>
-            End date:<br>
-            <input type="date" id="endDate" ng-model="class.endDate" required>
-        </label>
-        <label>
-            Class Start Time:<br>
-            <input type="time" id="startTime" ng-model="class.startTime" required>
-        </label>
-        <label>
-            Syllabus:<br>
-            <input type="file" id="syllabusFile" ng-model="class.syllabusFile">
-        </label>
-        <br>
-        <button type="submit" class="btn btn-primary" >Submit</button>
+    <form ng-submit="confirmSubmit()">
+        <fieldset>
+            <label>
+                Class name:<br>
+                <input type="text" id="className" ng-model="class.name" required>
+            </label>
+            <label>
+                Start date:<br>
+                <input type="date" id="startDate" ng-model="class.startdate" required>
+            </label>
+            <label>
+                End date:<br>
+                <input type="date" id="endDate" ng-model="class.enddate" required>
+            </label>
+            <label>
+                Class Start Time:<br>
+                <input type="time" id="startTime" ng-model="class.starttime" required>
+            </label>
+            <label>
+                Syllabus:<br>
+                <input type="file" id="syllabusFile" ng-model="class.syllabusFile">
+            </label>
+            <br>
+            <button type="submit" class="btn btn-primary" >Submit</button>
+        </fieldset>
+
     </form>
 
     <!-- Modal -->
-    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-header">
-            <h3 id="myModalLabel">Confirm New Class</h3>
+            <h3 id="myModalLabel">Confirm {{ action }}</h3>
         </div>
         <div class="modal-body">
             <p><strong>{{class.name}}</strong></p>
-            <p><strong>{{class.startDate | date:'shortDate'}}</strong> through <strong>{{class.endDate | date:'shortDate'}}</strong></p>
-            <p>Class starts at <strong>{{class.startTime | time}}</strong></p>
-            <p ng-show="{{class.syllabusFile}}">Link to Syllabus: <strong>{{class.syllabusFile}}</strong></p>
+            <p><strong>{{class.startdate | date:'shortDate'}}</strong> through <strong>{{class.enddate | date:'shortDate'}}</strong></p>
+            <p>Class starts at <strong>{{class.starttime | time}}</strong></p>
+            <p ng-show="{{class.syllabusFile}}">Link to Syllabus: <strong>{{class.syllabusfile}}</strong></p>
         </div>
         <div class="modal-footer">
-            <button class="btn" ng-click="cancel()">Close</button>
-            <button class="btn btn-success" ng-click="confirmSubmit()">Add Class</button>
+            <button class="btn" ng-click="cancel()">Cancel</button>
+            <button class="btn btn-success" ng-click="submit()">{{ action }}</button>
         </div>
     </div>
 </section>
