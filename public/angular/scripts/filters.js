@@ -33,6 +33,7 @@ app.filter('weekRange', function() {
     }
 });
 
+// Converts a Date string to time
 app.filter('time', function() {
     return function(input) {
         var date = new Date.parse(input);

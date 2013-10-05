@@ -1,5 +1,5 @@
 <div>
-    <subtitle>Admin - Classes</subtitle>
+    <subtitle>Admin</subtitle>
 
     <a class="btn btn-primary" href="/admin/classes/new"><i class="icon-plus icon-white"></i> Add New Class</a>
     <br><br>
@@ -12,8 +12,7 @@
         <div class="panel-body">
             <ul class="flowlist">
                 <li><a ng-href="/admin/classes/{{ class.name | lowercase }}/studycards?classid={{ class.id }}">Studycards</a></li>
-                <li><a ng-href="/admin/classes/{{ class.name | lowercase }}/students">Students</a></li>
-                <li><a ng-href="/admin/classes/{{ class.name | lowercase }}/teachers">Teacher(s)</a></li>
+                <li><a ng-href="/admin/classes/{{ class.name | lowercase }}/students?classid={{ class.id }}">Student List</a></li>
             </ul>
 
         </div>

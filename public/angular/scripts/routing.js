@@ -29,10 +29,10 @@ app.config(function($routeProvider, $locationProvider) {
         templateUrl:'/angular/partials/studycarddetails.html',
         controller: 'StudyCardDetailsCntrl'
     });
-    $routeProvider.when('/admin', {
+    /*$routeProvider.when('/admin', {
         templateUrl:'/angular/partials/admin/adminmain.html'
-    });
-    $routeProvider.when('/admin/classes', {
+    });*/
+    $routeProvider.when('/admin', {
         templateUrl:'/angular/partials/admin/viewclasses.html',
         controller: 'AdminViewClassesCntrl'
     });
