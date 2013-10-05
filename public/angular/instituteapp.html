@@ -56,11 +56,15 @@
     </div><!-- /navbar navbar-default navbar-fixed-top -->
 </nav>
 
-<div class="container">
+<div class="container" id="container">
     <div ng-view></div>
 </div> <!-- /container -->
 
 <footer>
+
+</footer>
+
+<script src="http://fgnass.github.io/spin.js/dist/spin.min.js"></script>
 <script>
     // Create global spinner.. Accesible from ANYWHERE. boom.
     window.spinner = new Spinner({
@@ -84,28 +88,24 @@
 
     // Call 'start' method to have it added to center pannel automatically
     window.spinner.start = function() {
-        this.spin(document.getElementById('centerPanel'));
+        this.spin(document.getElementById('container'));
     };
     window.spinner.start();
 </script>
-<script src="http://fgnass.github.io/spin.js/dist/spin.min.js"></script>
-
-    <script src="/js/lib/jquery-1.10.2.js"></script>
-    <script src="/js/lib/jquery-1.10.2.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script>
-    <script src="http://code.angularjs.org/1.0.0rc10/angular-cookies-1.0.0rc10.js"></script>
-    <script src="http://code.angularjs.org/1.2.0-rc.2/angular-route.min.js"></script>
-    <script src="https://datejs.googlecode.com/svn/trunk/build/date-en-US.js"></script>
-    <script src="/js/lib/script.js"></script>
-    <script src="/js/lib/ui-bootstrap-tpls-0.6.0.js"></script>
-    <script src="/angular/scripts/routing.js"></script>
-    <script src="/angular/scripts/controllers.js"></script>
-    <script src="/angular/scripts/admincontrollers.js"></script>
-    <script src="/angular/scripts/filters.js"></script>
-    <script src="/angular/scripts/directives.js"></script>
-    <script>
-        window.spinner.stop();
-    </script>
-</footer>
+<script src="/js/lib/jquery-1.10.2.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script>
+<script src="http://code.angularjs.org/1.0.0rc10/angular-cookies-1.0.0rc10.js"></script>
+<script src="http://code.angularjs.org/1.2.0-rc.2/angular-route.min.js"></script>
+<script src="https://datejs.googlecode.com/svn/trunk/build/date-en-US.js"></script>
+<script src="/js/lib/script.js"></script>
+<script src="/js/lib/ui-bootstrap-tpls-0.6.0.js"></script>
+<script src="/angular/scripts/routing.js"></script>
+<script src="/angular/scripts/controllers.js"></script>
+<script src="/angular/scripts/admincontrollers.js"></script>
+<script src="/angular/scripts/filters.js"></script>
+<script src="/angular/scripts/directives.js"></script>
+<script>
+    window.spinner.stop();
+</script>
 </body>
 </html>
