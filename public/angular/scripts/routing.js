@@ -45,7 +45,7 @@ app.config(function($routeProvider, $locationProvider) {
         controller:'AdminEditClassCntrl'
     });
     $routeProvider.when('/admin/classes/:className/studycards', {
-        templateUrl:'/angular/partials/admin/adminstudycards.html',
+        templateUrl:'/angular/partials/admin/viewstudycards.html',
         controller: 'AdminViewCardsCntrl'
     });
     $routeProvider.when('/admin/teachers', {
