@@ -101,7 +101,7 @@ exports.remove  = function(req, res, next) {
             console.log(err);
             res.send(500);
         } else {
-            console.log('Removed user');
+            console.log('Removed class');
             res.send(200);  // Send back user id they they know who they are
         }
     });

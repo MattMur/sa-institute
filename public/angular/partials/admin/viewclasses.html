@@ -1,17 +1,35 @@
 <div>
-    <subtitle>Admin - Classes</subtitle>
+    <subtitle>Admin</subtitle>
 
-        <a class="btn btn-primary" href="/admin/classes/add"><i class="icon-plus icon-white"></i> Add New Class</a>
+    <a class="btn btn-primary" href="/admin/classes/new"><i class="icon-plus icon-white"></i> Add New Class</a>
+    <br><br>
+    <div class="panel panel-default" ng-repeat="class in classes">
+        <div class="panel-heading">
+            {{ class.name }}
+            <a ng-href="/admin/classes/{{class.name | lowercase }}/edit?classid={{ class.id }}">Edit</a>
+            <a href="" ng-click="confirmDelete({{class}})">Delete</a>
+        </div>
+        <div class="panel-body">
+            <ul class="flowlist">
+                <li><a ng-href="/admin/classes/{{ class.name | lowercase }}/studycards?classid={{ class.id }}">Studycards</a></li>
+                <li><a ng-href="/admin/classes/{{ class.name | lowercase }}/students?classid={{ class.id }}">Student List</a></li>
+            </ul>
 
-        <dl>
-            <div class="border-thin" ng-repeat="class in classes">
-                <dt>{{ class.name }}</dt>
-                <dd><a ng-href="/admin/classes/{{ class.name | lowercase }}/studycards?classid={{ class.id }}">Studycards</a></dd>
-                <dd><a ng-href="/admin/classes/{{ class.name | lowercase }}/students">Students</a></dd>
-                <dd><a ng-href="/admin/classes/{{ class.name | lowercase }}/teachers">Teacher(s)</a></dd>
-            </div>
+        </div>
+    </div>
 
-        </dl>
-
+    <!-- Modal -->
+    <div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <h3 id="myModalLabel">Confirm Delete</h3>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete class: <strong>{{ classToBeDeleted.name }}</strong>?</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" ng-click="cancel()">Cancel</button>
+            <button class="btn btn-danger" ng-click="deleteClass(classToBeDeleted)">Delete</button>
+        </div>
+    </div>
 
 </div>

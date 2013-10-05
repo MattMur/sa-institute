@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$/public/angular/instituteapp.html" libraries="{angular, angular-cookies-1.0.0rc10, angular-route, date-en-US, spin}" />
-    <file url="PROJECT" libraries="{Node.js v0.10.13 Core Modules, date-en-US, date.js, express.js, mysql.js, squel.js}" />
-    <includedPredefinedLibrary name="Node.js Globals" />
-  </component>
-</project>
-

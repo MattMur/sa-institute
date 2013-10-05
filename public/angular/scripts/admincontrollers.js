@@ -6,14 +6,6 @@
  * To change this template use File | Settings | File Templates.
  */
 
-app.controller('AdminViewClassesCntrl', function ($scope, $http) {
-
-    $http.get('/api/class').success(function(data) {
-        $scope.classes = data;
-    }).error(function(data) {
-            console.log("Classes request failed" + data);
-        });
-});
 
 app.controller('AdminViewTeachersCntrl', function ($scope, $http) {
     $http.get('/api/teachers').success(function(data) {
@@ -31,45 +23,102 @@ app.controller('AdminViewStudentsCntrl', function ($scope, $http) {
         });
 });
 
-app.controller('AdminCardSelectCntrl', function($scope, $http, $routeParams) {
+app.controller('AdminViewClassesCntrl', function ($scope, $http) {
 
-    var url = '/api/studycards?classname=' + $routeParams.className;
+    $http.get('/api/class').success(function(data) {
+        $scope.classes = data;
+    }).error(function(data) {
+            console.log("Classes request failed" + data);
+    });
 
-    $http.get(url).success(function(data) {
+    $scope.confirmDelete = function(classObj) {
+        $scope.classToBeDeleted = classObj;
+        $('#confirmModal').modal('show');
+    };
+    $scope.cancel = function() {
+        $('#confirmModal').modal('hide');
+    };
 
-        // Check the results and parse them into groups by week
-        if (data.length > 0) {
-
-            // Find date of first card. Use this as basis for first week
-            //var dateformat = "yyyy-MM-ddTHH:mm:ss.000Z";
-            var studycard, cardDate, weekBegin, weekEnd, weekName = null;
-            var studyCardArray = []; // Array of Arrays of Studycards
-            //var weekNameKeys = []; // array of all the keys to 'weeks' dictionary. Needed so that all keys are in order.
-
-            for (var i = 0; i < data.length; i++) {
-
-                studycard = data[i];
-                console.log('card#: ' + (i+1) + ' week: ' + studycard.weekNum);
-                //cardDate = Date.parseExact(studycard.date, dateformat).last().day();
-
-                // File cards into StudyCardArray by weekNumber
-                if (studyCardArray.length == studycard.weekNum) {
-                    studyCardArray[studycard.weekNum-1].push(studycard); // Add studycard to that week's array
-                } else {
-                    // Else move to next week  (where we have card data for that week)
-                    console.log('Going to week ' + studycard.weekNum);
-                    studyCardArray[studycard.weekNum-1] = [studycard]; // create new array for new week
+    $scope.deleteClass = function(classObj) {
+        $http.delete('/api/class/'+ classObj.id).success(function(data) {
+            //console.log('Deleted class ' + JSON.stringify(classObj));
+            //remove class from array now that its gone
+            for(var i=0; i < $scope.classes.length; i++) {
+                if (angular.equals($scope.classes[i], classObj)) {
+                    $scope.classes.splice(i, 1);
+                    break;
                 }
-
-                // Compute average
             }
-            $scope.studyCardArray = studyCardArray;
-            //console.log(JSON.stringify(studyCardDict))
-        }
+
+        }).error(function(data) {
+            alert("Could not delete class");
+        });
+        $('#confirmModal').modal('hide');
+    };
+
+});
+
+app.controller('AdminNewClassCntrl', function($scope, $http, $location) {
+
+    $scope.action = "Add";  //title
+    $scope.confirmSubmit = function() {
+        //$('#myModal').modal();
+        $('#confirmModal').modal('show');
+    };
+    $scope.cancel = function() {
+        $('#confirmModal').modal('hide');
+    };
+
+    $scope.submit = function() {
+        $http.post('/api/class', $scope.class).success(function(id) {
+            // go back to classes after success
+            $location.path('/admin');
+        }).error(function(error) {
+            console.log("Create new class failed" + error);
+        });
+        $('#confirmModal').modal('hide');
+
+    };
+
+});
+
+app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams) {
+
+    $scope.action = "Edit"; //title
+
+    $http.get('/api/class/'+$routeParams.classid).success(function(classObj) {
+
+        // Format dates
+        var dateformat = "yyyy-MM-ddTHH:mm:ss.000Z";
+        classObj.startdate = Date.parseExact(classObj.startdate, dateformat).toString('yyyy-MM-dd');
+        classObj.enddate = Date.parseExact(classObj.enddate, dateformat).toString('yyyy-MM-dd');
+
+        console.log(JSON.stringify(classObj));
+        $scope.class = classObj;
 
     }).error(function(data) {
-            console.log("class request failed" + data);
-        });
+        console.log("Class request failed" + data);
+    });
+
+    $scope.confirmSubmit = function() {
+        //$('#myModal').modal();
+        $('#confirmModal').modal('show');
+    };
+    $scope.cancel = function() {
+        $('#confirmModal').modal('hide');
+    };
+
+    $scope.submit = function() {
+        $http.put('/api/class/'+ $routeParams.classid, $scope.class).success(function(id) {
+            // go back to classes after success
+            $location.path('/admin/classes');
+        }).error(function(error) {
+                console.log("Edit class failed" + error);
+            });
+        $('#confirmModal').modal('hide');
+
+    };
+
 });
 
 
@@ -85,26 +134,26 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
     var url = '/api/studycards?classid='+ $routeParams.classid; // classid should be on query string
     $http.get(url).success( function(studycards) {
         if (studycards.length > 0) {
-            var index = 0, studycard, studyCardArray = []; // Array of Arrays of Studycards
+            var index = -1, studycard, studyCardsByWeek = [], curWeek = 0; // Array of Arrays of Studycards
 
             // File cards into StudyCardArray by weekNumber
             for (var i = 0; i < studycards.length; i++) {
 
                 studycard = studycards[i];
-                //console.log('card#: ' + (i+1) + ' week: ' + studycard.weekNum);
-                if (studyCardArray.length >= studycard.weekNum) { // if current studycard belongs to current week
-                    studyCardArray[studycard.weekNum-1].push(studycard); // Add studycard to that week's array
+                //console.log('card#: ' + (i+1) + ' week: ' + studycard.weekNum + ' currentWeek: '+curWeek);
+                if (curWeek >= studycard.weekNum) { // if current studycard belongs to current week
+                    studyCardsByWeek[index].push(studycard); // Add studycard to that week's array
                 } else {
                     // Else move to next week  (where we have card data for that week)
                     //console.log('Going to week ' + studycard.weekNum);
                     var newWeek = [studycard]; // create new array for new week
                     newWeek.weekNum = studycard.weekNum;
-                    studyCardArray[index++] = newWeek;
+                    curWeek = studycard.weekNum;
+                    studyCardsByWeek[++index] = newWeek;
                 }
             }
-            $scope.studyCardArray = studyCardArray;
+            $scope.studyCardArray = studyCardsByWeek;
         }
-        window.spinner.stop();
         $scope.classAverages = calculateAvg(studycards);
 
         // Calculate averages for each week
@@ -117,12 +166,13 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
             }
         }
 
+        window.spinner.stop();
+
 
     }).error(function (data) {
         console.log("StudyCards request failed" + data);
         window.spinner.stop();
     });
-
 
     // Return an object that has all the statistics on it
     var calculateAvg = function(studyCards) {
@@ -142,22 +192,12 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
 
         return averages;
     };
-
 });
 
-app.controller('AdminStudyCardsByClassCntrl', function($scope, $http, $routeParams) {
 
-    // Get all classes that are within today's date range
-    var url = '/api/class?ondate=' + Date.today().toString('yyyy-MM-dd');
-    console.log(url);
-    $http.get(url).success( function(classes) {
-        console.log(classes);
-        $scope.classes = classes;
 
-    }).error(function (data) {
-            console.log("StudyCards request failed" + data);
-        });
-});
+
+
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);

@@ -124,7 +124,7 @@ exports.remove = function(req, res, next) {
             console.log(err);
             res.send(500);
         } else {
-            console.log('Removed user');
+            console.log('Removed studycard');
             res.send(200);
         }
     });

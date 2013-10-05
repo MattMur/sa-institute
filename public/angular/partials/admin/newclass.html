@@ -1,0 +1,52 @@
+<!-- NOTE: THIS FILE IS USED FOR BOTH NEW AND EDIT -->
+<subtitle>Admin - {{ action }} Class</subtitle>
+
+<section>
+    <form ng-submit="confirmSubmit()">
+        <fieldset>
+            <label>
+                Class name:<br>
+                <input type="text" id="className" ng-model="class.name" required>
+            </label>
+            <label>
+                Start date:<br>
+                <input type="date" id="startDate" ng-model="class.startdate" required>
+            </label>
+            <label>
+                End date:<br>
+                <input type="date" id="endDate" ng-model="class.enddate" required>
+            </label>
+            <label>
+                Class Start Time:<br>
+                <input type="time" id="startTime" ng-model="class.starttime" required>
+            </label>
+            <label>
+                Syllabus:<br>
+                <input type="file" id="syllabusFile" ng-model="class.syllabusFile">
+            </label>
+            <br>
+            <button type="submit" class="btn btn-primary" >Submit</button>
+        </fieldset>
+
+    </form>
+
+    <!-- Modal -->
+    <div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <h3 id="myModalLabel">Confirm {{ action }}</h3>
+        </div>
+        <div class="modal-body">
+            <p><strong>{{class.name}}</strong></p>
+            <p><strong>{{class.startdate | date:'shortDate'}}</strong> through <strong>{{class.enddate | date:'shortDate'}}</strong></p>
+            <p>Class starts at <strong>{{class.starttime | time}}</strong></p>
+            <p ng-show="{{class.syllabusFile}}">Link to Syllabus: <strong>{{class.syllabusfile}}</strong></p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" ng-click="cancel()">Cancel</button>
+            <button class="btn btn-success" ng-click="submit()">{{ action }}</button>
+        </div>
+    </div>
+</section>
+
+
+

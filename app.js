@@ -75,29 +75,42 @@ app.get('/', function(req, res, next) {
     }
 });
 
-app.get('/users/:id', function(req, res, next) {
+
+// Route for any User path
+app.get(/^\/users(?:\/)?([0-9]*)?/, function(req, res, next) {
     if (!req.session.userid) {
         console.log("Redirecting to login");
         res.redirect('/login.html'); // No userid? need to login
     } else {
-        console.log("Sending to institute app");
-        console.log('Checking access:', req.params.id, req.session.userid);
-        var isAuthorized = req.params.id == req.session.userid; // Check that userid matches what they are requesting
-        if (!isAuthorized)
+        console.log('Sending to User Index');
+        var paramId = req.params[0];
+        console.log('Checking access:', paramId, req.session.userid);
+        var isAuthorized = paramId == req.session.userid; // Check that userid matches what they are requesting
+        if (!isAuthorized) {
+            console.log('Access denied');
             res.send(403);  // Unauthorized
-        else
+        }
+        else {
             res.sendfile('public/angular/instituteapp.html', { maxAge : 3600 }, null);
+        }
+
     }
 });
 
-// Redirect to desired route ONLY for admin and user. Two supported URIs.
-app.get(/^\/(users|admin)\/?/, function(req, res, next) {
+// Route to any Admin path.
+app.get(/^\/admin/, function(req, res, next) {
     if (!req.session.userid) {
         console.log("Redirecting to login");
         res.redirect('/login.html'); // No userid? need to login
     } else {
-        console.log("Sending to institute app");
-        res.sendfile('public/angular/instituteapp.html', { maxAge : 3600 }, null);
+        // check that user has required access
+        console.log('Sending to Admin');
+        console.log('Current AccessLvl: '+ req.session.accesslvl);
+        if (req.session.accesslvl < AdminAccess) {
+            res.status(403).send('HTTP 403 - user does not have required permissions'); // Not high enough accesslvl. Forbidden!!
+        } else {
+            res.sendfile('public/angular/instituteapp.html', { maxAge : 3600 }, null);
+        }
     }
 });
 
