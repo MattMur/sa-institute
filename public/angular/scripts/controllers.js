@@ -5,9 +5,14 @@
  * Time: 5:21 PM
  */
 
+var MenuItem = function(name, href) {
+    this.name = name;
+    this.href = href;
+};
 
 // Controller used to display Welcome <User> and Logoff function
 app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $location) {
+    var userMenuItems, adminMenuItems;
 
     // get the current user from cookie
     console.log("Cookies: " + JSON.stringify($cookies));
@@ -22,7 +27,21 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
                 // Since this is global scope to the app all other controllers will have access to it
                 $rootScope.user = data;
                 $rootScope.user['id'] = $cookies.userid;
-                getUserSchedule($rootScope.user);
+                getUserSchedule($rootScope.user, function() {
+
+                    // Contextual menu items based on Admin or Student
+                    userMenuItems = [
+                        new MenuItem('New Study Card', '/users/'+ $rootScope.user.id +'/studycard/new'),
+                        new MenuItem('View Study Cards', '/users/'+ $rootScope.user.id +'/studycard'),
+                        new MenuItem('Syllabus', '/classes/'+ $rootScope.user.class_id +'/syllabus')
+                    ];
+                    adminMenuItems = [
+                        new MenuItem('View Classes', '/admin/classes'),
+                        new MenuItem('New Class', '/admin/classes/new')
+                    ];
+                    switchBetweenAdminStudent();
+                });
+
             })
             .error(function(data) {
                 window.alert("Could not get user " + data);
@@ -31,19 +50,22 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
     
     // Given a user, find the classes they are currently enrolled in
     // Abstracted for possible reuse in other controllers
-    function getUserSchedule(user){
+    function getUserSchedule(user, callback) {
         if (user.class_id){
             console.log("user.class_id: " + user.class_id);
             var url = '/api/class/' + user.class_id;
             $http.get(url).success( function(data) {
                 user['class'] = data;
+                callback();
             }).error(function (data) {
                 console.log("The request failed" + data);
+                callback();
             });
         } else {
             user['class'] = { name: 'Unregistered' };
+            callback();
         }     
-    };
+    }
 
     $scope.logoff = function() {
         $cookies.userid = null;
@@ -51,10 +73,28 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
         window.location = '/logoff';
     }
 
+
+
+    //$scope.menuItems = userMenuItems;
+
     // Listen for even $routeChangeSuccess(url change), then change admin portal link
     $scope.$on('$routeChangeSuccess', function(){
-        $scope.isLocationAdmin = (/admin/).test($location.path());
+
+        switchBetweenAdminStudent();
     });
+
+    function switchBetweenAdminStudent() {
+        $scope.isLocationAdmin = (/admin/).test($location.path());
+        if ($scope.isLocationAdmin) {
+            $scope.menuType = 'Admin';
+            $scope.menuItems = adminMenuItems;
+            console.log('set menu to admin');
+        } else {
+            $scope.menuType = 'Student';
+            $scope.menuItems = userMenuItems;
+            console.log('set menu to student');
+        }
+    }
 
 
 });

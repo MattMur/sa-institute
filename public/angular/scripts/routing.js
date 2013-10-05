@@ -10,10 +10,13 @@ var app = angular.module('instituteApp', ['ngCookies', 'ngRoute', 'ui.bootstrap'
 
 app.config(function($routeProvider, $locationProvider) {
 
-    // $routeProvider.when('/users/:id', {
-    //     // templateUrl:'/angular/partials/usermain.html',
-    //     controller: 'UserCntrl'
-    // });
+    $routeProvider.when('/users/:id', {
+        redirectTo: '/users/:id/studycard'
+    });
+    $routeProvider.when('/users/:id/studycard/', {
+        templateUrl:'/angular/partials/studycard/index.html',
+        controller: 'StudyCardsCntrl'
+    });
     $routeProvider.when('/users/:id/studycard/new', {
         templateUrl:'/angular/partials/studycard/new.html',
         controller: 'NewStudyCardCntrl'
@@ -21,18 +24,14 @@ app.config(function($routeProvider, $locationProvider) {
     $routeProvider.when('/users/:id/studycard/create', {
         templateUrl:'/angular/partials/studycard/create.html'
     });
-    $routeProvider.when('/users/:id/studycard/', {
-        templateUrl:'/angular/partials/studycard/index.html',
-        controller: 'StudyCardsCntrl'
-    });
     $routeProvider.when('/users/:id/studycard/:cardId', {
         templateUrl:'/angular/partials/studycard/show.html',
         controller: 'StudyCardDetailsCntrl'
     });
-    /*$routeProvider.when('/admin', {
-        templateUrl:'/angular/partials/admin/adminmain.html'
-    });*/
     $routeProvider.when('/admin', {
+        redirectTo: '/admin/classes'
+    });
+    $routeProvider.when('/admin/classes', {
         templateUrl:'/angular/partials/admin/viewclasses.html',
         controller: 'AdminViewClassesCntrl'
     });

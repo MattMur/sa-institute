@@ -14,7 +14,7 @@
 
 <body ng-controller="RootCntrl">
 
-<nav>
+<nav ng-cloak>
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -39,15 +39,11 @@
                     <li class="dropdown">
                         <a ng-show="user.class.name" 
                         href="#" class="dropdown-toggle" 
-                        data-toggle="dropdown">{{user.class.name}}
+                        data-toggle="dropdown">{{ menuType }}
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ user.id }}/studycard/new">New Study Card</a></li>
-                            <li><a href="{{ user.id }}/studycard/">View Cards</a></li>
-                            <li class="divider"></li>
-                            <li><a href="">Syllabus</a></li>
-                            <li><a href=""><i class='glyphicon glyphicon-minus-sign'></i> Drop Class</a></li>
+                            <li ng-repeat="item in menuItems"><a ng-href="{{ item.href }}">{{ item.name }}</a></li>
                         </ul><!-- /.dropdown-menu -->
                     </li><!-- /.dropdown -->
                 </ul><!-- /.nav navbar-nav -->
