@@ -95,9 +95,8 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
             console.log('set menu to student');
         }
     }
-
-
 });
+
 
 app.controller('NewStudyCardCntrl', function ($scope, $http, $location, $routeParams) {
 
@@ -127,6 +126,7 @@ app.controller('NewStudyCardCntrl', function ($scope, $http, $location, $routePa
 
 
 app.controller('StudyCardsCntrl', function($scope, $http, $routeParams) {
+    $scope.isCollapsed = false;   
     function cardWeek(card){
             this.cards = new Array(card);
             card.inWeekArray = true;
@@ -177,8 +177,6 @@ app.controller('StudyCardsCntrl', function($scope, $http, $routeParams) {
         }
         return 0;
     }
-    
-
     // Get all availible study cards
     window.spinner.start();
     var url = '/api/studycards?user='+ $routeParams.id;
@@ -207,6 +205,7 @@ app.controller('StudyCardsCntrl', function($scope, $http, $routeParams) {
         spinner.stop();
         // console.log("StudyCards request failed" + data);
     });
+    
 });
 
 
