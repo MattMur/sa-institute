@@ -7,7 +7,7 @@
         <div class="panel-heading">
             {{ class.name }}
             <a ng-href="/admin/classes/{{class.name | lowercase }}/edit?classid={{ class.id }}">Edit</a>
-            <a href="" ng-click="confirmDelete({{class}})">Delete</a>
+            <a href="" ng-click="confirmDelete(class)">Delete</a>
         </div>
         <div class="panel-body">
             <ul class="flowlist">
@@ -19,17 +19,21 @@
     </div>
 
     <!-- Modal -->
-    <div id="confirmModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-            <h3 id="myModalLabel">Confirm Delete</h3>
-        </div>
-        <div class="modal-body">
-            <p>Are you sure you want to delete class: <strong>{{ classToBeDeleted.name }}</strong>?</p>
-        </div>
-        <div class="modal-footer">
-            <button class="btn" ng-click="cancel()">Cancel</button>
-            <button class="btn btn-danger" ng-click="deleteClass(classToBeDeleted)">Delete</button>
-        </div>
-    </div>
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm Delete</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete class: <strong>{{ classToBeDeleted.name }}</strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+                    <button class="btn btn-danger" ng-click="deleteClass(classToBeDeleted)">Delete</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
 </div>

@@ -2,3 +2,7 @@
 body { 
     padding-top: 65px; 
 }
+
+.modal {
+    padding-top: 10% !important;
+}

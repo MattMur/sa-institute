@@ -49,7 +49,7 @@ app.controller('AdminViewClassesCntrl', function ($scope, $http) {
                     break;
                 }
             }
-
+            console.log(JSON.stringify($scope.classes));
         }).error(function(data) {
             alert("Could not delete class");
         });
@@ -61,6 +61,9 @@ app.controller('AdminViewClassesCntrl', function ($scope, $http) {
 app.controller('AdminNewClassCntrl', function($scope, $http, $location) {
 
     $scope.action = "Add";  //title
+    $scope.btnAction = "Submit";
+    $scope.modalTitle = "Class Details";
+
     $scope.confirmSubmit = function() {
         //$('#myModal').modal();
         $('#confirmModal').modal('show');
@@ -70,13 +73,19 @@ app.controller('AdminNewClassCntrl', function($scope, $http, $location) {
     };
 
     $scope.submit = function() {
-        $http.post('/api/class', $scope.class).success(function(id) {
-            // go back to classes after success
-            $location.path('/admin');
-        }).error(function(error) {
-            console.log("Create new class failed" + error);
+
+        // You have to do this or else the animation won't finish and black tint will stay over page
+        $("#confirmModal").on('hidden.bs.modal', function () {
+            // Once the modal finishes hiding
+            $http.post('/api/class', $scope.class).success(function(id) {
+                // go back to classes after success
+                $location.path('/admin/classes');
+            }).error(function(error) {
+                console.log("Create new class failed" + error);
+            });
         });
-        $('#confirmModal').modal('hide');
+        $("#confirmModal").modal('hide');
+
 
     };
 
@@ -85,6 +94,8 @@ app.controller('AdminNewClassCntrl', function($scope, $http, $location) {
 app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams) {
 
     $scope.action = "Edit"; //title
+    $scope.btnAction = "Save Changes";
+    $scope.modalTitle = "Changes";
 
     $http.get('/api/class/'+$routeParams.classid).success(function(classObj) {
 
