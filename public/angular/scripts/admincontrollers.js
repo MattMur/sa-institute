@@ -91,7 +91,7 @@ app.controller('AdminNewClassCntrl', function($scope, $http, $location) {
 
 });
 
-app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams) {
+app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams, $location) {
 
     $scope.action = "Edit"; //title
     $scope.btnAction = "Save Changes";
@@ -120,14 +120,18 @@ app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams) {
     };
 
     $scope.submit = function() {
-        $http.put('/api/class/'+ $routeParams.classid, $scope.class).success(function(id) {
-            // go back to classes after success
-            $location.path('/admin/classes');
-        }).error(function(error) {
-                console.log("Edit class failed" + error);
-            });
-        $('#confirmModal').modal('hide');
 
+        $("#confirmModal").on('hidden.bs.modal', function () {
+
+            $http.put('/api/class/'+ $routeParams.classid, $scope.class).success(function(id) {
+                // go back to classes after success
+                $location.path('/admin/classes');
+            }).error(function(error) {
+                    console.log("Edit class failed\n" + error);
+                });
+
+        });
+        $('#confirmModal').modal('hide');
     };
 
 });

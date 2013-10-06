@@ -57,6 +57,7 @@ app.get('/api/class/:id', auth.basicAuth(express, 1), classSubject.getOne);
 app.get('/api/class/:id/teachers', auth.basicAuth(express, 1), classSubject.getTeachers);
 app.get('/api/class/:id/students', auth.basicAuth(express, 1), classSubject.getStudents);
 app.post('/api/class', auth.basicAuth(express, 2), classSubject.createNew);
+app.put('/api/class/:id', auth.basicAuth(express, 2), classSubject.modify);
 app.del('/api/class/:id', auth.basicAuth(express, 2), classSubject.remove);
 
 

@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JSLintConfiguration">
+    <option bitwise="true" />
+    <option continue="true" />
+    <option eqeq="true" />
     <option indent="4" />
     <option maxerr="50" />
     <option node="true" />
+    <option stupid="true" />
+    <option sub="true" />
+    <option undef="true" />
+    <option vars="true" />
+    <option anon="true" />
   </component>
 </project>
 

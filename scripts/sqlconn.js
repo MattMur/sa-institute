@@ -25,9 +25,4 @@ connection.on('error', function(err) {
 });
 
 
-connection.perform = function(query, callback) {
-    connection.query(query, callback);
-};
-
-
 module.exports = connection;

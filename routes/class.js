@@ -8,10 +8,10 @@
 var sql = require('../scripts/sqlconn');
 var squel = require("squel");
 
-exports.getALL = function(req, res, next) {
+exports.getALL = function(req, res) {
 
     var injects = [];
-    query = squel.select().from('class'); // var queryStr = 'SELECT * FROM class';
+    var query = squel.select().from('class'); // var queryStr = 'SELECT * FROM class';
 
     if (req.query.ondate) {  // Filter by classes that were active during the date given
         query = query.where('? BETWEEN class.startdate AND class.enddate');  //filter += req.query.date ? ' WHERE ? BETWEEN class.startdate AND class.enddate' : "";
@@ -26,7 +26,7 @@ exports.getALL = function(req, res, next) {
     sql.query(query.toString(), injects, function(err, rows) {
         if (err) {
             console.log(err);
-            next(err);
+            res.status(500).send('Could not get classes');
         } else {
             console.log('classes are: \n', JSON.stringify(rows));
             res.json(rows);
@@ -41,7 +41,7 @@ exports.getOne = function(req, res, next) {
     sql.query('SELECT * FROM class WHERE id = ?', req.params.id, function(err, rows) {
         if (err) {
             console.log(err);
-            res.send(500);
+            res.status(500).send('Could not get class');
         } else {
             console.log('classes are: \n', JSON.stringify(rows));
             var response = rows.length == 1 ? rows[0] : {};
@@ -58,7 +58,7 @@ exports.getTeachers = function(req, res, next) {
     sql.query(queryStr, req.params.id, function(err, rows) {
         if (err) {
             console.log(err);
-            res.send(500);
+            res.status(500).send('Could not get teachers');
         } else {
             console.log('teachers for class are are: \n', JSON.stringify(rows));
             res.json(rows);
@@ -73,7 +73,7 @@ exports.getStudents = function(req, res, next) {
     sql.query(queryStr, req.params.id, function(err, rows) {
         if (err) {
             console.log(err);
-            res.send(500);
+            res.status(500).send('Could not get students');
         } else {
             console.log('teachers for class are are: \n', JSON.stringify(rows));
             res.json(rows);
@@ -86,7 +86,7 @@ exports.createNew = function(req, res, next) {
     sql.query('INSERT INTO class SET ?', req.body, function(err, result) {
         if (err) {
             console.log(err);
-            res.send(500);
+            res.status(500).send('Could not create new class');
         } else {
             console.log('Added new class', result.insertId);
             res.send(result.insertId.toString());  // Send back class id
@@ -94,12 +94,33 @@ exports.createNew = function(req, res, next) {
     });
 }
 
+exports.modify = function(req, res, next) {
+
+    if (req.body) {
+        // Remove id from update, if exists in body. Don't allow changing id.
+        if (req.body.id) {
+            delete req.body.id;
+        }
+        console.log('Modifying class' + req.params.id + ': '+ JSON.stringify(req.body));
+        var queryStr = 'UPDATE class SET ? WHERE id = ?';
+        sql.query(queryStr, [req.body, req.params.id], function(err, result) {
+            if (err) {
+                console.log(err);
+                res.status(500).send('Modify class failed');
+            } else {
+                console.log('Modified class succesfully');
+                res.send(200);  // Send back user id they they know who they are
+            }
+        });
+    }
+}
+
 exports.remove  = function(req, res, next) {
 
     sql.query('DELETE FROM class WHERE class.id = ?', req.params.id, function(err, result) {
         if (err) {
             console.log(err);
-            res.send(500);
+            res.status(500).send('Could not delete class');
         } else {
             console.log('Removed class');
             res.send(200);  // Send back user id they they know who they are
