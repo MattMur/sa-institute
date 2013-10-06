@@ -6,3 +6,7 @@ body {
 .modal {
     padding-top: 10% !important;
 }
+
+.panel-heading {
+    cursor: pointer;
+}

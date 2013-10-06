@@ -11,8 +11,30 @@
     </section>
     <br>
 
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default" ng-repeat="studyCards in studyCardArray">
+            <div class="panel-heading">
+                <a class="accordion-toggle" id="drop-down" data-toggle="collapse" data-parent="#accordion" data-target="#week-{{studyCards.weekNum}}">
+                    <h4 class="panel-title">Week {{ studyCards.weekNum }}</h4>
+                </a>
+            </div><!-- \.panel-heading -->
 
-    <accordion>
+            <div id="week-{{studyCards.weekNum}}" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <ul class="flowlist">
+                        <li>Total: <strong>{{ weekAvg[$index].numCards }}</strong></li>
+                        <li>Frequency: <strong>{{ weekAvg[$index].frequency }}</strong> (avg)</li>
+                        <li>Quality: <strong>{{ weekAvg[$index].quality }}</strong> (avg)</li>
+                        <li>Read Assigned Block: <strong>{{ weekAvg[$index].percentRead }}%</strong></li>
+                    </ul>
+                </div><!-- \.panel-body -->
+            </div><!-- \.panel-collapse -->
+        </div><!-- \.panel-default -->
+    </div><!-- \.panel-group -->
+
+
+
+    <!-- <accordion>
         <accordion-group ng-repeat="studyCards in studyCardArray">
             <accordion-heading>Week {{ studyCards.weekNum }}</accordion-heading>
             <ul class="flowlist">
@@ -22,7 +44,7 @@
                 <li>Read Assigned Block: <strong>{{ weekAvg[$index].percentRead }}%</strong></li>
             </ul>
         </accordion-group>
-    </accordion>
+    </accordion> -->
 
 
 </div>
