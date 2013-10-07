@@ -7,6 +7,12 @@ body {
     padding-top: 10% !important;
 }
 
-.panel-heading {
+#accordion .panel-heading  {
     cursor: pointer;
+}
+
+.flowlist li {
+    display: block;
+    padding: 5px 10px 10px 0px;
+    margin: 0;
 }

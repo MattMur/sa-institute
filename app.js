@@ -35,30 +35,32 @@ var UserAccess = 1;
 var AdminAccess = 2;
 
 // RESTful API Routes
+// (\\d+) --Match any number
 app.get('/api/users', auth.basicAuth(express, 2), user.getAll);
-app.get('/api/users/:id', auth.basicAuth(express, 1), user.getOne);
-app.get('/api/users/:id/studycards', auth.basicAuth(express, 1), user.getUserStudyCards);
+app.get('/api/users/:id(\\d+)', auth.basicAuth(express, 1), user.getOne);
+app.get('/api/users/:id(\\d+)/studycards', auth.basicAuth(express, 1), user.getUserStudyCards);
 app.post('/api/users', user.createNew); // No auth needed to create new user
-app.del('/api/users/:id', auth.basicAuth(express, 2), user.remove);
+app.del('/api/users/:id(\\d+)', auth.basicAuth(express, 2), user.remove);
 
 app.get('/api/studycards', auth.basicAuth(express, 1), studyCard.getAll);
-app.get('/api/studycards/:id', auth.basicAuth(express, 1), studyCard.getOne)
+app.get('/api/studycards/:id(\\d+)', auth.basicAuth(express, 1), studyCard.getOne)
 app.post('/api/studycards', auth.basicAuth(express, 1), studyCard.createNew);
-app.del('api/studycards/:id', auth.basicAuth(express, 1), studyCard.remove);
+app.del('/api/studycards/:id(\\d+)', auth.basicAuth(express, 1), studyCard.remove);
+app.get('/api/studycards/notes', auth.basicAuth(express, 2), studyCard.getNotes);
 
 app.get('/api/teachers', auth.basicAuth(express, 1), teacher.getAll);
-app.get('/api/teachers/:id', auth.basicAuth(express, 1), teacher.getOne);
-app.get('/api/teachers/:id/classes', auth.basicAuth(express, 1), teacher.getClasses);
+app.get('/api/teachers/:id(\\d+)', auth.basicAuth(express, 1), teacher.getOne);
+app.get('/api/teachers/:id(\\d+)/classes', auth.basicAuth(express, 1), teacher.getClasses);
 app.post('/api/teachers', auth.basicAuth(express, 2), teacher.createNew);
-app.del('/api/teachers/:id', auth.basicAuth(express, 2), teacher.remove);
+app.del('/api/teachers/:id(\\d+)', auth.basicAuth(express, 2), teacher.remove);
 
 app.get('/api/class', auth.basicAuth(express, 1), classSubject.getALL);
-app.get('/api/class/:id', auth.basicAuth(express, 1), classSubject.getOne);
-app.get('/api/class/:id/teachers', auth.basicAuth(express, 1), classSubject.getTeachers);
-app.get('/api/class/:id/students', auth.basicAuth(express, 1), classSubject.getStudents);
+app.get('/api/class/:id(\\d+)', auth.basicAuth(express, 1), classSubject.getOne);
+app.get('/api/class/:id(\\d+)/teachers', auth.basicAuth(express, 1), classSubject.getTeachers);
+app.get('/api/class/:id(\\d+)/students', auth.basicAuth(express, 1), classSubject.getStudents);
 app.post('/api/class', auth.basicAuth(express, 2), classSubject.createNew);
-app.put('/api/class/:id', auth.basicAuth(express, 2), classSubject.modify);
-app.del('/api/class/:id', auth.basicAuth(express, 2), classSubject.remove);
+app.put('/api/class/:id(\\d+)', auth.basicAuth(express, 2), classSubject.modify);
+app.del('/api/class/:id(\\d+)', auth.basicAuth(express, 2), classSubject.remove);
 
 
 

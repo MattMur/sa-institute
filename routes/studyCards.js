@@ -11,41 +11,10 @@ require('../public/js/lib/date');
 
 exports.getAll = function(req, res, next) {
 
-    var isAuthorized = true;  // We will decide if they are authorized based on what is requested
-    var injects = [];  // array of parameters injected into query
+    var isAuthorized, injects = [];  // array of parameters injected into query
     var query = squel.select().from('studyCard'); // squel object is used to flexibly build SQL statement
-
-    // Filter by id or class name
-    if (req.query.classid) {
-        query = query.where('class_id=?')
-        injects.push(req.query.classid);
-    } else if (req.query.classname) {
-        // find the classid based on class name
-        query = query.where('class_id is null or class_id=(SELECT class.id FROM class WHERE class.name is null or class.name = ?)');
-        injects.push(req.query.classname);
-    }
-
-    // Filter by user id
-    if (req.query.user) {
-        isAuthorized = req.session.userid == req.query.user; //You can't get cards for someone other than yourself
-        query = query.where('students_id=?');
-        injects.push(req.query.user);
-    } else { // you don't have userid so request is for ALL studycards. We need to verify admin access for that.
-        if (req.session.accesslvl != 2) {
-            // If request doesn't have admin then we just get studycards matching their session userid
-            query = query.where('students_id=?');
-            injects.push(req.session.userid);
-        }
-    }
-
-    // Start and and date range filter
-    if (req.query.startdate && req.query.enddate) {
-        query = query.where('studyCard.date BETWEEN ? AND ?');
-        injects.push(req.query.startdate, req.query.enddate);
-    } else if (req.query.enddate) {
-        query = query.where('studyCard.date=?');
-        injects.push(req.query.enddate);
-    }
+    query = filterByParams(req, query, injects);
+    isAuthorized = checkIsAuthorized(req, query, injects);
     query = query.order('weekNum');
 
     console.log('StudyCard query: ' + query);
@@ -69,7 +38,7 @@ exports.getAll = function(req, res, next) {
 
 };
 
-exports.getOne = function(req, res, next) {
+exports.getOne = function(req, res) {
     sql.query('SELECT * FROM studyCard WHERE id = ?', req.params.id, function(err, rows) {
         if (err) {
             console.log(err);
@@ -84,7 +53,7 @@ exports.getOne = function(req, res, next) {
 
 
 
-exports.createNew = function(req, res, next) {
+exports.createNew = function(req, res) {
     //{"class_id":"1","frequency":"3","quality":"4","block":"","thoughts":" "}
     if (req.body) {
 
@@ -117,7 +86,7 @@ exports.createNew = function(req, res, next) {
     }
 }
 
-exports.remove = function(req, res, next) {
+exports.remove = function(req, res) {
 
     sql.query('DELETE FROM studyCard WHERE id = ?', req.params.id, function(err, result) {
         if (err) {
@@ -128,4 +97,84 @@ exports.remove = function(req, res, next) {
             res.send(200);
         }
     });
+}
+
+// Get all NOTES from all study cards. Then filter by query parameters.
+exports.getNotes = function(req, res) {
+    console.log('Hi Mom!');
+    var query = squel.select().field('id').field('notes').field('weekNum').from('studyCard').where('notes IS NOT NULL');
+    var isAuthorized, injects = [];  // array of parameters injected into query
+
+    query = filterByParams(req, query, injects);
+    isAuthorized = checkIsAuthorized(req, query, injects);
+    query = query.order('weekNum');
+    console.log('Comments query: ' + query.toString());
+
+    if (isAuthorized) {
+        sql.query(query.toString(), injects, function(err, rows, features) {
+            if (err) {
+                console.log(err);
+                res.send(500);
+            } else {
+                console.log('Notes are: \n', JSON.stringify(rows));
+                res.json(rows);
+            }
+        });
+    } else {
+        res.send(403);
+    }
+}
+
+function filterByParams(req, query, injects) {
+
+    // Filter by id or class name
+    if (req.query.classid) {
+        query = query.where('class_id=?')
+        injects.push(req.query.classid);
+    } else if (req.query.classname) {
+        // find the classid based on class name
+        query = query.where('class_id is null or class_id=(SELECT class.id FROM class WHERE class.name is null or class.name = ?)');
+        injects.push(req.query.classname);
+    }
+
+    // Start and end date range filter
+    if (req.query.startdate && req.query.enddate) {
+        query = query.where('studyCard.date BETWEEN ? AND ?');
+        injects.push(req.query.startdate, req.query.enddate);
+    } else if (req.query.enddate) {
+        query = query.where('studyCard.date=?');
+        injects.push(req.query.enddate);
+    }
+
+    // Week filter
+    if (req.query.weekrange) {
+        var regex = /([0-9])(?:..([0-9]))?/; // Capture group - any num 0-9, then .., then another num 0-9, second group is optional(?)
+        var match = regex.exec(req.query.weekrange);
+        if (match.length > 1) { // index 0 is always the full match, next are capture groups
+            var start = match[1];
+            var end = match[2] || start;
+            query = query.where('weekNum BETWEEN '+start+' AND '+end);
+        }
+    }
+    return query;
+}
+
+function checkIsAuthorized(req, query, injects) {
+    // Find out if authorized to do this based on user id and access lvl
+    var isAuthorized = true;
+    if (req.query.user) {
+        isAuthorized = req.session.userid == req.query.user; //You can't get cards for someone other than yourself
+        query = query.where('students_id=?');
+        injects.push(req.query.user);
+    } else { // you don't have userid so request is for ALL studycards. We need to verify admin access for that.
+        if (!req.session) {
+            isAuthorized = false;
+        }
+        else if (req.session.accesslvl < 2) {
+            // If request doesn't have admin then we just get studycards matching their session userid
+            query = query.where('students_id=?');
+            injects.push(req.session.userid);
+        }
+    }
+    return isAuthorized;
 }

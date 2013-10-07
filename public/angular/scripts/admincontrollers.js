@@ -210,6 +210,10 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
 });
 
 
+app.controller('AdminViewCommentsCntrl', function($scope, $http, $routeParams) {
+
+
+});
 
 
 

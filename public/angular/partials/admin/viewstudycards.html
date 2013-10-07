@@ -1,15 +1,19 @@
 <div id="spinnn">
     <subtitle>Admin - Study Card Stats: {{className}}</subtitle>
 
-    <section class="border-thin">
-        <div class="title"><strong>Class Averages</strong></div>
-        <ul class="flowlist">
-            <li>Frequency: <strong>{{ classAverages.frequency }}</strong></li>
-            <li>Quality: <strong>{{ classAverages.quality }}</strong></li>
-            <li>Read Assigned Block: <strong>{{ classAverages.percentRead }}%</strong></li>
-        </ul>
-    </section>
     <br>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong>Class Averages</strong>
+        </div>
+        <div class="panel-body">
+            <ul class="flowlist">
+                <li>Frequency: <strong>{{ classAverages.frequency }}</strong></li>
+                <li>Quality: <strong>{{ classAverages.quality }}</strong></li>
+                <li>Read Assigned Block: <strong>{{ classAverages.percentRead }}%</strong></li>
+            </ul>
+        </div>
+    </div>
 
     <div class="panel-group" id="accordion">
         <div class="panel panel-default" ng-repeat="studyCards in studyCardArray">

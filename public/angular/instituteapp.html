@@ -9,14 +9,16 @@
     <link rel="shortcut icon" href="../../assets/ico/favicon.png">
     <title>Institute Form</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
+
+    <!-- Less page flicker by putting this script at top -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script>
 </head>
 
 
 <body ng-controller="RootCntrl">
-
-<nav ng-cloak>
+<nav>
     <div class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
+        <div class="container" ng-cloak>
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -89,7 +91,6 @@
     window.spinner.start();
 </script>
 <script src="/js/lib/jquery-1.10.2.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script>
 <script src="http://code.angularjs.org/1.0.0rc10/angular-cookies-1.0.0rc10.js"></script>
 <script src="http://code.angularjs.org/1.2.0-rc.2/angular-route.min.js"></script>
 <script src="https://datejs.googlecode.com/svn/trunk/build/date-en-US.js"></script>
