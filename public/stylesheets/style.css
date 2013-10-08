@@ -23,3 +23,8 @@ body {
     font-weight: 300;
     color: #888888;
 }
+
+.well-info {
+    border-color: #c3d8f1;
+    background-color: #eef2f7;
+}
