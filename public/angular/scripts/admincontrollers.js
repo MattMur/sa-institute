@@ -211,7 +211,36 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
 
 
 app.controller('AdminViewCommentsCntrl', function($scope, $http, $routeParams) {
+    $scope.className = $routeParams.className.capitalize();
+    $http.get('/api/studycards/notes?classid='+$routeParams.classid).success(function(commentsJson) {
+        console.log('Comments: ' + JSON.stringify(commentsJson));
 
+
+        if (commentsJson.length > 0) {
+            var index = -1, comment, commentsByWeek = [], curWeek = 0; // Array of Arrays of Studycards
+
+            // File cards into StudyCardArray by weekNumber
+            for (var i = 0; i < commentsJson.length; i++) {
+
+                comment = commentsJson[i];
+                //console.log('card#: ' + (i+1) + ' week: ' + studycard.weekNum + ' currentWeek: '+curWeek);
+                if (curWeek >= comment.weekNum) { // if current studycard belongs to current week
+                    commentsByWeek[index].push(comment); // Add comment to that week's array
+                } else {
+                    // Else move to next week  (where we have comment for that week)
+                    var newWeek = [comment]; // create new array for new week
+                    newWeek.weekNum = comment.weekNum;
+                    curWeek = comment.weekNum;
+                    commentsByWeek[++index] = newWeek;
+                }
+            }
+            $scope.comments = commentsByWeek;
+        }
+
+
+    }).error(function(data) {
+
+    });
 
 });
 

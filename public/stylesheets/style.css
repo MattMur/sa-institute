@@ -1,4 +1,6 @@
 @import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css");
+.nav, .pagination, .carousel a { cursor: pointer; }
+
 body { 
     padding-top: 65px; 
 }
@@ -15,4 +17,9 @@ body {
     display: block;
     padding: 5px 10px 10px 0px;
     margin: 0;
+}
+
+.sub {
+    font-weight: 300;
+    color: #888888;
 }
