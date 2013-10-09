@@ -148,9 +148,9 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
     // Get studycard from the specific class with start and end dates filter
     var url = '/api/studycards?classid='+ $routeParams.classid; // classid should be on query string
     $http.get(url).success( function(studycards) {
-        if (studycards.length > 0) {
-            var index = -1, studycard, studyCardsByWeek = [], curWeek = 0; // Array of Arrays of Studycards
+        var index = -1, studycard, studyCardsByWeek = [], curWeek = 0; // Array of Arrays of Studycards
 
+        if (studycards.length > 0) {
             // File cards into StudyCardArray by weekNumber
             for (var i = 0; i < studycards.length; i++) {
 
@@ -167,16 +167,16 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
                     studyCardsByWeek[++index] = newWeek;
                 }
             }
-            $scope.studyCardArray = studyCardsByWeek;
         }
+        $scope.studyCardArray = studyCardsByWeek;
         $scope.classAverages = calculateAvg(studycards);
 
         // Calculate averages for each week
-        for (var i = 0; i < $scope.studyCardArray.length; i++) {
+        for (var i = 0; i < studyCardsByWeek.length; i++) {
             // Only do calculations once. If there is a definition at that index then it is already done.
             if ($scope.weekAvg[i] === undefined) {
                 if  ($scope.studyCardArray[i]) {
-                    $scope.weekAvg[i] = calculateAvg($scope.studyCardArray[i]); // Calculate avg for specific week
+                    $scope.weekAvg[i] = calculateAvg(studyCardsByWeek[i]); // Calculate avg for specific week
                 }
             }
         }
@@ -191,21 +191,24 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
 
     // Return an object that has all the statistics on it
     var calculateAvg = function(studyCards) {
-        var totalFreq = 0, totalQuality= 0, totalReadBlock = 0;
+        if (studyCards) {
+            var totalFreq = 0, totalQuality= 0, totalReadBlock = 0;
 
-        for (var i=0; i < studyCards.length; i++) {
-            totalFreq += studyCards[i].frequency;
-            totalQuality += studyCards[i].quality;
-            totalReadBlock += studyCards[i].assignedBlock; // JS converts true/false to 1/0 respectively
+            for (var i=0; i < studyCards.length; i++) {
+                totalFreq += studyCards[i].frequency;
+                totalQuality += studyCards[i].quality;
+                totalReadBlock += studyCards[i].assignedBlock; // JS converts true/false to 1/0 respectively
+            }
+
+            var averages = {};
+            averages.numCards = studyCards.length;
+            averages.frequency = Math.round((totalFreq / studyCards.length) *100)/100;
+            averages.quality = Math.round( (totalQuality / studyCards.length) * 100) / 100;
+            averages.percentRead = Math.round((totalReadBlock / studyCards.length) * 100);
+
+            return averages;
         }
 
-        var averages = {};
-        averages.numCards = studyCards.length;
-        averages.frequency = Math.round((totalFreq / studyCards.length) *100)/100;
-        averages.quality = Math.round( (totalQuality / studyCards.length) * 100) / 100;
-        averages.percentRead = Math.round((totalReadBlock / studyCards.length) * 100);
-
-        return averages;
     };
 });
 
@@ -213,12 +216,11 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
 app.controller('AdminViewCommentsCntrl', function($scope, $http, $routeParams) {
     $scope.className = $routeParams.className.capitalize();
     $http.get('/api/studycards/notes?classid='+$routeParams.classid).success(function(commentsJson) {
-        console.log('Comments: ' + JSON.stringify(commentsJson));
 
+        console.log('Comments: ' + JSON.stringify(commentsJson));
+        var index = -1, comment, commentsByWeek = [], curWeek = 0; // Array of Arrays of Studycards
 
         if (commentsJson.length > 0) {
-            var index = -1, comment, commentsByWeek = [], curWeek = 0; // Array of Arrays of Studycards
-
             // File cards into StudyCardArray by weekNumber
             for (var i = 0; i < commentsJson.length; i++) {
 

@@ -2,7 +2,8 @@
     <subtitle>Admin - {{className}}<span class="sub"> :Study Cards</span></subtitle>
 
     <br>
-    <div class="panel panel-info">
+    <p ng-hide="studyCardArray.length > 0">No study cards.</p>
+    <div class="panel panel-info" ng-show="studyCardArray.length > 0" ng-cloak>
         <div class="panel-heading">
             <h3 class="panel-title">Class Averages</h3>
         </div>
@@ -15,7 +16,7 @@
         </div>
     </div>
 
-    <div class="panel-group" id="accordion">
+    <div class="panel-group" id="accordion" ng-cloak>
         <div class="panel panel-default" ng-repeat="studyCards in studyCardArray">
             <div class="panel-heading">
                 <a class="accordion-toggle" id="drop-down" data-toggle="collapse" data-parent="#accordion" data-target="#week-{{studyCards.weekNum}}">
