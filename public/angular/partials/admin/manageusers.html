@@ -1,0 +1,49 @@
+<div>
+    <subtitle>Admin - Users</subtitle>
+    <label class="sr-only">Search</label>
+    <input type="search" ng-model="nameSearch" class="form-control" placeholder="Filter by Name" style="max-width: 320px;">
+    <br>
+    <div class="panel panel-default" ng-show="(admin | filter:nameSearch).length > 0">
+        <div class="panel-heading">Admin</div>
+        <div class="panel-body">
+            <ul class="flowlist">
+                <li ng-repeat="user in admin | filter:nameSearch">
+                    {{ user.lastname }}, {{ user.firstname }}
+                    <a href="" ng-click="demoteModal(user)">Demote</a> | <a href="" ng-click="deleteModal(user)"> Delete</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="panel panel-default" ng-show="(students | filter:nameSearch).length > 0">
+        <div class="panel-heading">Students</div>
+        <div class="panel-body">
+            <ul class="flowlist">
+                <li ng-repeat="user in students | filter:nameSearch">
+                    {{ user.lastname }}, {{ user.firstname }}
+                    <a href="" ng-click="promoteModal(user)">Promote</a> | <a href="" ng-click="deleteModal(user)"> Delete</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm {{ modalTitle }}</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to {{modalBtnAction | lowercase }} <strong>{{ selectedUser.firstname }} {{ selectedUser.lastname }}</strong> {{ modalMore }}?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+                    <button type="button" id="modalBtn" class="btn btn-success" ng-click="modalAction(selectedUser)">{{ modalBtnAction }}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+</div>

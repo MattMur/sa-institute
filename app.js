@@ -40,6 +40,7 @@ app.get('/api/users', auth.basicAuth(express, 2), user.getAll);
 app.get('/api/users/:id(\\d+)', auth.basicAuth(express, 1), user.getOne);
 app.get('/api/users/:id(\\d+)/studycards', auth.basicAuth(express, 1), user.getUserStudyCards);
 app.post('/api/users', user.createNew); // No auth needed to create new user
+app.put('/api/users/:id(\\d+)', auth.basicAuth(express, 1), user.modify);
 app.del('/api/users/:id(\\d+)', auth.basicAuth(express, 2), user.remove);
 
 app.get('/api/studycards', auth.basicAuth(express, 1), studyCard.getAll);

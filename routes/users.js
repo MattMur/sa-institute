@@ -2,7 +2,7 @@ var sql = require('../scripts/sqlconn');
 
 exports.getAll = function(req, res, next) {
 
-    sql.query('SELECT * FROM students', function(err, rows) {
+    sql.query('SELECT * FROM students ORDER BY lastname', function(err, rows) {
         if (err) {
             console.log(err);
             res.send(500);
@@ -20,7 +20,7 @@ exports.getOne = function(req, res, next) {
     // We do have session, however we need to check if user has access to requested resource
     // check that the user_id is the same as the requested user_id
     console.log('Checking access:', req.params.id, req.session.userid);
-    var isAuthorized = req.params.id == req.session.userid;
+    var isAuthorized = (req.session.accesslvl == 2) || (req.params.id == req.session.userid);
 
     if (isAuthorized) {
 
@@ -36,6 +36,7 @@ exports.getOne = function(req, res, next) {
             }
         });
     } else {
+        console.log('Access denied for request');
         res.send(403); // Send 403 if user ids do not match
     }
 };
@@ -58,6 +59,7 @@ exports.getUserStudyCards = function(req, res, next) {
             }
         });
     } else {
+        console.log('Access denied for request');
         res.send(403); // Send 403 if user ids do not match
     }
 
@@ -89,8 +91,30 @@ exports.remove  = function(req, res, next) {
                 res.send(500);
             } else {
                 console.log('Removed user');
-                res.send(200);  // Send back user id they they know who they are
+                res.send(200);
             }
         });
+
+}
+
+exports.modify  = function(req, res, next) {
+    delete req.body.id; // We don't want to allow modification of id
+
+    // Either you are admin, or you are the user you want to modify
+    var isAuthorized = (req.session.accesslvl == 2) || (req.params.id == req.session.userid);
+    if (isAuthorized) {
+        sql.query('UPDATE students SET ? WHERE students.id = ?', [req.body,  req.params.id], function(err, result) {
+            if (err) {
+                console.log("mysql err: " + err);
+                res.send(500);
+            } else {
+                console.log('Modified user');
+                res.send(200);
+            }
+        });
+    } else {
+        console.log('Access denied for request');
+        res.send(403);
+    }
 
 }

@@ -43,12 +43,7 @@ app.controller('AdminViewClassesCntrl', function ($scope, $http) {
         $http.delete('/api/class/'+ classObj.id).success(function(data) {
             //console.log('Deleted class ' + JSON.stringify(classObj));
             //remove class from array now that its gone
-            for(var i=0; i < $scope.classes.length; i++) {
-                if (angular.equals($scope.classes[i], classObj)) {
-                    $scope.classes.splice(i, 1);
-                    break;
-                }
-            }
+            removeItemFromArray(classObj, $scope.classes);
             console.log(JSON.stringify($scope.classes));
         }).error(function(data) {
             alert("Could not delete class");
@@ -243,12 +238,107 @@ app.controller('AdminViewCommentsCntrl', function($scope, $http, $routeParams) {
     }).error(function(data) {
 
     });
-
 });
 
+app.controller('AdminViewUsersCntrl', function($scope, $http) {
 
+    $http.get('/api/users').success(function(users) {
+        // Divide into groups by access lvl
+        $scope.admin = [];
+        $scope.students = [];
+        for (var i = 0; i < users.length; i++) {
+            if (users[i].accesslvl == 2) {
+                $scope.admin.push(users[i]);
+            } else {
+                $scope.students.push(users[i]);
+            }
+        }
+    }).error(function(err) {
+        alert('Could not retrieve user data');
+    });
+
+    $scope.promoteModal = function(user) {
+        $scope.selectedUser = user;
+        $scope.modalTitle = 'Promotion';
+        $scope.modalMessage = '<p>Are you sure you want to promote <strong>'+user.firstname+' '+user.lastname+'</strong> to admin?</p>';
+        $scope.modalBtnAction = 'Promote'; $scope.modalMore = "to admin";
+        $('#modalBtn').removeClass('btn-danger').addClass('btn-success');
+        $scope.modalAction = promote;
+        $('#confirmModal').modal('show');
+    };
+
+    $scope.demoteModal = function(user) {
+        $scope.selectedUser = user;
+        $scope.modalTitle = 'Demotion';
+        $scope.modalMessage = '<p>Are you sure you want to demote <strong>'+user.firstname+' '+user.lastname+'</strong> to student?</p>';
+        $scope.modalBtnAction = 'Demote'; $scope.modalMore = "to student";
+        $('#modalBtn').removeClass('btn-danger').addClass('btn-success');
+        $scope.modalAction = demote;
+        $('#confirmModal').modal('show');
+    };
+
+    $scope.deleteModal = function(user) {
+        $scope.selectedUser = user;
+        $scope.modalTitle = 'Delete';
+        $scope.modalMessage = '<p>Are you sure you want to delete <strong>'+user.firstname+' '+user.lastname+'</strong>?</p>';
+        $scope.modalBtnAction = 'Delete'; $scope.modalMore = "";
+        $('#modalBtn').removeClass('btn-success').addClass('btn-danger');
+        $scope.modalAction = deleteUser;
+        $('#confirmModal').modal('show');
+    };
+
+    var promote = function(user) {
+        user.accesslvl = 2;  // Give user admin access. This is uploaded to server as put request.
+        $http.put('/api/users/'+user.id, user).success(function(data) {
+            $scope.students.removeItem(user);
+            $scope.admin.push(user);
+            $('#confirmModal').modal('hide');
+        }).error(function() {
+            $('#confirmModal').modal('hide');
+            alert('Could not give user admin privileges');
+        });
+    };
+    var demote = function(user) {
+        user.accesslvl = 1;  // Give user lvl 1 access. This is uploaded to server as put request.
+        $http.put('/api/users/'+user.id, user).success(function(data) {
+            $scope.students.push(user);
+            $scope.admin.removeItem(user);
+            $('#confirmModal').modal('hide');
+        }).error(function() {
+            $('#confirmModal').modal('hide');
+            alert('Could not demote user');
+        });
+    };
+    var deleteUser = function(user) {
+        $http.delete('/api/users/'+user.id).success(function(data) {
+            if (user.accesslvl == 2) {
+                $scope.admin.removeItem(user);
+            } else {
+                $scope.students.removeItem(user);
+            }
+            $('#confirmModal').modal('hide');
+        }).error(function() {
+            $('#confirmModal').modal('hide');
+            alert('Could not delete user');
+        });
+    };
+
+    $scope.cancel = function() {
+        $('#confirmModal').modal('hide');
+    };
+});
 
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+
+Array.prototype.removeItem =  function (item) {
+    for(var i=0; i < this.length; i++) {
+        if (angular.equals(this[i], item)) {
+            this.splice(i, 1);
+            break;
+        }
+    }
 }

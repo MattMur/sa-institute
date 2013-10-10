@@ -37,7 +37,8 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
                     ];
                     adminMenuItems = [
                         new MenuItem('View Classes', '/admin/classes'),
-                        new MenuItem('New Class', '/admin/classes/new')
+                        new MenuItem('New Class', '/admin/classes/new'),
+                        new MenuItem('Manage Users', '/admin/users')
                     ];
                     switchBetweenAdminStudent();
                 });
