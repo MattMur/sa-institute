@@ -64,6 +64,9 @@ exports.getUserStudyCards = function(req, res, next) {
 }
 
 exports.createNew = function(req, res, next) {
+
+    // Add default access level to user
+    req.body.accesslvl = 1;
     console.log(JSON.stringify(req.body));
     sql.query('INSERT INTO students SET ?', req.body, function(err, result) {
         if (err) {
