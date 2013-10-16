@@ -1,5 +1,10 @@
 <div>
     <subtitle>Admin - Classes</subtitle>
+
+    <br>
+    <label>Classes on: </label>
+    <input type="date" ng-show="showDate" ng-model="selectedDate">
+    <a href="" ng-hide="showDate" ng-click="selectDate()">Today</a>
     <br>
     <div class="panel panel-default" ng-repeat="class in classes">
         <div class="panel-heading">

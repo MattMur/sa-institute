@@ -24,12 +24,29 @@ app.controller('AdminViewStudentsCntrl', function ($scope, $http) {
 });
 
 app.controller('AdminViewClassesCntrl', function ($scope, $http) {
+    var date = Date.today(), dateStr;
 
-    $http.get('/api/class').success(function(data) {
-        $scope.classes = data;
-    }).error(function(data) {
+    // Query server for classes within selected date. Whenever the date changes we update.
+    $scope.$watch('selectedDate', function(newDate) {
+        console.log('SelectedDate modified. '+newDate+'\nUpdating class list...');
+        $http.get('/api/class?date='+newDate).success(function(data) {
+            $scope.classes = data;
+        }).error(function(data) {
             console.log("Classes request failed" + data);
+        });
+
+        // Hide date selector if date is Today!
+        var selDate = Date.parse(newDate);
+        $scope.showDate = Date.compare(selDate.clearTime(), Date.today().clearTime()) != 0;
     });
+
+    // Default date to today
+    $scope.selectedDate = date.toString('yyyy-MM-dd');
+
+    // Show date selector if they click "Today"
+    $scope.selectDate = function() {
+        $scope.showDate = true;
+    };
 
     $scope.confirmDelete = function(classObj) {
         $scope.classToBeDeleted = classObj;
@@ -50,7 +67,6 @@ app.controller('AdminViewClassesCntrl', function ($scope, $http) {
         });
         $('#confirmModal').modal('hide');
     };
-
 });
 
 app.controller('AdminNewClassCntrl', function($scope, $http, $location) {
@@ -80,8 +96,6 @@ app.controller('AdminNewClassCntrl', function($scope, $http, $location) {
             });
         });
         $("#confirmModal").modal('hide');
-
-
     };
 
 });

@@ -13,9 +13,9 @@ exports.getALL = function(req, res) {
     var injects = [];
     var query = squel.select().from('class'); // var queryStr = 'SELECT * FROM class';
 
-    if (req.query.ondate) {  // Filter by classes that were active during the date given
+    if (req.query.date) {  // Filter by classes that were active during the date given
         query = query.where('? BETWEEN class.startdate AND class.enddate');  //filter += req.query.date ? ' WHERE ? BETWEEN class.startdate AND class.enddate' : "";
-        injects.push(req.query.ondate);
+        injects.push(req.query.date);
     }
     if (req.query.name) {  // Filter by name of class
         query = query.where('name = ?');  //filter += ' WHERE name = ?';
