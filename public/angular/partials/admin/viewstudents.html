@@ -1,6 +1,26 @@
 <div>
-    <subtitle>Admin - Students</subtitle>
-    <ul class="list">
-        <li ng-repeat="student in students">{{ student.firstname }} {{ student.lastname }}</li>
-    </ul>
+    <subtitle>Admin - {{className}}<span class="sub"> :Student List</span></subtitle>
+
+    <div class="alert alert-info" ng-show="students.length==0">No Students.</div>
+
+    <span ng-hide="students.length==0">
+        <a class="btn btn-primary" href="" ng-click="exportCSV()" >Export Contacts</a>
+        <span class="glyphicon glyphicon-question-sign" tooltip-placement="right"
+          tooltip="Export contacts into a .csv file which you can then import into Gmail (or any providor of choice)."></span>
+    </span>
+    <br><br>
+    <table class="table" ng-hide="students.length==0">
+        <tr>
+            <th>First Name</th><th>Last Name</th><th>Email</th><th>Phone</th>
+        </tr>
+        <tr ng-repeat="student in students">
+            <td>{{ student.firstname }}</td>
+            <td>{{ student.lastname }}</td>
+            <td>{{ student.email }}</td>
+            <td>{{ student.phone }}</td>
+        </tr>
+    </table>
+
+
+
 </div>

@@ -15,12 +15,17 @@ app.controller('AdminViewTeachersCntrl', function ($scope, $http) {
         });
 });
 
-app.controller('AdminViewStudentsCntrl', function ($scope, $http) {
-    $http.get('/api/users').success(function(data) {
+app.controller('AdminViewStudentsCntrl', function ($scope, $http, $routeParams, exportCSV) {
+    $scope.className = $routeParams.className.capitalize();
+    $http.get('/api/class/'+$routeParams.classid+'/students').success(function(data) {
         $scope.students = data;
     }).error(function(data) {
-            console.log("students request failed" + data);
-        });
+        console.log("students request failed" + data);
+    });
+
+    $scope.exportCSV = function() {
+        exportCSV($scope.students, 'InstituteContacts');
+    };
 });
 
 app.controller('AdminViewClassesCntrl', function ($scope, $http) {
@@ -254,7 +259,7 @@ app.controller('AdminViewCommentsCntrl', function($scope, $http, $routeParams) {
     });
 });
 
-app.controller('AdminViewUsersCntrl', function($scope, $http) {
+app.controller('AdminViewUsersCntrl', function($scope, $http, exportCSV) {
 
     $http.get('/api/users').success(function(users) {
         // Divide into groups by access lvl
@@ -339,6 +344,10 @@ app.controller('AdminViewUsersCntrl', function($scope, $http) {
 
     $scope.cancel = function() {
         $('#confirmModal').modal('hide');
+    };
+
+    $scope.exportCSV = function() {
+        exportCSV($scope.students, 'InstituteContacts');
     };
 });
 

@@ -2,7 +2,7 @@
     <subtitle>Admin - {{className}}<span class="sub"> :Comments</span></subtitle>
 
     <br>
-    <p ng-hide="comments.length>0">No comments yet.</p>
+    <div class="alert alert-info" ng-hide="comments.length>0">No comments yet.</div>
     <div class="panel-group" id="accordion" ng-cloak>
         <div class="panel panel-default" ng-repeat="week in comments">
             <div class="panel-heading">

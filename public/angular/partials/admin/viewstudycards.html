@@ -2,7 +2,7 @@
     <subtitle>Admin - {{className}}<span class="sub"> :Study Cards</span></subtitle>
 
     <br>
-    <p ng-hide="studyCardArray.length > 0">No study cards.</p>
+    <div class="alert alert-info" ng-hide="studyCardArray.length > 0">No study cards yet.</div>
     <div class="panel panel-info" ng-show="studyCardArray.length > 0" ng-cloak>
         <div class="panel-heading">
             <h3 class="panel-title">Class Averages</h3>
