@@ -24,7 +24,7 @@ app.controller('AdminViewStudentsCntrl', function ($scope, $http, $routeParams, 
     });
 
     $scope.exportCSV = function() {
-        exportCSV($scope.students, 'InstituteContacts');
+        exportCSV($scope.students, $scope.className+'Contacts');
     };
 });
 

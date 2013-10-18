@@ -3,11 +3,13 @@
 
     <div class="alert alert-info" ng-show="students.length==0">No Students.</div>
 
-    <span ng-hide="students.length==0">
-        <a class="btn btn-primary" href="" ng-click="exportCSV()" >Export Contacts</a>
-        <span class="glyphicon glyphicon-question-sign" tooltip-placement="right"
-          tooltip="Export contacts into a .csv file which you can then import into Gmail (or any providor of choice)."></span>
-    </span>
+    <div>
+        <span ng-hide="students.length==0" class="pull-right">
+            <a class="btn btn-primary" href="" ng-click="exportCSV()" >Export Contacts</a>
+            <span class="glyphicon glyphicon-question-sign" tooltip-placement="bottom"
+                  tooltip="Export contacts into a .csv file which you can then import into Gmail (or any providor of choice)."></span>
+        </span>
+    </div>
     <br><br>
     <table class="table" ng-hide="students.length==0">
         <tr>
