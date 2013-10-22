@@ -5,24 +5,42 @@
     <form ng-submit="confirmSubmit()" role="form">
         <div class="form-group">
             <label>Class name</label>
-            <input type="text" id="className" ng-model="class.name" class="form-control" required>
+            <input type="text" id="className" ng-model="class.name" class="form-control" placeholder='Book of Mormon' required>
         </div>
+
+        <div class="form-group">
+            <label>Day</label>
+            <select id='day' class="form-control" name="day" ng-model="class.day">
+                    <option value="" selected>- Select Day -</option>
+                    <option ng-repeat="day in [0,1,2,3,4]" value="{{day}}" ng-selected="day == class.day">{{ day | dayOfWeek }}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Locaion</label>
+            <input type="text" id="location" ng-model="class.location" class="form-control" placeholder='SA UTSA Relief Society' required>
+        </div>
+
         <div class="form-group">
             <label>Start date</label>
-            <input type="date" id="startDate" ng-model="class.startdate" class="form-control" required>
+            <input type="date" id="startDate" ng-model="class.start_date" class="form-control" required>
         </div>
+
         <div class="form-group">
             <label>End date</label>
-            <input type="date" id="endDate" ng-model="class.enddate" class="form-control" required>
+            <input type="date" id="endDate" ng-model="class.end_date" class="form-control" required>
         </div>
+
         <div class="form-group">
             <label>Class Start Time</label>
-            <input type="time" id="startTime" ng-model="class.starttime" class="form-control" required>
+            <input type="time" id="startTime" ng-model="class.time" class="form-control" required>
         </div>
+
         <div class="form-group">
             <label>Syllabus</label>
-            <input type="file" id="syllabusFile" ng-model="class.syllabusFile">
+            <input type="file" id="syllabusFile" ng-model="class.syllabus">
         </div><br>
+
         <button type="submit" class="btn btn-primary" >{{ btnAction }}</button>
 
     </form>
@@ -36,9 +54,10 @@
                 </div>
                 <div class="modal-body">
                     <p><strong>{{class.name}}</strong></p>
-                    <p><strong>{{class.startdate | date:'shortDate'}}</strong> through <strong>{{class.enddate | date:'shortDate'}}</strong></p>
-                    <p>Class starts at <strong>{{class.starttime | time}}</strong></p>
-                    <p ng-show="{{class.syllabusFile}}">Link to Syllabus: <strong>{{class.syllabusfile}}</strong></p>
+                    <p><strong>{{class.start_date | date:'shortDate'}}</strong> - <strong>{{class.end_date | date:'shortDate'}}</strong></p>
+                    <p>On: <strong>{{ class.day | dayOfWeek }}</strong> at <strong>{{class.time | time}}</strong>
+                    <p>Located at: <strong>{{ class.location }}</strong>
+                    <p ng-show="{{class.syllabusFile}}">Link to Syllabus: <strong>{{class.syllabus}}</strong></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>

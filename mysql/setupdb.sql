@@ -71,14 +71,14 @@ CREATE  TABLE IF NOT EXISTS `InstituteSchema`.`studyCard` (
   `assignedBlock` TINYINT(1) NULL ,
   `notes` VARCHAR(10000) NULL ,
   `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-  `weekNum` INT NOT NULL ,
-  `students_id` INT UNSIGNED NOT NULL ,
+  `week_number` INT NOT NULL ,
+  `user_id` INT UNSIGNED NOT NULL ,
   `class_id` INT UNSIGNED NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_studyCard_students1_idx` (`students_id` ASC) ,
+  INDEX `fk_studyCard_students1_idx` (`user_id` ASC) ,
   INDEX `fk_studyCard_class1_idx` (`class_id` ASC) ,
   CONSTRAINT `fk_studyCard_students1`
-    FOREIGN KEY (`students_id` )
+    FOREIGN KEY (`user_id` )
     REFERENCES `InstituteSchema`.`students` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,

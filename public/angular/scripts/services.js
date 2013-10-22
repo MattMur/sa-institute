@@ -10,8 +10,8 @@ app.factory('exportCSV', function() {
         if (!users || users.length == 0) return;
         var csv = "First Name,Last Name,E-mail Address,Mobile Phone\n";
         for (var i=0; i < users.length; i++) {
-            csv += (users[i].firstname || '') +','
-                + (users[i].lastname || '') +','
+            csv += (users[i].first_name || '') +','
+                + (users[i].last_name || '') +','
                 + (users[i].email || '') +','
                 + (users[i].phone || '');
             csv += '\n';

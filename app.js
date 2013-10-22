@@ -3,7 +3,7 @@ var path = require('path');
 var app = express();
 
 var auth = require('./scripts/authentication');
-var user = require('./routes/users');
+var user = require('./routes/user');
 var teacher = require('./routes/teachers');
 var classSubject = require('./routes/class');
 var studyCard = require('./routes/studyCards');
@@ -65,6 +65,7 @@ app.del('/api/class/:id(\\d+)', auth.basicAuth(express, 2), classSubject.remove)
 
 
 
+
 // HTML Routes
 app.post('/login', auth.login);
 app.get('/logoff', auth.logoff);
@@ -109,9 +110,9 @@ app.get(/^\/admin/, function(req, res, next) {
     } else {
         // check that user has required access
         console.log('Sending to Admin');
-        console.log('Current AccessLvl: '+ req.session.accesslvl);
-        if (req.session.accesslvl < AdminAccess) {
-            res.status(403).send('HTTP 403 - user does not have required permissions'); // Not high enough accesslvl. Forbidden!!
+        console.log('Current access_level: '+ req.session.access_level);
+        if (req.session.access_level < AdminAccess) {
+            res.status(403).send('HTTP 403 - user does not have required permissions'); // Not high enough access_level. Forbidden!!
         } else {
             res.sendfile('public/angular/instituteapp.html', { maxAge : 3600 }, null);
         }

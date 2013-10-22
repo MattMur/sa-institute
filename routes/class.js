@@ -14,7 +14,7 @@ exports.getALL = function(req, res) {
     var query = squel.select().from('class'); // var queryStr = 'SELECT * FROM class';
 
     if (req.query.date) {  // Filter by classes that were active during the date given
-        query = query.where('? BETWEEN class.startdate AND class.enddate');  //filter += req.query.date ? ' WHERE ? BETWEEN class.startdate AND class.enddate' : "";
+        query = query.where('? BETWEEN class.start_date AND class.end_date');  //filter += req.query.date ? ' WHERE ? BETWEEN class.startdate AND class.enddate' : "";
         injects.push(req.query.date);
     }
     if (req.query.name) {  // Filter by name of class
@@ -53,7 +53,7 @@ exports.getOne = function(req, res, next) {
 
 exports.getTeachers = function(req, res, next) {
 
-    var queryStr = 'SELECT t.* FROM teachers t JOIN class_has_teachers cht ON t.id = cht.teachers_id WHERE cht.class_id = ?';
+    var queryStr = 'SELECT t.* FROM teacher t JOIN class_has_teachers cht ON t.id = cht.teachers_id WHERE cht.class_id = ?';
 
     sql.query(queryStr, req.params.id, function(err, rows) {
         if (err) {
@@ -68,12 +68,12 @@ exports.getTeachers = function(req, res, next) {
 
 exports.getStudents = function(req, res, next) {
 
-    var queryStr = 'SELECT * FROM students WHERE class_id = ?';
+    var queryStr = 'SELECT * FROM user WHERE class_id = ?';
 
     sql.query(queryStr, req.params.id, function(err, rows) {
         if (err) {
             console.log(err);
-            res.status(500).send('Could not get students');
+            res.status(500).send('Could not get users');
         } else {
             console.log('teachers for class are are: \n', JSON.stringify(rows));
             res.json(rows);

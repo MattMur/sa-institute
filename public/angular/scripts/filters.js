@@ -52,3 +52,11 @@ app.filter('truefalse', function() {
         return input ? 'True' : 'False';
     }
 });
+
+app.filter('dayOfWeek', function() {
+    return function(input) {
+            var i = parseInt(input);
+            var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            return days[i];
+    }
+});
