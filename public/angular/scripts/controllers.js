@@ -52,9 +52,9 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
     // Given a user, find the classes they are currently enrolled in
     // Abstracted for possible reuse in other controllers
     function getUserSchedule(user, callback) {
-        if (user.class_id){
-            console.log("user.class_id: " + user.class_id);
-            var url = '/api/class/' + user.class_id;
+        if (user.id){
+            console.log("user.id: " + user.id);
+            var url = '/api/users/' + user.id + '/class/';
             $http.get(url).success( function(data) {
                 user['class'] = data;
                 callback();

@@ -9,7 +9,7 @@ var mysql      = require('mysql');
 var db_config = {
     host     : '127.0.0.1',
     user     : 'root',
-    database : 'InstituteSchema'
+    database : 'institute'
 };
 
 console.log('Creating new SQL connection');

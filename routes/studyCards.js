@@ -67,7 +67,9 @@ exports.createNew = function(req, res) {
                 // Calculate difference in weeks to get current week number
                 var startdate = new Date(result[0].startdate);
                 var week_number = (Date.today().getWeek() - startdate.getWeek()) + 1;
+                var created_date = Date.today();
                 req.body.week_number = week_number; // Add one to get current week
+                req.body.created_date = created_date;
                 console.log('Current Week: ' + JSON.stringify(req.body.week_number));
                 console.log("Studycard json: " + JSON.stringify(req.body));
 

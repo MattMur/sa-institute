@@ -42,6 +42,7 @@ app.get('/api/users/:id(\\d+)/studycards', auth.basicAuth(express, 1), user.getU
 app.post('/api/users', user.createNew); // No auth needed to create new user
 app.put('/api/users/:id(\\d+)', auth.basicAuth(express, 1), user.modify);
 app.del('/api/users/:id(\\d+)', auth.basicAuth(express, 2), user.remove);
+app.get('/api/users/:id(\\d+)/class', auth.basicAuth(express, 1), user.getUserClass);
 
 app.get('/api/studycards', auth.basicAuth(express, 1), studyCard.getAll);
 app.get('/api/studycards/:id(\\d+)', auth.basicAuth(express, 1), studyCard.getOne)

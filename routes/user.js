@@ -24,7 +24,7 @@ exports.getOne = function(req, res, next) {
 
     if (isAuthorized) {
 
-        var queryStr = 'SELECT first_name, last_name, email, phone, class_id, access_level FROM user WHERE id = ?';
+        var queryStr = 'SELECT first_name, last_name, email, phone, access_level FROM user WHERE id = ?';
 
         sql.query(queryStr, req.params.id, function(err, rows) {
             if (err) {
@@ -40,6 +40,34 @@ exports.getOne = function(req, res, next) {
         res.send(403); // Send 403 if user ids do not match
     }
 };
+exports.getUserClass = function(req, res, next) {
+    console.log('Checking access:', req.params.id, req.session.userid);
+    var isAuthorized = (req.session.access_level == 2) || (req.params.id == req.session.userid);
+
+    if (isAuthorized) {
+
+        var queryStr = 'SELECT * FROM class ' + 
+        'LEFT JOIN user_enrolled_in_class ON class.id = user_enrolled_in_class.class_id ' +
+        'LEFT JOIN user ON user.id = user_enrolled_in_class.user_id WHERE user.id = ? ' +
+        'ORDER BY user_enrolled_in_class.enrolled_date DESC ' +
+        'LIMIT 1;';
+
+        sql.query(queryStr, req.params.id, function(err, rows) {
+            if (err) {
+                console.log(err);
+                res.send(500);
+            } else {
+                var response = rows.length == 1 ? rows[0] : {};
+                res.json(response);
+            }
+        });
+    } else {
+        console.log('Access denied for request');
+        res.send(403); 
+    }
+};
+
+
 
 // Get all the studycards that belong to the user
 exports.getUserStudyCards = function(req, res, next) {
