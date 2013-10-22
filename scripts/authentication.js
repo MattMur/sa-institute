@@ -21,7 +21,8 @@ exports.login = function (req, res, next) {
             req.session.userid = user.id;
             req.session.accesslvl = user.accesslvl;
 
-            res.status(200).send(user.id.toString());
+            var responseObj = {id : user.id}; // Send the user id as the response
+            res.status(200).send(responseObj);
         } else {
             res.send(401); // Not authorized
         }

@@ -74,8 +74,6 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
         window.location = '/logoff';
     }
 
-
-
     //$scope.menuItems = userMenuItems;
 
     // Listen for even $routeChangeSuccess(url change), then change admin portal link

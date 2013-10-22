@@ -42,7 +42,7 @@ app.controller('LoginCntrl', function($scope, $http, $cookies, $location) {
     $scope.login = function() {
         login($http, $scope.user, $scope.pass, function(data) {
             //Set cookie so we remember who they are
-            $cookies.userid = data;
+            $cookies.userid = data.id;
         });
     };
 

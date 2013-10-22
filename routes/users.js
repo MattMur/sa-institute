@@ -2,7 +2,7 @@ var sql = require('../scripts/sqlconn');
 
 exports.getAll = function(req, res, next) {
 
-    sql.query('SELECT * FROM students ORDER BY lastname', function(err, rows) {
+    sql.query('SELECT id, firstname, lastname, email, phone, class_id, accesslvl FROM students ORDER BY lastname', function(err, rows) {
         if (err) {
             console.log(err);
             res.send(500);
@@ -24,7 +24,7 @@ exports.getOne = function(req, res, next) {
 
     if (isAuthorized) {
 
-        var queryStr = 'SELECT firstname, lastname, email, phone, class_id, accesslvl FROM students WHERE id = ?';
+        var queryStr = 'SELECT id, firstname, lastname, email, phone, class_id, accesslvl FROM students WHERE id = ?';
 
         sql.query(queryStr, req.params.id, function(err, rows) {
             if (err) {
