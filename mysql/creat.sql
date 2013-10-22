@@ -10,12 +10,17 @@
 	(0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'),
 	(3, 'Thursday'),(4, 'Friday'),(5, 'Saturday');
 */
+USE InstituteSchema;
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS allowed_days;
 CREATE TABLE allowed_days (
   id TINYINT UNSIGNED NOT NULL,
   day VARCHAR(15) NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 
+DROP TABLE IF EXISTS class;
 CREATE TABLE class (
 	id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	name VARCHAR(45) NOT NULL,
@@ -29,6 +34,7 @@ CREATE TABLE class (
 	FOREIGN KEY (day) REFERENCES allowed_days(id)
 ) ENGINE=INNODB;
 
+DROP TABLE IF EXISTS study_card;
 CREATE TABLE study_card (
     id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     frequency INT(11) NOT NULL,
@@ -47,6 +53,7 @@ CREATE TABLE study_card (
     FOREIGN KEY (class_id) REFERENCES class(id) ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE=INNODB;
 
+DROP TABLE IF EXISTS user;
 CREATE TABLE user (
 	id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	first_name VARCHAR(45) NOT NULL,
@@ -60,5 +67,7 @@ CREATE TABLE user (
 	PRIMARY KEY (id),
 	FOREIGN KEY (class_id) REFERENCES class(id) ON UPDATE CASCADE ON DELETE RESTRICT
 ) ENGINE=INNODB;
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 
