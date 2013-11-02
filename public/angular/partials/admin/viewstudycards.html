@@ -3,6 +3,8 @@
 
     <br>
     <div class="alert alert-info" ng-hide="studyCardArray.length > 0">No study cards yet.</div>
+
+    <!-- CLASS AVERAGE -->
     <div class="panel panel-info" ng-show="studyCardArray.length > 0" ng-cloak>
         <div class="panel-heading">
             <h3 class="panel-title">Class Averages</h3>
@@ -10,12 +12,16 @@
         <div class="panel-body">
             <ul class="flowlist">
                 <li>Frequency: <strong>{{ classAverages.frequency }}</strong></li>
-                <li>Quality: <strong>{{ classAverages.quality }}</strong></li>
+                <li style="display: inline-block">Prepare: <strong>{{ classAverages.percentPrepare }}%</strong></li>
+                <li style="display: inline-block">Seek: <strong>{{ classAverages.percentSeek }}%</strong></li>
+                <li style="display: inline-block">Do: <strong>{{ classAverages.percentDo }}%</strong></li>
+                <li style="display: inline-block">Teach: <strong>{{ classAverages.percentTeach }}%</strong></li>
                 <li>Read Assigned Block: <strong>{{ classAverages.percentRead }}%</strong></li>
             </ul>
         </div>
     </div>
 
+    <!-- WEEKLY AVERAGES -->
     <div class="panel-group" id="accordion" ng-cloak>
         <div class="panel panel-default" ng-repeat="studyCards in studyCardArray">
             <div class="panel-heading">
@@ -29,7 +35,10 @@
                     <ul class="flowlist">
                         <li>Total: <strong>{{ weekAvg[$index].numCards }}</strong></li>
                         <li>Frequency: <strong>{{ weekAvg[$index].frequency }}</strong> (avg)</li>
-                        <li>Quality: <strong>{{ weekAvg[$index].quality }}</strong> (avg)</li>
+                        <li style="display: inline-block">Prepare: <strong>{{ weekAvg[$index].percentPrepare }}%</strong></li>
+                        <li style="display: inline-block">Seek: <strong>{{ weekAvg[$index].percentSeek }}%</strong></li>
+                        <li style="display: inline-block">Do: <strong>{{ weekAvg[$index].percentDo }}%</strong></li>
+                        <li style="display: inline-block">Teach: <strong>{{ weekAvg[$index].percentTeach }}%</strong></li>
                         <li>Read Assigned Block: <strong>{{ weekAvg[$index].percentRead }}%</strong></li>
                     </ul>
                 </div><!-- \.panel-body -->

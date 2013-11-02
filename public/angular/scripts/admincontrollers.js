@@ -203,21 +203,31 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
 
     // Return an object that has all the statistics on it
     var calculateAvg = function(studyCards) {
+        //console.log('studycards: ' + studyCards);
         if (studyCards) {
-            var totalFreq = 0, totalQuality= 0, totalReadBlock = 0;
+            var totalFreq = 0, totalPrepare = 0, totalSeek = 0, totalDo = 0, totalTeach = 0, totalReadBlock = 0;
 
             for (var i=0; i < studyCards.length; i++) {
+                //console.log('studycard'+i+': '+ JSON.stringify(studyCards[i]));
                 totalFreq += studyCards[i].frequency;
-                totalQuality += studyCards[i].quality;
-                totalReadBlock += studyCards[i].assignedBlock; // JS converts true/false to 1/0 respectively
+                totalPrepare += studyCards[i].prepare;
+                totalSeek += studyCards[i].seek;
+                totalDo += studyCards[i].do;
+                totalTeach += studyCards[i].teach;
+                totalReadBlock += studyCards[i].block; // JS converts true/false to 1/0 respectively
             }
 
             var averages = {};
             averages.numCards = studyCards.length;
-            averages.frequency = Math.round((totalFreq / studyCards.length) *100)/100;
-            averages.quality = Math.round( (totalQuality / studyCards.length) * 100) / 100;
-            averages.percentRead = Math.round((totalReadBlock / studyCards.length) * 100);
+            console.log('NumCards: ' +averages.numCards);
+            averages.frequency = Math.round((totalFreq / averages.numCards) *100)/100;
+            averages.percentPrepare = Math.round((totalPrepare / averages.numCards) * 100);
+            averages.percentSeek = Math.round((totalSeek / averages.numCards) * 100);
+            averages.percentDo = Math.round((totalDo / averages.numCards) * 100);
+            averages.percentTeach = Math.round((totalTeach / averages.numCards) * 100);
+            averages.percentRead = Math.round((totalReadBlock / averages.numCards) * 100);
 
+            console.log('Averages: '+ JSON.stringify(averages));
             return averages;
         }
 

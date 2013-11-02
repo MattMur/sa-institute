@@ -28,7 +28,7 @@ INSERT INTO class
 
 INSERT INTO user 
 	(first_name, last_name, email, phone, password, access_level) VALUES
-	('Matt', 'Murray', 'mattmurray@gmail.com', '210-555-5555', 'password', 2),
+	('Matt', 'Murray', 'mattm.trinsic@gmail.com', '210-555-5555', 'test1', 2),
 	('Spencer', 'Carlson', 'spencercarlson@gmail.com', '210-555-5555', 'password', 2),
 	('Teacher', '', 'teacher@gmail.com', '210-555-5555', 'password', 2),
 	('Teacher', 'one', 'teacherone@gmail.com', '210-555-5555', 'password', 2),
