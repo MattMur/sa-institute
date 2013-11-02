@@ -1,31 +1,27 @@
-USE InstituteSchema;
-/* Teachers Teaching Which Classes */
-SELECT 
-	t.firstname,
-	t.lastname,
-	c.name,
-	c.semester,
-	c.startdate,
-	c.enddate
-FROM 
-	teachers t
-JOIN class_has_teachers cht ON t.id = cht.teachers_id 
-JOIN class c ON c.id = cht.class_id;
+/* GET THE LAST CLASS THAT THE STUDENT HAS ENROLLED IN */ 
+SELECT * FROM class
+	LEFT JOIN user_enrolled_in_class ON class.id = user_enrolled_in_class.class_id
+	LEFT JOIN user ON user.id = user_enrolled_in_class.user_id
+	WHERE user.id = ? 
+	ORDER BY user_enrolled_in_class.enrolled_date DESC
+	LIMIT 1;
 
-/* Class roster */
-SELECT
-	c.name,
-	t.firstname,
-	t.lastname,
-	c.semester,
-	c.startdate,
-	c.enddate,
-	s.firstname,
-	s.lastname
-	
-FROM
-	students s
+/* GET ALL THE CLASSES A USER IS ENROLLED IN */
+SELECT * FROM class
+	LEFT JOIN user_enrolled_in_class ON class.id = user_enrolled_in_class.class_id
+	LEFT JOIN user ON user.id = user_enrolled_in_class.user_id
+	WHERE user.id = ?;
 
-LEFT JOIN class c on s.class_id = c.id
-LEFT JOIN (class_has_teachers cht, teachers t) ON (cht.teachers_id = t.id AND c.id = cht.class_id);
+/* GET ALL THE USERS IN A GIVEN CLASS */
+SELECT * FROM user 
+     LEFT JOIN user_enrolled_in_class ON user.id = user_enrolled_in_class.user_id 
+     LEFT JOIN class ON class.id = user_enrolled_in_class.class_id 
+     WHERE class.id = ?
 
+/* GET ALL THE CLASSES THAT A TEACHER IS TEACHING */
+SELECT * FROM class
+	LEFT JOIN user_teaches_class ON class.id = user_teaches_class.class_id
+	LEFT JOIN user ON user.id = user_teaches_class.user_id
+	WHERE user.id = ?;
+
+/* GET ALL THE USERS IN A CLASS TAUGHT BY AN INSTRUCTOR */

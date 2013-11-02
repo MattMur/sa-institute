@@ -75,7 +75,6 @@ app.controller('AdminViewClassesCntrl', function ($scope, $http) {
 });
 
 app.controller('AdminNewClassCntrl', function($scope, $http, $location) {
-
     $scope.action = "Add";  //title
     $scope.btnAction = "Submit";
     $scope.modalTitle = "Class Details";
@@ -115,9 +114,8 @@ app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams, $loc
 
         // Format dates
         var dateformat = "yyyy-MM-ddTHH:mm:ss.000Z";
-        classObj.startdate = Date.parseExact(classObj.startdate, dateformat).toString('yyyy-MM-dd');
-        classObj.enddate = Date.parseExact(classObj.enddate, dateformat).toString('yyyy-MM-dd');
-
+        classObj.start_date = Date.parseExact(classObj.start_date, dateformat).toString('yyyy-MM-dd');
+        classObj.end_date = Date.parseExact(classObj.end_date, dateformat).toString('yyyy-MM-dd');
         console.log(JSON.stringify(classObj));
         $scope.class = classObj;
 
@@ -165,19 +163,19 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
         var index = -1, studycard, studyCardsByWeek = [], curWeek = 0; // Array of Arrays of Studycards
 
         if (studycards.length > 0) {
-            // File cards into StudyCardArray by weekNumber
+            // File cards into StudyCardArray by week_numberber
             for (var i = 0; i < studycards.length; i++) {
 
                 studycard = studycards[i];
-                //console.log('card#: ' + (i+1) + ' week: ' + studycard.weekNum + ' currentWeek: '+curWeek);
-                if (curWeek >= studycard.weekNum) { // if current studycard belongs to current week
+                //console.log('card#: ' + (i+1) + ' week: ' + studycard.week_number + ' currentWeek: '+curWeek);
+                if (curWeek >= studycard.week_number) { // if current studycard belongs to current week
                     studyCardsByWeek[index].push(studycard); // Add studycard to that week's array
                 } else {
                     // Else move to next week  (where we have card data for that week)
-                    //console.log('Going to week ' + studycard.weekNum);
+                    //console.log('Going to week ' + studycard.week_number);
                     var newWeek = [studycard]; // create new array for new week
-                    newWeek.weekNum = studycard.weekNum;
-                    curWeek = studycard.weekNum;
+                    newWeek.week_number = studycard.week_number;
+                    curWeek = studycard.week_number;
                     studyCardsByWeek[++index] = newWeek;
                 }
             }
@@ -205,21 +203,31 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
 
     // Return an object that has all the statistics on it
     var calculateAvg = function(studyCards) {
+        //console.log('studycards: ' + studyCards);
         if (studyCards) {
-            var totalFreq = 0, totalQuality= 0, totalReadBlock = 0;
+            var totalFreq = 0, totalPrepare = 0, totalSeek = 0, totalDo = 0, totalTeach = 0, totalReadBlock = 0;
 
             for (var i=0; i < studyCards.length; i++) {
+                //console.log('studycard'+i+': '+ JSON.stringify(studyCards[i]));
                 totalFreq += studyCards[i].frequency;
-                totalQuality += studyCards[i].quality;
-                totalReadBlock += studyCards[i].assignedBlock; // JS converts true/false to 1/0 respectively
+                totalPrepare += studyCards[i].prepare;
+                totalSeek += studyCards[i].seek;
+                totalDo += studyCards[i].do;
+                totalTeach += studyCards[i].teach;
+                totalReadBlock += studyCards[i].block; // JS converts true/false to 1/0 respectively
             }
 
             var averages = {};
             averages.numCards = studyCards.length;
-            averages.frequency = Math.round((totalFreq / studyCards.length) *100)/100;
-            averages.quality = Math.round( (totalQuality / studyCards.length) * 100) / 100;
-            averages.percentRead = Math.round((totalReadBlock / studyCards.length) * 100);
+            console.log('NumCards: ' +averages.numCards);
+            averages.frequency = Math.round((totalFreq / averages.numCards) *100)/100;
+            averages.percentPrepare = Math.round((totalPrepare / averages.numCards) * 100);
+            averages.percentSeek = Math.round((totalSeek / averages.numCards) * 100);
+            averages.percentDo = Math.round((totalDo / averages.numCards) * 100);
+            averages.percentTeach = Math.round((totalTeach / averages.numCards) * 100);
+            averages.percentRead = Math.round((totalReadBlock / averages.numCards) * 100);
 
+            console.log('Averages: '+ JSON.stringify(averages));
             return averages;
         }
 
@@ -235,18 +243,18 @@ app.controller('AdminViewCommentsCntrl', function($scope, $http, $routeParams) {
         var index = -1, comment, commentsByWeek = [], curWeek = 0; // Array of Arrays of Studycards
 
         if (commentsJson.length > 0) {
-            // File cards into StudyCardArray by weekNumber
+            // File cards into StudyCardArray by week_numberber
             for (var i = 0; i < commentsJson.length; i++) {
 
                 comment = commentsJson[i];
-                //console.log('card#: ' + (i+1) + ' week: ' + studycard.weekNum + ' currentWeek: '+curWeek);
-                if (curWeek >= comment.weekNum) { // if current studycard belongs to current week
+                //console.log('card#: ' + (i+1) + ' week: ' + studycard.week_number + ' currentWeek: '+curWeek);
+                if (curWeek >= comment.week_number) { // if current studycard belongs to current week
                     commentsByWeek[index].push(comment); // Add comment to that week's array
                 } else {
                     // Else move to next week  (where we have comment for that week)
                     var newWeek = [comment]; // create new array for new week
-                    newWeek.weekNum = comment.weekNum;
-                    curWeek = comment.weekNum;
+                    newWeek.week_number = comment.week_number;
+                    curWeek = comment.week_number;
                     commentsByWeek[++index] = newWeek;
                 }
             }
@@ -266,7 +274,7 @@ app.controller('AdminViewUsersCntrl', function($scope, $http, exportCSV) {
         $scope.admin = [];
         $scope.students = [];
         for (var i = 0; i < users.length; i++) {
-            if (users[i].accesslvl == 2) {
+            if (users[i].access_level == 2) {
                 $scope.admin.push(users[i]);
             } else {
                 $scope.students.push(users[i]);
@@ -307,7 +315,7 @@ app.controller('AdminViewUsersCntrl', function($scope, $http, exportCSV) {
     };
 
     var promote = function(user) {
-        user.accesslvl = 2;  // Give user admin access. This is uploaded to server as put request.
+        user.access_level = 2;  // Give user admin access. This is uploaded to server as put request.
         $http.put('/api/users/'+user.id, user).success(function(data) {
             $scope.students.removeItem(user);
             $scope.admin.push(user);
@@ -318,7 +326,7 @@ app.controller('AdminViewUsersCntrl', function($scope, $http, exportCSV) {
         });
     };
     var demote = function(user) {
-        user.accesslvl = 1;  // Give user lvl 1 access. This is uploaded to server as put request.
+        user.access_level = 1;  // Give user lvl 1 access. This is uploaded to server as put request.
         $http.put('/api/users/'+user.id, user).success(function(data) {
             $scope.students.push(user);
             $scope.admin.removeItem(user);
@@ -330,7 +338,7 @@ app.controller('AdminViewUsersCntrl', function($scope, $http, exportCSV) {
     };
     var deleteUser = function(user) {
         $http.delete('/api/users/'+user.id).success(function(data) {
-            if (user.accesslvl == 2) {
+            if (user.access_level == 2) {
                 $scope.admin.removeItem(user);
             } else {
                 $scope.students.removeItem(user);

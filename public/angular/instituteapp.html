@@ -30,9 +30,9 @@
             <div class="navbar-collapse collapse">  
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown">{{ user.firstname }}<b class="caret"></b></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown">{{ user.first_name }}<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li ng-show="user.accesslvl > 1 &amp;&amp; !isLocationAdmin"><a href="/admin">Admin</a></li>
+                            <li ng-show="user.access_level > 1 &amp;&amp; !isLocationAdmin"><a href="/admin">Admin</a></li>
                             <li ng-show="isLocationAdmin"><a href="/">Student View</a></li>
                             <li><a ng-click="logoff()">Log out</a></li>
                         </ul><!-- /.dropdown-menu -->

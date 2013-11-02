@@ -3,7 +3,7 @@ var path = require('path');
 var app = express();
 
 var auth = require('./scripts/authentication');
-var user = require('./routes/users');
+var user = require('./routes/user');
 var teacher = require('./routes/teachers');
 var classSubject = require('./routes/class');
 var studyCard = require('./routes/studyCards');
@@ -42,6 +42,7 @@ app.get('/api/users/:id(\\d+)/studycards', auth.basicAuth(express, 1), user.getU
 app.post('/api/users', user.createNew); // No auth needed to create new user
 app.put('/api/users/:id(\\d+)', auth.basicAuth(express, 1), user.modify);
 app.del('/api/users/:id(\\d+)', auth.basicAuth(express, 2), user.remove);
+app.get('/api/users/:id(\\d+)/class', auth.basicAuth(express, 1), user.getUserClass);
 
 app.get('/api/studycards', auth.basicAuth(express, 1), studyCard.getAll);
 app.get('/api/studycards/:id(\\d+)', auth.basicAuth(express, 1), studyCard.getOne)
@@ -62,6 +63,7 @@ app.get('/api/class/:id(\\d+)/students', auth.basicAuth(express, 1), classSubjec
 app.post('/api/class', auth.basicAuth(express, 2), classSubject.createNew);
 app.put('/api/class/:id(\\d+)', auth.basicAuth(express, 2), classSubject.modify);
 app.del('/api/class/:id(\\d+)', auth.basicAuth(express, 2), classSubject.remove);
+
 
 
 
@@ -109,9 +111,9 @@ app.get(/^\/admin/, function(req, res, next) {
     } else {
         // check that user has required access
         console.log('Sending to Admin');
-        console.log('Current AccessLvl: '+ req.session.accesslvl);
-        if (req.session.accesslvl < AdminAccess) {
-            res.status(403).send('HTTP 403 - user does not have required permissions'); // Not high enough accesslvl. Forbidden!!
+        console.log('Current access_level: '+ req.session.access_level);
+        if (req.session.access_level < AdminAccess) {
+            res.status(403).send('HTTP 403 - user does not have required permissions'); // Not high enough access_level. Forbidden!!
         } else {
             res.sendfile('public/angular/instituteapp.html', { maxAge : 3600 }, null);
         }

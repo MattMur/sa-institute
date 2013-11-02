@@ -2,7 +2,7 @@ var sql = require('../scripts/sqlconn');
 
 exports.getAll = function(req, res, next) {
 
-    sql.query('SELECT id, firstname, lastname, email, phone, class_id, accesslvl FROM students ORDER BY lastname', function(err, rows) {
+    sql.query('SELECT id, firstname, lastname, email, phone, class_id, accesslvl FROM user ORDER BY last_name', function(err, rows) {
         if (err) {
             console.log(err);
             res.send(500);
@@ -20,11 +20,11 @@ exports.getOne = function(req, res, next) {
     // We do have session, however we need to check if user has access to requested resource
     // check that the user_id is the same as the requested user_id
     console.log('Checking access:', req.params.id, req.session.userid);
-    var isAuthorized = (req.session.accesslvl == 2) || (req.params.id == req.session.userid);
+    var isAuthorized = (req.session.access_level == 2) || (req.params.id == req.session.userid);
 
     if (isAuthorized) {
 
-        var queryStr = 'SELECT id, firstname, lastname, email, phone, class_id, accesslvl FROM students WHERE id = ?';
+        var queryStr = 'SELECT id, firstname, lastname, email, phone, class_id, accesslvl FROM user WHERE id = ?';
 
         sql.query(queryStr, req.params.id, function(err, rows) {
             if (err) {
@@ -40,6 +40,34 @@ exports.getOne = function(req, res, next) {
         res.send(403); // Send 403 if user ids do not match
     }
 };
+exports.getUserClass = function(req, res, next) {
+    console.log('Checking access:', req.params.id, req.session.userid);
+    var isAuthorized = (req.session.access_level == 2) || (req.params.id == req.session.userid);
+
+    if (isAuthorized) {
+
+        var queryStr = 'SELECT * FROM class ' + 
+        'LEFT JOIN user_enrolled_in_class ON class.id = user_enrolled_in_class.class_id ' +
+        'LEFT JOIN user ON user.id = user_enrolled_in_class.user_id WHERE user.id = ? ' +
+        'ORDER BY user_enrolled_in_class.enrolled_date DESC ' +
+        'LIMIT 1;';
+
+        sql.query(queryStr, req.params.id, function(err, rows) {
+            if (err) {
+                console.log(err);
+                res.send(500);
+            } else {
+                var response = rows.length == 1 ? rows[0] : {};
+                res.json(response);
+            }
+        });
+    } else {
+        console.log('Access denied for request');
+        res.send(403); 
+    }
+};
+
+
 
 // Get all the studycards that belong to the user
 exports.getUserStudyCards = function(req, res, next) {
@@ -48,7 +76,7 @@ exports.getUserStudyCards = function(req, res, next) {
     var isAuthorized = req.params.id == req.session.userid;
     if (isAuthorized) {
 
-        var queryStr = 'SELECT sc.* FROM studycard sc WHERE sc.students_id = ? ORDER BY sc.weekNum';
+        var queryStr = 'SELECT sc.* FROM study_card sc WHERE sc.user_id = ? ORDER BY sc.week_number';
         sql.query(queryStr, req.params.id, function(err, rows) {
             if (err) {
                 console.log(err);
@@ -68,9 +96,9 @@ exports.getUserStudyCards = function(req, res, next) {
 exports.createNew = function(req, res, next) {
 
     // Add default access level to user
-    req.body.accesslvl = 1;
+    req.body.access_level = 1;
     console.log(JSON.stringify(req.body));
-    sql.query('INSERT INTO students SET ?', req.body, function(err, result) {
+    sql.query('INSERT INTO user SET ?', req.body, function(err, result) {
         if (err) {
             console.log(err);
             res.send(500);
@@ -85,7 +113,7 @@ exports.createNew = function(req, res, next) {
 // READ UP ON CASCADING DELETES
 exports.remove  = function(req, res, next) {
 
-        sql.query('DELETE FROM students WHERE students.id = ?', req.params.id, function(err, result) {
+        sql.query('DELETE FROM user WHERE user.id = ?', req.params.id, function(err, result) {
             if (err) {
                 console.log("mysql err: " + err);
                 res.send(500);
@@ -101,9 +129,9 @@ exports.modify  = function(req, res, next) {
     delete req.body.id; // We don't want to allow modification of id
 
     // Either you are admin, or you are the user you want to modify
-    var isAuthorized = (req.session.accesslvl == 2) || (req.params.id == req.session.userid);
+    var isAuthorized = (req.session.access_level == 2) || (req.params.id == req.session.userid);
     if (isAuthorized) {
-        sql.query('UPDATE students SET ? WHERE students.id = ?', [req.body,  req.params.id], function(err, result) {
+        sql.query('UPDATE user SET ? WHERE user.id = ?', [req.body,  req.params.id], function(err, result) {
             if (err) {
                 console.log("mysql err: " + err);
                 res.send(500);

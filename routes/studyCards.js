@@ -12,10 +12,10 @@ require('../public/js/lib/date');
 exports.getAll = function(req, res, next) {
 
     var isAuthorized, injects = [];  // array of parameters injected into query
-    var query = squel.select().from('studyCard'); // squel object is used to flexibly build SQL statement
+    var query = squel.select().from('study_card'); // squel object is used to flexibly build SQL statement
     query = filterByParams(req, query, injects);
     isAuthorized = checkIsAuthorized(req, query, injects);
-    query = query.order('weekNum');
+    query = query.order('week_number');
 
     console.log('StudyCard query: ' + query);
     console.log('inject: ' + JSON.stringify(injects));
@@ -39,7 +39,7 @@ exports.getAll = function(req, res, next) {
 };
 
 exports.getOne = function(req, res) {
-    sql.query('SELECT * FROM studyCard WHERE id = ?', req.params.id, function(err, rows) {
+    sql.query('SELECT * FROM study_card WHERE id = ?', req.params.id, function(err, rows) {
         if (err) {
             console.log(err);
             res.send(500);
@@ -57,8 +57,8 @@ exports.createNew = function(req, res) {
     //{"class_id":"1","frequency":"3","quality":"4","block":"","thoughts":" "}
     if (req.body) {
 
-        //Find the current weekNum. Get startdate from the class they selected
-        sql.query('SELECT startdate FROM class WHERE id=? LIMIT 1', req.body.class_id, function(err, result) {
+        //Find the current week_number. Get startdate from the class they selected
+        sql.query('SELECT start_date FROM class WHERE id=? LIMIT 1', req.body.class_id, function(err, result) {
             if (err) {
                 console.log(err);
                 res.send(500);
@@ -66,13 +66,15 @@ exports.createNew = function(req, res) {
 
                 // Calculate difference in weeks to get current week number
                 var startdate = new Date(result[0].startdate);
-                var weekNum = (Date.today().getWeek() - startdate.getWeek()) + 1;
-                req.body.weekNum = weekNum; // Add one to get current week
-                console.log('Current Week: ' + JSON.stringify(req.body.weekNum));
+                var week_number = (Date.today().getWeek() - startdate.getWeek()) + 1;
+                var created_date = Date.today();
+                req.body.week_number = week_number; // Add one to get current week
+                req.body.created_date = created_date;
+                console.log('Current Week: ' + JSON.stringify(req.body.week_number));
                 console.log("Studycard json: " + JSON.stringify(req.body));
 
                 // Insert new card into database
-                sql.query('INSERT INTO studyCard SET ?', req.body, function(err, result) {
+                sql.query('INSERT INTO study_card SET ?', req.body, function(err, result) {
                     if (err) {
                         console.log(err);
                         res.send(500);
@@ -88,7 +90,7 @@ exports.createNew = function(req, res) {
 
 exports.remove = function(req, res) {
 
-    sql.query('DELETE FROM studyCard WHERE id = ?', req.params.id, function(err, result) {
+    sql.query('DELETE FROM study_card WHERE id = ?', req.params.id, function(err, result) {
         if (err) {
             console.log(err);
             res.send(500);
@@ -102,12 +104,12 @@ exports.remove = function(req, res) {
 // Get all NOTES from all study cards. Then filter by query parameters.
 exports.getNotes = function(req, res) {
     console.log('Hi Mom!');
-    var query = squel.select().field('id').field('notes').field('weekNum').from('studyCard').where('notes IS NOT NULL');
+    var query = squel.select().field('id').field('notes').field('week_number').from('study_card').where('notes IS NOT NULL');
     var isAuthorized, injects = [];  // array of parameters injected into query
 
     query = filterByParams(req, query, injects);
     isAuthorized = checkIsAuthorized(req, query, injects);
-    query = query.order('weekNum');
+    query = query.order('week_number');
     console.log('Comments query: ' + query.toString());
 
     if (isAuthorized) {
@@ -139,10 +141,10 @@ function filterByParams(req, query, injects) {
 
     // Start and end date range filter
     if (req.query.startdate && req.query.enddate) {
-        query = query.where('studyCard.date BETWEEN ? AND ?');
+        query = query.where('study_card.date BETWEEN ? AND ?');
         injects.push(req.query.startdate, req.query.enddate);
     } else if (req.query.enddate) {
-        query = query.where('studyCard.date=?');
+        query = query.where('study_card.date=?');
         injects.push(req.query.enddate);
     }
 
@@ -153,7 +155,7 @@ function filterByParams(req, query, injects) {
         if (match.length > 1) { // index 0 is always the full match, next are capture groups
             var start = match[1];
             var end = match[2] || start;
-            query = query.where('weekNum BETWEEN '+start+' AND '+end);
+            query = query.where('week_number BETWEEN '+start+' AND '+end);
         }
     }
     return query;
@@ -164,15 +166,15 @@ function checkIsAuthorized(req, query, injects) {
     var isAuthorized = true;
     if (req.query.user) {
         isAuthorized = req.session.userid == req.query.user; //You can't get cards for someone other than yourself
-        query = query.where('students_id=?');
+        query = query.where('user_id=?');
         injects.push(req.query.user);
     } else { // you don't have userid so request is for ALL studycards. We need to verify admin access for that.
         if (!req.session) {
             isAuthorized = false;
         }
-        else if (req.session.accesslvl < 2) {
+        else if (req.session.access_level < 2) {
             // If request doesn't have admin then we just get studycards matching their session userid
-            query = query.where('students_id=?');
+            query = query.where('user_id=?');
             injects.push(req.session.userid);
         }
     }

@@ -979,10 +979,10 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
       if (attrs.showWeeks) {
         scope.$parent.$watch($parse(attrs.showWeeks), function(value) {
           showWeeks = !! value;
-          updateShowWeekNumbers();
+          updateShowweek_numberbers();
         });
       } else {
-        updateShowWeekNumbers();
+        updateShowweek_numberbers();
       }
 
       if (attrs.min) {
@@ -998,8 +998,8 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
         });
       }
 
-      function updateShowWeekNumbers() {
-        scope.showWeekNumbers = mode === 0 && showWeeks;
+      function updateShowweek_numberbers() {
+        scope.showweek_numberbers = mode === 0 && showWeeks;
       }
 
       // Split array into smaller arrays
@@ -1040,7 +1040,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
 
       function setMode(value) {
         mode = value;
-        updateShowWeekNumbers();
+        updateShowweek_numberbers();
         refill();
       }
 
@@ -1068,11 +1068,11 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.position'])
       scope.toggleMode = function() {
         setMode( (mode + 1) % datepickerCtrl.modes.length );
       };
-      scope.getWeekNumber = function(row) {
-        return ( mode === 0 && scope.showWeekNumbers && row.length === 7 ) ? getISO8601WeekNumber(row[0].date) : null;
+      scope.getweek_numberber = function(row) {
+        return ( mode === 0 && scope.showweek_numberbers && row.length === 7 ) ? getISO8601week_numberber(row[0].date) : null;
       };
 
-      function getISO8601WeekNumber(date) {
+      function getISO8601week_numberber(date) {
         var checkDate = new Date(date);
         checkDate.setDate(checkDate.getDate() + 4 - (checkDate.getDay() || 7)); // Thursday
         var time = checkDate.getTime();
@@ -3365,17 +3365,17 @@ angular.module("template/datepicker/datepicker.html", []).run(["$templateCache",
     "  <thead>\n" +
     "    <tr class=\"text-center\">\n" +
     "      <th><button type=\"button\" class=\"btn pull-left\" ng-click=\"move(-1)\"><i class=\"icon-chevron-left\"></i></button></th>\n" +
-    "      <th colspan=\"{{rows[0].length - 2 + showWeekNumbers}}\"><button type=\"button\" class=\"btn btn-block\" ng-click=\"toggleMode()\"><strong>{{title}}</strong></button></th>\n" +
+    "      <th colspan=\"{{rows[0].length - 2 + showweek_numberbers}}\"><button type=\"button\" class=\"btn btn-block\" ng-click=\"toggleMode()\"><strong>{{title}}</strong></button></th>\n" +
     "      <th><button type=\"button\" class=\"btn pull-right\" ng-click=\"move(1)\"><i class=\"icon-chevron-right\"></i></button></th>\n" +
     "    </tr>\n" +
     "    <tr class=\"text-center\" ng-show=\"labels.length > 0\">\n" +
-    "      <th ng-show=\"showWeekNumbers\">#</th>\n" +
+    "      <th ng-show=\"showweek_numberbers\">#</th>\n" +
     "      <th ng-repeat=\"label in labels\">{{label}}</th>\n" +
     "    </tr>\n" +
     "  </thead>\n" +
     "  <tbody>\n" +
     "    <tr ng-repeat=\"row in rows\">\n" +
-    "      <td ng-show=\"showWeekNumbers\" class=\"text-center\"><em>{{ getWeekNumber(row) }}</em></td>\n" +
+    "      <td ng-show=\"showweek_numberbers\" class=\"text-center\"><em>{{ getweek_numberber(row) }}</em></td>\n" +
     "      <td ng-repeat=\"dt in row\" class=\"text-center\">\n" +
     "        <button type=\"button\" style=\"width:100%;\" class=\"btn\" ng-class=\"{'btn-info': dt.selected}\" ng-click=\"select(dt.date)\" ng-disabled=\"dt.disabled\"><span ng-class=\"{muted: dt.secondary}\">{{dt.label}}</span></button>\n" +
     "      </td>\n" +
