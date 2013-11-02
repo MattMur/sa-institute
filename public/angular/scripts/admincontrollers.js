@@ -287,7 +287,7 @@ app.controller('AdminViewUsersCntrl', function($scope, $http, exportCSV) {
     $scope.promoteModal = function(user) {
         $scope.selectedUser = user;
         $scope.modalTitle = 'Promotion';
-        $scope.modalMessage = '<p>Are you sure you want to promote <strong>'+user.firstname+' '+user.lastname+'</strong> to admin?</p>';
+        $scope.modalMessage = '<p>Are you sure you want to promote <strong>'+user.first_name+' '+user.last_name+'</strong> to admin?</p>';
         $scope.modalBtnAction = 'Promote'; $scope.modalMore = "to admin";
         $('#modalBtn').removeClass('btn-danger').addClass('btn-success');
         $scope.modalAction = promote;
@@ -297,7 +297,7 @@ app.controller('AdminViewUsersCntrl', function($scope, $http, exportCSV) {
     $scope.demoteModal = function(user) {
         $scope.selectedUser = user;
         $scope.modalTitle = 'Demotion';
-        $scope.modalMessage = '<p>Are you sure you want to demote <strong>'+user.firstname+' '+user.lastname+'</strong> to student?</p>';
+        $scope.modalMessage = '<p>Are you sure you want to demote <strong>'+user.first_name+' '+user.last_name+'</strong> to student?</p>';
         $scope.modalBtnAction = 'Demote'; $scope.modalMore = "to student";
         $('#modalBtn').removeClass('btn-danger').addClass('btn-success');
         $scope.modalAction = demote;
@@ -307,7 +307,7 @@ app.controller('AdminViewUsersCntrl', function($scope, $http, exportCSV) {
     $scope.deleteModal = function(user) {
         $scope.selectedUser = user;
         $scope.modalTitle = 'Delete';
-        $scope.modalMessage = '<p>Are you sure you want to delete <strong>'+user.firstname+' '+user.lastname+'</strong>?</p>';
+        $scope.modalMessage = '<p>Are you sure you want to delete <strong>'+user.first_name+' '+user.last_name+'</strong>?</p>';
         $scope.modalBtnAction = 'Delete'; $scope.modalMore = "";
         $('#modalBtn').removeClass('btn-success').addClass('btn-danger');
         $scope.modalAction = deleteUser;

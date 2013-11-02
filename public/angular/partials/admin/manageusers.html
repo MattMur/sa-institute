@@ -17,7 +17,7 @@
         <div class="panel-body">
             <ul class="flowlist">
                 <li ng-repeat="user in admin | filter:nameSearch">
-                    {{ user.lastname }}, {{ user.firstname }}
+                    {{ user.last_name }}, {{ user.first_name }}
                     <a href="" ng-click="demoteModal(user)">Demote</a> | <a href="" ng-click="deleteModal(user)"> Delete</a>
                 </li>
             </ul>
@@ -29,7 +29,7 @@
         <div class="panel-body">
             <ul class="flowlist">
                 <li ng-repeat="user in students | filter:nameSearch">
-                    {{ user.lastname }}, {{ user.firstname }}
+                    {{ user.last_name }}, {{ user.first_name }}
                     <a href="" ng-click="promoteModal(user)">Promote</a> | <a href="" ng-click="deleteModal(user)"> Delete</a>
                 </li>
             </ul>
@@ -45,7 +45,7 @@
                     <h4 class="modal-title">Confirm {{ modalTitle }}</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to {{modalBtnAction | lowercase }} <strong>{{ selectedUser.firstname }} {{ selectedUser.lastname }}</strong> {{ modalMore }}?</p>
+                    <p>Are you sure you want to {{modalBtnAction | lowercase }} <strong>{{ selectedUser.first_name }} {{ selectedUser.last_name }}</strong> {{ modalMore }}?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
