@@ -33,7 +33,7 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
                     userMenuItems = [
                         new MenuItem('New Study Card', '/users/'+ $rootScope.user.id +'/studycard/new'),
                         new MenuItem('View Study Cards', '/users/'+ $rootScope.user.id +'/studycard'),
-                        new MenuItem('Syllabus', '/classes/'+ $rootScope.user.class_id +'/syllabus')
+                        //new MenuItem('Syllabus', '/classes/'+ $rootScope.user.class_id +'/syllabus')
                     ];
                     adminMenuItems = [
                         new MenuItem('View Classes', '/admin/classes'),
