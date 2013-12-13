@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var app = angular.module('loginApp', ['ngCookies']);
+var app = angular.module('loginApp', ['ngRoute', 'ngCookies']);
 
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider.when('/login.html', {
@@ -40,9 +40,8 @@ app.controller('LoginCntrl', function($scope, $http, $cookies, $location) {
     });
 
     $scope.login = function() {
-        login($http, $scope.user, $scope.pass, function(data) {
-            //Set cookie so we remember who they are
-            $cookies.userid = data.id;
+        login($http, $cookies, $scope.user, $scope.pass, function(data) {
+
         });
     };
 
@@ -59,9 +58,9 @@ app.controller('RegisterCntrl', function($scope, $http, $cookies, $location) {
         console.log(JSON.stringify(user));
         $http.post('/api/users', user).success(function(data) {
             // Success. Now lets login with new user.
-            login($http, user.email, user.password, function() {
+            login($http, $cookies, user.email, user.password, function() {
                 //Set cookie so we remember who they are
-                $cookies.userid = data;
+                //$cookies.userid = data;
             });
         }).error(function(data) {
                 window.alert("Attempt to create new user failed " + data);
@@ -75,7 +74,7 @@ app.controller('RegisterCntrl', function($scope, $http, $cookies, $location) {
 
 
 // Custom method for logging in. NOT a controller.
-function login($http, user, pass, success) {
+function login($http, $cookies, user, pass, success) {
 
     //var basicAuth = 'Basic ' + Base64.encode(user + ':' + pass);
     var loginData = { user:user, pass:pass };
@@ -84,6 +83,10 @@ function login($http, user, pass, success) {
 
             //Call callbackfunction
             success(data);
+
+            //Set cookie so we remember who they are
+            //$cookies.userid = data.id;
+            $.cookie('userid', data.id, { path: '/' });
 
             // Now that we are authenticated we redirect to studycard
             window.location = '/';

@@ -7,23 +7,6 @@
  */
 
 var app = angular.module('instituteApp', ['ngCookies', 'ngRoute', 'ui.bootstrap']);
-app.factory('HelloWorld', function($q, $timeout) {
-
-  var getMessages = function() {
-    var deferred = $q.defer();
-
-    $timeout(function() {
-      deferred.resolve(['Hello', 'world!']);
-    }, 2000);
-
-    return deferred.promise;
-  };
-
-  return {
-    getMessages: getMessages
-  };
-
-});
 
 app.config(function($routeProvider, $locationProvider) {
 

@@ -12,7 +12,7 @@ var aws = require('./scripts/aws-functions');
 
 console.log("server started");
 
-aws.buckets();
+//aws.buckets();
 
 // Setup
 /*app.use(function(req, res, next){

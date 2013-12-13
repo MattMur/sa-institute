@@ -5,6 +5,7 @@
  * Time: 5:21 PM
  */
 
+// Menu in top nav bar
 var MenuItem = function(name, href) {
     this.name = name;
     this.href = href;
@@ -15,9 +16,10 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
     var userMenuItems, adminMenuItems;
 
     // get the current user from cookie
-    console.log("Cookies: " + JSON.stringify($cookies));
-    if ($cookies.userid) {
-        var userid = $cookies.userid;
+    console.log("Cookies: " + JSON.stringify($.cookie()));
+    if ($.cookie('userid')) {
+        var userid = $.cookie('userid');
+
         var user = {};
 
         // get user data
@@ -26,7 +28,9 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
                 // Set user data on the scope.
                 // Since this is global scope to the app all other controllers will have access to it
                 $rootScope.user = data;
-                $rootScope.user['id'] = $cookies.userid;
+                $rootScope.user['id'] = $.cookie('userid');
+                console.log('User at RootLevel: ' + JSON.stringify(data));
+
                 getUserSchedule($rootScope.user, function() {
 
                     // Contextual menu items based on Admin or Student
@@ -47,6 +51,8 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
             .error(function(data) {
                 window.alert("Could not get user " + data);
             });
+    } else {
+        console.log('Cookies were not set! Cannot get user');
     }
     
     // Given a user, find the classes they are currently enrolled in
@@ -69,7 +75,7 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
     }
 
     $scope.logoff = function() {
-        $cookies.userid = null;
+        $.removeCookie('userid', { path:'/'})
         $rootScope.user = null;
         window.location = '/logoff';
     }
@@ -124,7 +130,7 @@ app.controller('NewStudyCardCntrl', function ($scope, $http, $location, $routePa
 });
 
 
-app.controller('StudyCardsCntrl', function($scope, $http, $routeParams, HelloWorld) {
+app.controller('StudyCardsCntrl', function($scope, $http, $routeParams) {
     $scope.isCollapsed = false;   
     // function cardWeek(card){
     //         this.cards = new Array(card);
@@ -179,9 +185,6 @@ app.controller('StudyCardsCntrl', function($scope, $http, $routeParams, HelloWor
     // Get all availible study cards
     window.spinner.start();
 
-    HelloWorld.getMessages().then(function(messages) {
-      $scope.messages = messages;
-    });
 
 
     var url = '/api/studycards?user='+ $routeParams.id;
