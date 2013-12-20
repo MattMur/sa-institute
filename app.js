@@ -67,7 +67,7 @@ app.post('/api/class', auth.basicAuth(express, AdminAccess), classSubject.create
 app.put('/api/class/:id(\\d+)', auth.basicAuth(express, AdminAccess), classSubject.modify);
 app.del('/api/class/:id(\\d+)', auth.basicAuth(express, AdminAccess), classSubject.remove);
 
-
+app.put('/api/aws', aws.uploadObject);
 
 
 // HTML Routes

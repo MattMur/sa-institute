@@ -15,14 +15,22 @@ var db_config = {
 console.log('Creating new SQL connection');
 var connection = mysql.createConnection(db_config);
 
+connection.connect(function(err) {
+    if (err) {
+        console.log('Could not connect to Database!!');
+    }
+});
+
 connection.on('error', function(err) {
     console.log('db error', err);
     if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-        connection = mysql.createConnection(db_config);                         // lost due to either server restart, or a
+        connection = mysql.createConnection(db_config);  // lost due to either server restart, or a
     } else {                                      // connnection idle timeout (the wait_timeout
         throw err;                                 // server variable configures this)
     }
 });
+
+
 
 
 module.exports = connection;

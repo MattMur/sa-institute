@@ -102,6 +102,15 @@ app.controller('AdminNewClassCntrl', function($scope, $http, $location) {
         $("#confirmModal").modal('hide');
     };
 
+    $scope.upload = function() {
+        console.log('Uploading to server: ' +$scope.syllabus);
+        $http.put('/api/aws', $scope.syllabus).success(function() {
+            console.log('Uploaded file to server');
+        }).error(function(error) {
+                console.log('Failed to upload file to server');
+            });
+    };
+
 });
 
 app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams, $location) {
@@ -145,6 +154,8 @@ app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams, $loc
         });
         $('#confirmModal').modal('hide');
     };
+
+
 
 });
 

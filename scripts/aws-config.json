@@ -1,1 +1,1 @@
-{ "accessKeyId": "AKIAJP3W3E47BXRZHEPA", "secretAccessKey": "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", "region": "us-west-2", "logger":"process.stdout" }
+{ "accessKeyId": "AKIAJP3W3E47BXRZHEPA", "secretAccessKey": "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", "region": "us-east-1", "logger":"process.stdout" }
