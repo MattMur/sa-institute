@@ -74,7 +74,9 @@ app.controller('AdminViewClassesCntrl', function ($scope, $http) {
     };
 });
 
-app.controller('AdminNewClassCntrl', function($scope, $http, $location) {
+
+// Trying new signature format for module controllers. Is supposed to be more dynamic.
+app.controller('AdminNewClassCntrl', ['$scope', '$http', '$location', '$upload', function($scope, $http, $location, $upload) {
     $scope.action = "Add";  //title
     $scope.btnAction = "Submit";
     $scope.modalTitle = "Class Details";
@@ -91,27 +93,68 @@ app.controller('AdminNewClassCntrl', function($scope, $http, $location) {
 
         // You have to do this or else the animation won't finish and black tint will stay over page
         $("#confirmModal").on('hidden.bs.modal', function () {
+            spinner.start();
+
             // Once the modal finishes hiding
             $http.post('/api/class', $scope.class).success(function(id) {
-                // go back to classes after success
-                $location.path('/admin/classes');
+
+                // Attempt to upload syllabus
+                $scope.upload(function(data, status, headers, config) {
+                    // file is uploaded successfully
+                    spinner.stop();
+                    // go back to classes after success
+                    $location.path('/admin/classes');
+                });
+
             }).error(function(error) {
                 console.log("Create new class failed" + error);
+                spinner.stop();
             });
         });
         $("#confirmModal").modal('hide');
     };
 
-    $scope.upload = function() {
-        console.log('Uploading to server: ' +$scope.syllabus);
-        $http.put('/api/aws', $scope.syllabus).success(function() {
-            console.log('Uploaded file to server');
-        }).error(function(error) {
-                console.log('Failed to upload file to server');
+    // Only supports uploading one file at a time (by design, not technical limitation)
+    $scope.upload = function(callback) {
+        console.log('Uploading to server: ' +JSON.stringify($scope.files));
+
+        if ($scope.files.length > 0) {
+            $scope.upload = $upload.upload({
+                url: '/api/class/syllabus', //upload.php script, node.js route, or servlet url
+                method: 'PUT',
+                // headers: {'headerKey': 'headerValue'}, withCredential: true,
+                data: $scope.class,
+                file: $scope.files[0],
+                // file: $files, //upload multiple files, this feature only works in HTML5 FromData browsers
+                /* set file formData name for 'Content-Desposition' header. Default: 'file' */
+                fileFormDataName: 'syllabus'
+                /* customize how data is added to formData. See #40#issuecomment-28612000 for example */
+                //formDataAppender: function(formData, key, val){}
+            }).progress(function(evt) {
+                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                }).success(callback).error(function(err) {
+                   alert('Could Not complete upload of syllabus. \n'+err);
             });
+            //.then(success, error, progress);
+        }
     };
 
-});
+    $scope.onFileDrop = function($files) {
+        //console.log('Dropped a file');
+        //console.log("Files: "+ JSON.stringify($files[0].name));
+        $scope.files = $files;
+        $scope.hideFileSelect = true;
+        //$files: an array of files selected, each file has name, size, and type.
+    }
+
+    $scope.onFileSelect = function($files) {
+        //console.log("Files: "+ JSON.stringify($files[0].name));
+        $scope.files = $files;
+        $scope.hideDropBox = true;
+    };
+
+
+}]);
 
 app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams, $location) {
 

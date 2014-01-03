@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var app = angular.module('loginApp', ['ngRoute', 'ngCookies']);
+var app = angular.module('loginApp', ['ngRoute', 'ngCookies', 'angularFileUpload']);
 
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider.when('/login.html', {

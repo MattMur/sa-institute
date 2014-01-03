@@ -38,8 +38,18 @@
 
         <div class="form-group">
             <label>Syllabus Upload</label>
-            <input type="file" id="syllabusFile" ng-model="syllabus">
-            <input type="button" ng-click="upload()" value="Upload">
+            <input type="file" ng-file-select="onFileSelect($files)" ng-show="!hideFileSelect" >
+
+            <!-- Show name of file when dropped -->
+            <p ng-show="hideFileSelect">{{ files[0].name }}</p>
+
+            <!-- File Drop Box -->
+            <div ng-file-drop="onFileDrop($files)" class="drop-box"
+                 ng-show="dropSupported && !hideDropBox">drop syllabus here</div>
+            <div ng-file-drop-available="dropSupported=true"
+                 ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+            <!--<input type="button" ng-click="upload()" value="Upload">-->
+
         </div><br>
 
         <button type="submit" class="btn btn-primary" >{{ btnAction }}</button>
@@ -58,7 +68,7 @@
                     <p><strong>{{class.start_date | date:'shortDate'}}</strong> - <strong>{{class.end_date | date:'shortDate'}}</strong></p>
                     <p>On: <strong>{{ class.day | dayOfWeek }}</strong> at <strong>{{class.time | time}}</strong>
                     <p>Located at: <strong>{{ class.location }}</strong>
-                    <p ng-show="{{class.syllabusFile}}">Link to Syllabus: <strong>{{class.syllabus}}</strong></p>
+                    <p ng-show="files.length > 0">Syllabus: <strong>{{files[0].name}}</strong></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
@@ -69,6 +79,8 @@
     </div><!-- /.modal -->
 
 </section>
+
+
 
 
 

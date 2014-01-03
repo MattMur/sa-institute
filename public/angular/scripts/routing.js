@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var app = angular.module('instituteApp', ['ngCookies', 'ngRoute', 'ui.bootstrap']);
+var app = angular.module('instituteApp', ['ngCookies', 'ngRoute', 'ui.bootstrap', 'angularFileUpload']);
 
 app.config(function($routeProvider, $locationProvider) {
 

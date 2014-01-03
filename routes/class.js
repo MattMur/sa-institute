@@ -7,6 +7,12 @@
  */
 var sql = require('../scripts/sqlconn');
 var squel = require("squel");
+var fs=require('fs');
+
+// Config for Amazon S3 services
+var AWS = require('aws-sdk');
+AWS.config.loadFromPath('./scripts/aws-config.json');
+var s3 = new AWS.S3();
 
 exports.getALL = function(req, res) {
 
@@ -127,3 +133,49 @@ exports.remove  = function(req, res, next) {
         }
     });
 }
+
+
+exports.uploadSyllabus = function(req, res) {
+    console.log("Syllabus Received: " + JSON.stringify(req.files) +'\nData: '+JSON.stringify(req.body));
+
+    // Make sure we have a file and it has a name
+    if (req.files.syllabus && req.body.name) {
+        var fileName = req.body.name.toCamel() + '-Syllabus.pdf';
+        console.log('FileName: ' +fileName);
+
+        // Upload file from given path
+        fs.readFile(req.files.syllabus.path, function(err, data) {
+
+            if(err) {
+                console.log(err)
+                res.send(500);
+            } else {
+                // Pass on data to AWS for S3 storage
+                s3.putObject({ Bucket:'UselessData141', Key:fileName ,ACL:"public-read", Body:data},
+                    function(s3err) {
+                        if (s3err) {
+                            console.log(s3err);
+                            res.send(500);
+                        } else {
+                            console.log('Success');
+                            res.send(200);
+                        }
+                    }
+                );
+            }
+        });
+//
+
+    } else {
+        res.status('406');
+        res.send('Not enough data received');
+    }
+
+}
+
+// Convert a string with spaces to Camel Case
+String.prototype.toCamel = function(){
+    return this.replace(/\s(.)/g, function(match, group1) {
+        return group1.toUpperCase();
+    });
+};

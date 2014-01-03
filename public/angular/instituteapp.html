@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
 
     <!-- Less page flicker by putting this script at top -->
+    <script src="/js/lib/angular-file-upload-shim.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.js"></script>
 </head>
 
@@ -62,7 +63,7 @@
 
 </footer>
 
-<script src="http://fgnass.github.io/spin.js/dist/spin.min.js"></script>
+<script type="text/javascript" src="/js/lib/spin.min.js"></script>
 <script>
     // Create global spinner.. Accesible from ANYWHERE. boom.
     window.spinner = new Spinner({
@@ -98,12 +99,19 @@
 <script src="/js/lib/jquery.cookie.js"></script>
 <script src="/js/lib/ui-bootstrap-tpls-0.6.0.js"></script>
 <script src="/js/lib/FileSaver.js"></script>
+
+<!-- Move to newclass.html -->
+<script src="/js/lib/angular-file-upload.js"></script>
+
 <script src="/angular/scripts/routing.js"></script>
 <script src="/angular/scripts/controllers.js"></script>
 <script src="/angular/scripts/admincontrollers.js"></script>
 <script src="/angular/scripts/filters.js"></script>
 <script src="/angular/scripts/services.js"></script>
 <script src="/angular/scripts/directives.js"></script>
+
+
+
 <script>
     window.spinner.stop();
 </script>

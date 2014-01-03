@@ -64,6 +64,7 @@ app.get('/api/class/:id(\\d+)', auth.basicAuth(express, UserAccess), classSubjec
 app.get('/api/class/:id(\\d+)/teachers', auth.basicAuth(express, UserAccess), classSubject.getTeachers);
 app.get('/api/class/:id(\\d+)/students', auth.basicAuth(express, UserAccess), classSubject.getStudents);
 app.post('/api/class', auth.basicAuth(express, AdminAccess), classSubject.createNew);
+app.put('/api/class/syllabus', classSubject.uploadSyllabus);
 app.put('/api/class/:id(\\d+)', auth.basicAuth(express, AdminAccess), classSubject.modify);
 app.del('/api/class/:id(\\d+)', auth.basicAuth(express, AdminAccess), classSubject.remove);
 
