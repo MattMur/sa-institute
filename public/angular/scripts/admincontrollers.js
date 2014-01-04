@@ -29,7 +29,7 @@ app.controller('AdminViewStudentsCntrl', function ($scope, $http, $routeParams, 
 });
 
 app.controller('AdminViewClassesCntrl', function ($scope, $http) {
-    var date = Date.today(), dateStr;
+    var date = Date.today();
 
     // Query server for classes within selected date. Whenever the date changes we update.
     $scope.$watch('selectedDate', function(newDate) {
@@ -65,7 +65,7 @@ app.controller('AdminViewClassesCntrl', function ($scope, $http) {
         $http.delete('/api/class/'+ classObj.id).success(function(data) {
             //console.log('Deleted class ' + JSON.stringify(classObj));
             //remove class from array now that its gone
-            removeItemFromArray(classObj, $scope.classes);
+            $scope.classes.removeItem(classObj);
             console.log(JSON.stringify($scope.classes));
         }).error(function(data) {
             alert("Could not delete class");
@@ -76,10 +76,12 @@ app.controller('AdminViewClassesCntrl', function ($scope, $http) {
 
 
 // Trying new signature format for module controllers. Is supposed to be more dynamic.
-app.controller('AdminNewClassCntrl', ['$scope', '$http', '$location', '$upload', function($scope, $http, $location, $upload) {
+app.controller('AdminNewClassCntrl', ['$scope', '$http', '$location', 'uploadSyllabus', 'checkValidFileType',
+    function($scope, $http, $location, uploadSyllabus, checkValidFileType) {
     $scope.action = "Add";  //title
     $scope.btnAction = "Submit";
     $scope.modalTitle = "Class Details";
+    $scope.files = [];
 
     $scope.confirmSubmit = function() {
         //$('#myModal').modal();
@@ -90,21 +92,32 @@ app.controller('AdminNewClassCntrl', ['$scope', '$http', '$location', '$upload',
     };
 
     $scope.submit = function() {
-
         // You have to do this or else the animation won't finish and black tint will stay over page
         $("#confirmModal").on('hidden.bs.modal', function () {
             spinner.start();
 
+            if ($scope.files.length > 0) {
+                // Syllabus name derived from class name. Used to retrieve file from S3 later.
+                $scope.class.syllabus = $scope.class.name.toCamel() + '-Syllabus.pdf';
+            } else {
+                $scope.class.syllabus = null;
+            }
+
             // Once the modal finishes hiding
             $http.post('/api/class', $scope.class).success(function(id) {
 
-                // Attempt to upload syllabus
-                $scope.upload(function(data, status, headers, config) {
-                    // file is uploaded successfully
-                    spinner.stop();
+                if ($scope.files.length > 0) {
+                    // Attempt to upload syllabus
+                    uploadSyllabus($scope.files[0], $scope.class.syllabus, function(data, status, headers, config) {
+                        // go back to classes after success
+                        spinner.stop();
+                        $location.path('/admin/classes');
+                    });
+                } else {
                     // go back to classes after success
+                    spinner.stop();
                     $location.path('/admin/classes');
-                });
+                }
 
             }).error(function(error) {
                 console.log("Create new class failed" + error);
@@ -114,53 +127,36 @@ app.controller('AdminNewClassCntrl', ['$scope', '$http', '$location', '$upload',
         $("#confirmModal").modal('hide');
     };
 
-    // Only supports uploading one file at a time (by design, not technical limitation)
-    $scope.upload = function(callback) {
-        console.log('Uploading to server: ' +JSON.stringify($scope.files));
-
-        if ($scope.files.length > 0) {
-            $scope.upload = $upload.upload({
-                url: '/api/class/syllabus', //upload.php script, node.js route, or servlet url
-                method: 'PUT',
-                // headers: {'headerKey': 'headerValue'}, withCredential: true,
-                data: $scope.class,
-                file: $scope.files[0],
-                // file: $files, //upload multiple files, this feature only works in HTML5 FromData browsers
-                /* set file formData name for 'Content-Desposition' header. Default: 'file' */
-                fileFormDataName: 'syllabus'
-                /* customize how data is added to formData. See #40#issuecomment-28612000 for example */
-                //formDataAppender: function(formData, key, val){}
-            }).progress(function(evt) {
-                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-                }).success(callback).error(function(err) {
-                   alert('Could Not complete upload of syllabus. \n'+err);
-            });
-            //.then(success, error, progress);
-        }
-    };
-
     $scope.onFileDrop = function($files) {
         //console.log('Dropped a file');
         //console.log("Files: "+ JSON.stringify($files[0].name));
-        $scope.files = $files;
-        $scope.hideFileSelect = true;
-        //$files: an array of files selected, each file has name, size, and type.
-    }
+        if(checkValidFileType($files[0].name, '.pdf')) {
+            $scope.files = $files;
+            $scope.hideFileSelect = true;
+        } else {
+            alert('Syllabus must be in .pdf format');
+        }
+    };
 
     $scope.onFileSelect = function($files) {
         //console.log("Files: "+ JSON.stringify($files[0].name));
-        $scope.files = $files;
-        $scope.hideDropBox = true;
+        if(checkValidFileType($files[0].name, '.pdf')) {
+            $scope.files = $files;
+            $scope.hideDropBox = true;
+        } else {
+            alert('Syllabus must be in .pdf format');
+        }
     };
 
 
 }]);
 
-app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams, $location) {
+app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams, $location, uploadSyllabus, checkValidFileType) {
 
     $scope.action = "Edit"; //title
     $scope.btnAction = "Save Changes";
     $scope.modalTitle = "Changes";
+    $scope.files = [];
 
     $http.get('/api/class/'+$routeParams.classid).success(function(classObj) {
 
@@ -184,22 +180,60 @@ app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams, $loc
     };
 
     $scope.submit = function() {
-
         $("#confirmModal").on('hidden.bs.modal', function () {
+            spinner.start();
+            if ($scope.files.length > 0) {
+                // Syllabus name derived from class name. Used to retrieve file from S3 later.
+                $scope.class.syllabus = $scope.class.name.toCamel() + '-Syllabus.pdf';
+            } else {
+                $scope.class.syllabus = null;
+            }
 
             $http.put('/api/class/'+ $routeParams.classid, $scope.class).success(function(id) {
-                // go back to classes after success
-                $location.path('/admin/classes');
+
+                if ($scope.files.length > 0) {
+                    // Attempt to upload syllabus
+                    uploadSyllabus($scope.files[0], $scope.class.syllabus, function(data, status, headers, config) {
+                        // go back to classes after success
+                        spinner.stop();
+                        $location.path('/admin/classes');
+                    });
+                } else {
+                    // go back to classes after success
+                    spinner.stop();
+                    $location.path('/admin/classes');
+                }
             }).error(function(error) {
-                    console.log("Edit class failed\n" + error);
-                });
+                console.log("Edit class failed\n" + error);
+                spinner.stop();
+            });
 
         });
         $('#confirmModal').modal('hide');
     };
 
+    $scope.onFileDrop = function($files) {
+        //console.log('Dropped a file');
+        //console.log("Files: "+ JSON.stringify($files[0].name));
+        if(checkValidFileType($files[0].name, 'pdf')) {
+            $scope.files = $files;
+            $scope.hideFileSelect = true;
+            $scope.class.syllabus = null; // clear previous syllabus
+        } else {
+            alert('Syllabus must be in .pdf format');
+        }
+    };
 
-
+    $scope.onFileSelect = function($files) {
+        //console.log("Files: "+ JSON.stringify($files[0].name));
+        if(checkValidFileType($files[0].name, 'pdf')) {
+            $scope.files = $files;
+            $scope.hideDropBox = true;
+            $scope.class.syllabus = null; // clear previous syllabus
+        } else {
+            alert('Syllabus must be in .pdf format');
+        }
+    };
 });
 
 
@@ -390,6 +424,7 @@ app.controller('AdminViewUsersCntrl', function($scope, $http, exportCSV) {
             alert('Could not demote user');
         });
     };
+
     var deleteUser = function(user) {
         $http.delete('/api/users/'+user.id).success(function(data) {
             if (user.access_level == 2) {
@@ -417,6 +452,13 @@ app.controller('AdminViewUsersCntrl', function($scope, $http, exportCSV) {
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
+
+// Convert a string with spaces to Camel Case
+String.prototype.toCamel = function(){
+    return this.replace(/\s(.)/g, function(match, group1) {
+        return group1.toUpperCase();
+    });
+};
 
 
 Array.prototype.removeItem =  function (item) {

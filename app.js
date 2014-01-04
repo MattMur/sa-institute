@@ -12,7 +12,7 @@ var aws = require('./scripts/aws-functions');
 
 console.log("server started");
 
-//aws.buckets();
+//aws.test();
 
 // Setup
 /*app.use(function(req, res, next){
@@ -63,12 +63,11 @@ app.get('/api/class', auth.basicAuth(express, UserAccess), classSubject.getALL);
 app.get('/api/class/:id(\\d+)', auth.basicAuth(express, UserAccess), classSubject.getOne);
 app.get('/api/class/:id(\\d+)/teachers', auth.basicAuth(express, UserAccess), classSubject.getTeachers);
 app.get('/api/class/:id(\\d+)/students', auth.basicAuth(express, UserAccess), classSubject.getStudents);
+app.get('/api/class/:id(\\d+)/syllabus', classSubject.getSyllabus);
 app.post('/api/class', auth.basicAuth(express, AdminAccess), classSubject.createNew);
 app.put('/api/class/syllabus', classSubject.uploadSyllabus);
 app.put('/api/class/:id(\\d+)', auth.basicAuth(express, AdminAccess), classSubject.modify);
 app.del('/api/class/:id(\\d+)', auth.basicAuth(express, AdminAccess), classSubject.remove);
-
-app.put('/api/aws', aws.uploadObject);
 
 
 // HTML Routes

@@ -38,10 +38,13 @@
 
         <div class="form-group">
             <label>Syllabus Upload</label>
-            <input type="file" ng-file-select="onFileSelect($files)" ng-show="!hideFileSelect" >
 
-            <!-- Show name of file when dropped -->
+            <!-- Show name of file when dropped or retrieved from db -->
             <p ng-show="hideFileSelect">{{ files[0].name }}</p>
+            <p ng-show="class.syllabus.length > 0">{{ class.syllabus }}</p>
+
+            <!-- File Select -->
+            <input type="file" ng-file-select="onFileSelect($files)" ng-hide="hideFileSelect" >
 
             <!-- File Drop Box -->
             <div ng-file-drop="onFileDrop($files)" class="drop-box"

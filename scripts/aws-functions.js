@@ -18,7 +18,7 @@ exports.test = function() {
     });
 
     console.log('Attempting to load from bucket...');
-    s3.getObject({ Bucket:'UselessData141', Key:'IMG_0662.JPG'}, function(err, data) {
+    s3.listObjects({ Bucket:'UselessData141' }, function(err, data) {
 
         if (err) {
             console.log(err);

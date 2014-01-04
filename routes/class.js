@@ -98,7 +98,7 @@ exports.createNew = function(req, res, next) {
             res.send(result.insertId.toString());  // Send back class id
         }
     });
-}
+};
 
 exports.modify = function(req, res, next) {
 
@@ -119,7 +119,7 @@ exports.modify = function(req, res, next) {
             }
         });
     }
-}
+};
 
 exports.remove  = function(req, res, next) {
 
@@ -132,7 +132,7 @@ exports.remove  = function(req, res, next) {
             res.send(200);  // Send back user id they they know who they are
         }
     });
-}
+};
 
 
 exports.uploadSyllabus = function(req, res) {
@@ -140,18 +140,19 @@ exports.uploadSyllabus = function(req, res) {
 
     // Make sure we have a file and it has a name
     if (req.files.syllabus && req.body.name) {
-        var fileName = req.body.name.toCamel() + '-Syllabus.pdf';
+        var fileName = req.body.name;
         console.log('FileName: ' +fileName);
 
         // Upload file from given path
-        fs.readFile(req.files.syllabus.path, function(err, data) {
+        var file = req.files.syllabus;
+        fs.readFile(file.path, function(err, data) {
 
             if(err) {
                 console.log(err)
                 res.send(500);
             } else {
                 // Pass on data to AWS for S3 storage
-                s3.putObject({ Bucket:'UselessData141', Key:fileName ,ACL:"public-read", Body:data},
+                s3.putObject({ Bucket:'UselessData141', Key:fileName ,ACL:"public-read", ContentType:file.type, Body:data},
                     function(s3err) {
                         if (s3err) {
                             console.log(s3err);
@@ -164,18 +165,34 @@ exports.uploadSyllabus = function(req, res) {
                 );
             }
         });
-//
-
     } else {
-        res.status('406');
-        res.send('Not enough data received');
+        res.status('406').send('Not enough data received');
     }
+};
 
-}
-
-// Convert a string with spaces to Camel Case
-String.prototype.toCamel = function(){
-    return this.replace(/\s(.)/g, function(match, group1) {
-        return group1.toUpperCase();
+exports.getSyllabus = function(req, res) {
+    // Get syllabus name for class
+    var classId = req.params.id;
+    sql.query('SELECT syllabus FROM class WHERE class.id = ?', classId, function(err, rows) {
+       if (err) {
+           res.status(500).send('Could not query syllabus');
+       } else {
+           console.log('Syllabus: '+JSON.stringify(rows));
+           if (rows.length > 0) {
+               var fileName = rows[0].syllabus;
+               // Use the name to get the actual file from S3
+               s3.getObject({ Bucket:'UselessData141', Key:fileName }, function(s3err, data) {
+                    if (s3err) {
+                        res.status(500).send('Could not retrieve from S3');
+                    } else {
+                        //console.log('s3data: '+JSON.stringify(data));
+                        // Send the data to the client
+                        res.set('Content-Disposition', 'filename:'+fileName);
+                        res.set('Content-Type', data.ContentType);
+                        res.send(data.Body);
+                    }
+               });
+           }
+       }
     });
 };

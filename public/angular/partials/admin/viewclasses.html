@@ -6,6 +6,7 @@
     <input type="date" ng-show="showDate" ng-model="selectedDate">
     <a href="" ng-hide="showDate" ng-click="selectDate()">Today</a>
     <br>
+    <p ng-show="classes.length == 0" class="alert alert-warning">No classes on given time period. Either add classes for new semester or change the date.</p>
     <div class="panel panel-default" ng-repeat="class in classes">
         <div class="panel-heading">
             {{ class.name }}
@@ -17,6 +18,7 @@
                 <li><a ng-href="/admin/classes/{{ class.name | lowercase }}/studycards?classid={{ class.id }}">Studycards</a></li>
                 <li><a ng-href="/admin/classes/{{ class.name | lowercase }}/students?classid={{ class.id }}">Student List</a></li>
                 <li><a ng-href="/admin/classes/{{ class.name | lowercase }}/comments?classid={{ class.id }}">Comments & Questions</a></li>
+                <li><a ng-show="class.syllabus"  target="_self" href="/api/class/{{ class.id }}/syllabus">Syllabus</a></li>
             </ul>
         </div>
     </div>
