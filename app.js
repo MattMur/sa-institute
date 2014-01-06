@@ -29,7 +29,7 @@ app.use(express.cookieSession({secret: 'NEPHIISCOOL', key: 'inst.sess'}));
 // logger
 app.use(function(req, res, next) {
     //console.log("sess: " + JSON.stringify(req.session));
-    if (req.url == "/favicon.ico") { next(); return; }
+    if (/favicon.(png|ico)/.test(req.url)) { next(); return; }
     console.log(req.method +" "+ req.path + " " + JSON.stringify(req.query));
     next();
 });

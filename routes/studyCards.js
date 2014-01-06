@@ -26,11 +26,13 @@ exports.getAll = function(req, res, next) {
                 console.log(err);
                 res.send(500);
             } else {
-                console.log('studyCards are: \n', JSON.stringify(rows));
+                //console.log('studyCards are: \n', JSON.stringify(rows));
+
+                // This could be a big payload so lets allow caching. 15min caching limit.
+                res.set('Cache-Control', 'max-age=900, private, must-revalidate');
                 res.json(rows);
             }
         });
-
     } else {
         res.send(403); // Send 403 if user ids do not match
     }
@@ -46,6 +48,7 @@ exports.getOne = function(req, res) {
         } else {
             console.log('studyCards are: \n', JSON.stringify(rows));
             var response = rows.length == 1 ? rows[0] : {};
+            res.set('Cache-Control', 'max-age=900, private, must-revalidate');
             res.json(response);
         }
     });
@@ -143,6 +146,7 @@ exports.getNotes = function(req, res) {
                 res.send(500);
             } else {
                 console.log('Notes are: \n', JSON.stringify(rows));
+                res.set('Cache-Control', 'max-age=900, private, must-revalidate');
                 res.json(rows);
             }
         });

@@ -1,11 +1,49 @@
-<subtitle>Study Card Details</subtitle>
-<div>
-    <ul class="list">
-        <li>Class: <strong>{{ studycard.class_id }}</strong></li>
-        <li>Frequency of read: <strong>{{ studycard.frequency }}</strong></li>
-        <li>Quality of Study: <strong>{{ studycard.quality }}</strong></li>
-        <li>Read Assigned Block: <strong>{{ studycard.assignedBlock | yesno }}</strong></li>
-        <li ng-show="studycard.notes">Thoughs & Feelings: </li>
-    </ul>
-    <blockquote ng-show="studycard.notes">{{ studycard.notes }}</blockquote>
+<subtitle>Study Cards <span class="sub">{{ class.name }}</span></subtitle>
+
+<!-- CLASS AVERAGES -->
+<div class="panel panel-info" ng-show="classAverages" ng-cloak>
+    <div class="panel-heading">
+        <h3 class="panel-title">Averages</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="flowlist">
+            <li>Frequency: <strong>{{ classAverages.frequency }}</strong></li>
+            <li style="display: inline-block">Prepare: <strong>{{ classAverages.percentPrepare }}%</strong></li>
+            <li style="display: inline-block">Seek: <strong>{{ classAverages.percentSeek }}%</strong></li>
+            <li style="display: inline-block">Do: <strong>{{ classAverages.percentDo }}%</strong></li>
+            <li style="display: inline-block">Teach: <strong>{{ classAverages.percentTeach }}%</strong></li>
+            <li>Read Assigned Block: <strong>{{ classAverages.percentRead }}%</strong></li>
+        </ul>
+    </div>
 </div>
+
+<!-- Show studycards grouped by week -->
+<div ng-show="cards.length > 0" class="panel-group" id="accordion">
+    <div class="panel panel-default" ng-repeat="card in cards">
+
+        <a class="accordion-toggle" id="drop-down" data-toggle="collapse"
+           data-parent="#accordion" data-target="#week-{{$index+1}}">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    Week {{card.week_number}}
+                </h4>
+            </div><!-- \.panel-heading -->
+        </a>
+
+        <div id="week-{{$index+1}}" class="panel-collapse collapse">
+            <div class="panel-body">
+                <ul>
+                    <li>Class: {{card.class_id }}</li>
+                    <li>Frequency: {{ card.frequency }}</li>
+                    <li>Prepare: {{ card.prepare | yesno }}</li>
+                    <li>Seek: {{ card.seek | yesno }}</li>
+                    <li>Do: {{ card.do | yesno }}</li>
+                    <li>Teach: {{ card.teach | yesno }}</li>
+                    <li>Read assigned block?: {{ card.assignedBlock | yesno }}</li>
+                    <li ng-show="card.notes">Comments: {{ card.notes }}</li>
+                </ul>
+                <blockquote ng-show="card.notes">{{ card.notes }}</blockquote>
+            </div><!-- \.panel-body -->
+        </div><!-- \.panel-collapse -->
+    </div><!-- \.panel-default -->
+</div><!-- \.panel-group -->

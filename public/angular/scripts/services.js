@@ -88,3 +88,37 @@ app.factory('orderByWeek', function() {
         return itemsByWeek;
     }
 });
+
+// Calculate averages of given studycards
+app.factory('calculateAvg', function() {
+   return function(studyCards) {
+       //console.log('studycards: ' + studyCards);
+       var averages = {};
+       if (studyCards) {
+           var totalFreq = 0, totalPrepare = 0, totalSeek = 0, totalDo = 0, totalTeach = 0, totalReadBlock = 0;
+
+           for (var i=0; i < studyCards.length; i++) {
+               //console.log('studycard'+i+': '+ JSON.stringify(studyCards[i]));
+               totalFreq += studyCards[i].frequency;
+               totalPrepare += studyCards[i].prepare;
+               totalSeek += studyCards[i].seek;
+               totalDo += studyCards[i].do;
+               totalTeach += studyCards[i].teach;
+               totalReadBlock += studyCards[i].block; // JS converts true/false to 1/0 respectively
+           }
+
+
+           averages.numCards = studyCards.length;
+           console.log('NumCards: ' +averages.numCards);
+           averages.frequency = Math.round((totalFreq / averages.numCards) *100)/100;
+           averages.percentPrepare = Math.round((totalPrepare / averages.numCards) * 100);
+           averages.percentSeek = Math.round((totalSeek / averages.numCards) * 100);
+           averages.percentDo = Math.round((totalDo / averages.numCards) * 100);
+           averages.percentTeach = Math.round((totalTeach / averages.numCards) * 100);
+           averages.percentRead = Math.round((totalReadBlock / averages.numCards) * 100);
+
+           console.log('Averages: '+ JSON.stringify(averages));
+       }
+       return averages;
+   }
+});

@@ -129,7 +129,6 @@ exports.getUserStudyCards = function(req, res, next) {
         console.log('Access denied for request');
         res.send(403); // Send 403 if user ids do not match
     }
-
 }
 
 exports.createNew = function(req, res, next) {

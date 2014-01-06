@@ -59,3 +59,12 @@ body {
     display: inline-block;
     vertical-align: middle;
 }
+
+.panel-heading {
+    background-color: #f5f5f5;
+}
+
+.selectClass {
+    padding: 5px 5px 5px 0;
+    font-size: 16px;
+}

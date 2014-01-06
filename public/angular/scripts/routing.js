@@ -6,28 +6,27 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var app = angular.module('instituteApp', ['ngCookies', 'ngRoute', 'ui.bootstrap', 'angularFileUpload']);
+var app = angular.module('instituteApp', ['ngRoute', 'ui.bootstrap', 'angularFileUpload']);
 
 app.config(function($routeProvider, $locationProvider) {
 
     $routeProvider.when('/users/:id', {
-        redirectTo: '/users/:id/studycard'
+        redirectTo: '/users/:id/studycards'
     });
-    $routeProvider.when('/users/:id/studycard/', {
-        templateUrl:'/angular/partials/studycard/index.html',
-        controller: 'StudyCardsCntrl'
-    });
-    $routeProvider.when('/users/:id/studycard/new', {
+    $routeProvider.when('/users/:id/studycards/new', {
         templateUrl:'/angular/partials/studycard/new.html',
         controller: 'NewStudyCardCntrl'
     });
-    $routeProvider.when('/users/:id/studycard/create', {
-        templateUrl:'/angular/partials/studycard/create.html'
+    $routeProvider.when('/users/:id/studycards', {  // Displays overview of all studycards from all classes
+        templateUrl:'/angular/partials/studycard/index.html',
+        controller: 'StudyCardClasses'
     });
-    $routeProvider.when('/users/:id/studycard/:cardId', {
+    $routeProvider.when('/users/:id/studycards/:className', {  // Drill down into specific class //query param sets classid
         templateUrl:'/angular/partials/studycard/show.html',
-        controller: 'StudyCardDetailsCntrl'
+        controller: 'StudyCardsCntrl'
     });
+
+
     $routeProvider.when('/admin', {
         redirectTo: '/admin/classes'
     });

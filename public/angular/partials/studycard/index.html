@@ -1,43 +1,33 @@
-<subtitle>Study Cards</subtitle>
+<subtitle>Study Cards <span class="sub">Overview</span></subtitle>
 
+<!-- CLASS AVERAGES -->
+<div class="panel panel-info" ng-show="classAverages" ng-cloak>
+    <div class="panel-heading">
+        <h3 class="panel-title">Combined Averages</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="flowlist">
+            <li>Frequency: <strong>{{ classAverages.frequency }}</strong></li>
+            <li style="display: inline-block">Prepare: <strong>{{ classAverages.percentPrepare }}%</strong></li>
+            <li style="display: inline-block">Seek: <strong>{{ classAverages.percentSeek }}%</strong></li>
+            <li style="display: inline-block">Do: <strong>{{ classAverages.percentDo }}%</strong></li>
+            <li style="display: inline-block">Teach: <strong>{{ classAverages.percentTeach }}%</strong></li>
+            <li>Read Assigned Block: <strong>{{ classAverages.percentRead }}%</strong></li>
+        </ul>
+    </div>
+</div>
 
 <!-- Show list of classes user has enrolled in -->
-<div ng-show="(classes.length > 1 && cards) || (classes.length > 1 && noCards)">
-    <a href="" ng-click="showClasses()">Select Another Class</a>
+
+<div class="panel panel-default" ng-show="classAverages" ng-show="classes.length > 1 && !noCards && !cards" ng-cloak>
+    <div class="panel-heading">
+        <h3 class="panel-title">Your Classes <span class="pull-right"><a ng-click="showAll()" href="">(Show all previous classes)</a></span> </h3>
+    </div>
+    <div class="panel-body" >
+        <p ng-repeat="classObj in classes" class="selectClass"><a ng-href="studycards/{{classObj.name.toCamel()}}?classid={{classObj.id}}">{{ classObj.name }}</a></p>
+    </div>
 </div>
-<div ng-show="classes.length > 1 && !noCards && !cards" style="margin-left: 3%;">
-    <h5>Select a Class</h5>
-    <ul class="flowlist">
-        <li ng-repeat="classObj in classes"><a ng-click="classSelect(classObj)" href="">{{ classObj.name }}</a></li>
-    </ul>
-</div>
+
+
 <div ng-show="noCards" class="alert alert-warning">You do not have any studycards for the current semester.</div>
 
-
-<!-- Show studycards grouped by week -->
-<div ng-show="cards.length > 0" class="panel-group" id="accordion">
-  <div class="panel panel-default" ng-repeat="card in cards">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a class="accordion-toggle" id="drop-down" data-toggle="collapse" 
-          data-parent="#accordion" data-target="#week-{{$index+1}}">Week {{card.week_number}}
-        </a>
-      </h4>
-    </div><!-- \.panel-heading -->
-    <div id="week-{{$index+1}}" class="panel-collapse collapse">
-      <div class="panel-body">
-        <ul>
-          <li>Class: {{card.class_id }}</li>
-          <li>Frequency: {{ card.frequency }}</li>
-          <li>Prepare: {{ card.prepare | yesno }}</li>
-          <li>Seek: {{ card.seek | yesno }}</li>
-          <li>Do: {{ card.do | yesno }}</li>
-          <li>Teach: {{ card.teach | yesno }}</li>
-          <li>Read assigned block?: {{ card.assignedBlock | yesno }}</li>
-          <li ng-show="card.notes">Comments: {{ card.notes }}</li>
-        </ul>
-        <blockquote ng-show="card.notes">{{ card.notes }}</blockquote>
-      </div><!-- \.panel-body -->
-    </div><!-- \.panel-collapse -->
-  </div><!-- \.panel-default -->
-</div><!-- \.panel-group -->

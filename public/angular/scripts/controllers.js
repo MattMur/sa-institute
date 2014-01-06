@@ -12,7 +12,7 @@ var MenuItem = function(name, href) {
 };
 
 // Controller used to display Welcome <User> and Logoff function
-app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $location) {
+app.controller('RootCntrl', function($scope, $rootScope, $http, $location) {
     var userMenuItems, adminMenuItems;
 
     // get the current user from cookie
@@ -35,8 +35,8 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
 
                     // Contextual menu items based on Admin or Student
                     userMenuItems = [
-                        new MenuItem('New Study Card', '/users/'+ $rootScope.user.id +'/studycard/new'),
-                        new MenuItem('View Study Cards', '/users/'+ $rootScope.user.id +'/studycard'),
+                        new MenuItem('New Study Card', '/users/'+ $rootScope.user.id +'/studycards/new'),
+                        new MenuItem('View Study Cards', '/users/'+ $rootScope.user.id +'/studycards')
                         //new MenuItem('Syllabus', '/classes/'+ $rootScope.user.class_id +'/syllabus')
                     ];
                     adminMenuItems = [
@@ -134,9 +134,43 @@ app.controller('NewStudyCardCntrl', function ($scope, $http, $location, $routePa
 });
 
 
-app.controller('StudyCardsCntrl', function($scope, $http, $routeParams, orderByWeek) {
+
+
+
+app.controller('StudyCardClasses', function($scope, $http, $routeParams, calculateAvg) {
+
     $scope.isCollapsed = false;
-    window.spinner.start();
+
+    // Object that manages starting and stopping the spinner
+    var loader = {
+        numRequests : 0,
+        start : function(num) {
+            this.numRequests = num;
+            window.spinner.start();
+        },
+        finish : function() {
+            if (--this.numRequests == 0) {
+                window.spinner.stop();
+            }
+        }
+    };
+    loader.start(2);
+
+
+    // Get all studycards for user so we can calculate overall averages
+    var url = '/api/studycards?user='+ $routeParams.id;
+    $http.get(url).success(function(studycards) {
+        //console.log(JSON.stringify(studycards));
+        if (studycards.length > 0) {
+            $scope.classAverages = calculateAvg(studycards);
+        } else {
+            $scope.noCards = true;
+        }
+        loader.finish();
+    }).error(function(err) {
+            loader.finish();
+        alert('Could not get studycards.\n'+err);
+    });
 
     // Get all the classes for the user for current semester
     // We need to know what classes the user is enrolled in before we can get studycards
@@ -145,59 +179,52 @@ app.controller('StudyCardsCntrl', function($scope, $http, $routeParams, orderByW
         if (classes) {
             //console.log(JSON.stringify(classes));
 
-            if (classes.length == 1) {
-                // Only one class so automatically retrieve studycards for that class
-                getCardsForClass(classes[0]);
-            } else if (classes.length > 1) {
+            /*if (classes.length == 1) {
+                // Only one class so automatically route to view studycards
+                var className = classes[0].name.toCamel();
+                $location.path(classes[0].name+'/studycards?classid='+classes[0].id);
+            } else*/ if (classes.length > 0) {
                 // Display the list of classes from scope
                 $scope.classes = classes;
-                spinner.stop();
+                loader.finish();
             } else {
                 // Display warning that user isn't enrolled in any classes. Automatic enrollment as soon as they submit studycard.
                 $scope.noCards = true;
-                spinner.stop();
+                loader.finish();
             }
         }
     }).error(function(err) {
-          spinner.stop();
-          alert('Could not get studycards.\n'+err);
+        loader.finish();
+        alert('Could not get studycards.\n'+err);
     });
 
     $scope.showClasses = function() {
         $scope.cards = null;
         $scope.noCards = false;
     };
+});
 
-    $scope.classSelect = getCardsForClass;
+app.controller('StudyCardsCntrl', function($scope, $http, $routeParams, orderByWeek, calculateAvg) {
 
-    function getCardsForClass(classObj) {
+
+    // Classid comes from query parameter
+    //console.log('Classid: '+$routeParams.classid);
+    var cards = getCardsForClass($routeParams.classid);
+
+    function getCardsForClass(classId) {
         // Get studycards for selected class
-        var url = '/api/studycards?user='+ $routeParams.id+'&classid='+classObj.id;
+        var url = '/api/studycards?user='+ $routeParams.id+'&classid='+classId;
         $http.get(url).success(function(studycards) {
-            //console.log(JSON.stringify(studycards));
+            console.log(JSON.stringify(studycards));
             if (studycards.length > 0) {
+                $scope.classAverages = calculateAvg(studycards);
                 $scope.cards = orderByWeek(studycards);
             } else {
                 $scope.noCards = true;
             }
-            spinner.stop();
         }).error(function(err) {
-            spinner.stop();
             alert('Could not get studycards.\n'+err);
         });
     }
-});
-
-
-app.controller('StudyCardDetailsCntrl', function($scope, $http, $routeParams) {
-
-    // Get all availible study cards
-    $http.get('/api/studycards/' + $routeParams.cardId)
-        .success( function(data) {
-            $scope.studycard = data;
-            console.log(data);
-    }).error(function (data) {
-            console.log("StudyCardDetails request failed" + data);
-        });
 });
 

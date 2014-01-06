@@ -237,7 +237,7 @@ app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams, $loc
 });
 
 
-app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams, orderByWeek) {
+app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams, orderByWeek, calculateAvg) {
 
     window.spinner.start();
 
@@ -268,37 +268,6 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams, orde
         window.spinner.stop();
     });
 
-    // Return an object that has all the statistics on it
-    var calculateAvg = function(studyCards) {
-        //console.log('studycards: ' + studyCards);
-        if (studyCards) {
-            var totalFreq = 0, totalPrepare = 0, totalSeek = 0, totalDo = 0, totalTeach = 0, totalReadBlock = 0;
-
-            for (var i=0; i < studyCards.length; i++) {
-                //console.log('studycard'+i+': '+ JSON.stringify(studyCards[i]));
-                totalFreq += studyCards[i].frequency;
-                totalPrepare += studyCards[i].prepare;
-                totalSeek += studyCards[i].seek;
-                totalDo += studyCards[i].do;
-                totalTeach += studyCards[i].teach;
-                totalReadBlock += studyCards[i].block; // JS converts true/false to 1/0 respectively
-            }
-
-            var averages = {};
-            averages.numCards = studyCards.length;
-            console.log('NumCards: ' +averages.numCards);
-            averages.frequency = Math.round((totalFreq / averages.numCards) *100)/100;
-            averages.percentPrepare = Math.round((totalPrepare / averages.numCards) * 100);
-            averages.percentSeek = Math.round((totalSeek / averages.numCards) * 100);
-            averages.percentDo = Math.round((totalDo / averages.numCards) * 100);
-            averages.percentTeach = Math.round((totalTeach / averages.numCards) * 100);
-            averages.percentRead = Math.round((totalReadBlock / averages.numCards) * 100);
-
-            console.log('Averages: '+ JSON.stringify(averages));
-            return averages;
-        }
-
-    };
 });
 
 
@@ -426,25 +395,3 @@ app.controller('AdminViewUsersCntrl', function($scope, $http, exportCSV) {
         exportCSV($scope.students, 'InstituteContacts');
     };
 });
-
-
-String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-}
-
-// Convert a string with spaces to Camel Case
-String.prototype.toCamel = function(){
-    return this.replace(/\s(.)/g, function(match, group1) {
-        return group1.toUpperCase();
-    });
-};
-
-
-Array.prototype.removeItem =  function (item) {
-    for(var i=0; i < this.length; i++) {
-        if (angular.equals(this[i], item)) {
-            this.splice(i, 1);
-            break;
-        }
-    }
-}
