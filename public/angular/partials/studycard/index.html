@@ -1,6 +1,21 @@
 <subtitle>Study Cards</subtitle>
-<br>
-<div class="panel-group" id="accordion">
+
+
+<!-- Show list of classes user has enrolled in -->
+<div ng-show="(classes.length > 1 && cards) || (classes.length > 1 && noCards)">
+    <a href="" ng-click="showClasses()">Select Another Class</a>
+</div>
+<div ng-show="classes.length > 1 && !noCards && !cards" style="margin-left: 3%;">
+    <h5>Select a Class</h5>
+    <ul class="flowlist">
+        <li ng-repeat="classObj in classes"><a ng-click="classSelect(classObj)" href="">{{ classObj.name }}</a></li>
+    </ul>
+</div>
+<div ng-show="noCards" class="alert alert-warning">You do not have any studycards for the current semester.</div>
+
+
+<!-- Show studycards grouped by week -->
+<div ng-show="cards.length > 0" class="panel-group" id="accordion">
   <div class="panel panel-default" ng-repeat="card in cards">
     <div class="panel-heading">
       <h4 class="panel-title">

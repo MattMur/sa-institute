@@ -60,10 +60,14 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
     function getUserSchedule(user, callback) {
         if (user.id){
             console.log("user.id: " + user.id);
-            var url = '/api/users/' + user.id + '/class/';
+            var url = '/api/users/' + user.id + '/classes?limit=1';
             $http.get(url).success( function(data) {
-                user['class'] = data;
-                callback();
+                if (data.length > 0) {
+                    user['class'] = data[0];
+                    callback();
+                } else {
+                    user['class'] = { name: 'Unregistered' };
+                }
             }).error(function (data) {
                 console.log("The request failed" + data);
                 callback();
@@ -106,9 +110,10 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $cookies, $locat
 app.controller('NewStudyCardCntrl', function ($scope, $http, $location, $routeParams) {
 
     //console.log('routeparams ' + JSON.stringify($routeParams));
+    var today = Date.today().toString('yyyy-MM-dd');
 
-    // Get all availible classes
-    $http.get('/api/class').success( function(data) {
+    // Get all availible classes for current semester
+    $http.get('/api/class?date='+today).success( function(data) {
         $scope.classes = data;
         console.log(data);
     }).error(function (data) {
@@ -121,7 +126,6 @@ app.controller('NewStudyCardCntrl', function ($scope, $http, $location, $routePa
         $scope.studycard.user_id = $routeParams.id; // Set the userId from routeParams
         $http.post('/api/studycards', $scope.studycard).success(function(data) {
             // After creating a new studycard route to home
-            // Add flash notice?
             $location.path("/users/"+$routeParams.id);
         }).error(function(data) {
             window.alert("Attempt to create new studycard failed " + data);
@@ -130,92 +134,58 @@ app.controller('NewStudyCardCntrl', function ($scope, $http, $location, $routePa
 });
 
 
-app.controller('StudyCardsCntrl', function($scope, $http, $routeParams) {
-    $scope.isCollapsed = false;   
-    // function cardWeek(card){
-    //         this.cards = new Array(card);
-    //         card.inWeekArray = true;
-    //         this.startDate = new Date(card['date']);
-    //         // Set endDate == startDate + 7 days;
-    //         // Use milliseconds so 9/30/13 + 7 days == 10/07/13 instead of 9/37/13
-    //         this.endDate = new Date(this.startDate.getTime() + 7 * 1000 * 60 * 60 * 24);
-    //         this.inRange = function(card){
-    //             var checkDate = new Date(card['date']);
-    //             // console.log("check date: " + JSON.stringify(checkDate));
-    //             // Check if card['date'] falls in the date range of this week object
-    //             if (checkDate.getTime() >= this.startDate.getTime() && checkDate.getTime() <= this.endDate.getTime()){
-    //                 // console.log("Within range");
-    //                 var duplicate = false;
-    //                 var exception = {};
-    //                 try{
-    //                     // Check to see if card is already in this.cards
-    //                     this.cards.forEach(function(otherCard){
-    //                         if (card['id'] == otherCard['id']){
-    //                             throw exception;
-    //                         }
-    //                     });
-    //                 }catch(e){
-    //                      // break loop card is allready present
-    //                     duplicate = true;
-    //                     // console.log("card already exists " + JSON.stringify(card));
-    //                 };
-    //                 // if card isn't allready in this.cards then append it
-    //                 if (!duplicate){
-    //                     // console.log("add card " + JSON.stringify(card));
-    //                     this.cards.push(card);
-    //                     // card is in a week array, don't create a unique week object for it
-    //                     card.inWeekArray = true;
-    //                 }
-    //             }else{
-    //                 // card is out of week range. Don't add to this.cards
-    //                 // console.log("Out of range");
-    //             }
-    //         };
-    // }
-    // function to sort cards by date
-    function sortCardWeekNumber(card,otherCard){
-        if(card.week_number < otherCard.week_number){
-            return -1;
-        }
-        if(card.week_number > otherCard.week_number){
-            return 1;
-        }
-        return 0;
-    }
-    // Get all availible study cards
+app.controller('StudyCardsCntrl', function($scope, $http, $routeParams, orderByWeek) {
+    $scope.isCollapsed = false;
     window.spinner.start();
 
+    // Get all the classes for the user for current semester
+    // We need to know what classes the user is enrolled in before we can get studycards
+    var today = Date.today().toString('yyyy-MM-dd');
+    $http.get('/api/users/'+$routeParams.id+'/classes?date='+today).success(function(classes) {
+        if (classes) {
+            //console.log(JSON.stringify(classes));
 
-
-    var url = '/api/studycards?user='+ $routeParams.id;
-    $http.get(url).success( function(studycards) {
-        if (studycards.length > 0) {
-            $scope.cards = studycards.sort(sortCardWeekNumber);
-
-
-            // var weeks = [];
-            // studycards.forEach(function(card){
-            //     if (!card.inWeekArray){
-            //         // if card isn't allready in a week object then create a new week object for that card
-            //         var week = new cardWeek(card);
-            //         // loop threw all studycards and see if any were created the same week as the new week object
-            //         studycards.forEach(function(checkCard){
-            //             week.inRange(checkCard);
-            //         });
-            //         weeks.push(week);
-            //     }
-            // });
-            // console.log("Weeks: " + JSON.stringify(weeks));
-
-            // $scope.weeks = weeks;
-        
+            if (classes.length == 1) {
+                // Only one class so automatically retrieve studycards for that class
+                getCardsForClass(classes[0]);
+            } else if (classes.length > 1) {
+                // Display the list of classes from scope
+                $scope.classes = classes;
+                spinner.stop();
+            } else {
+                // Display warning that user isn't enrolled in any classes. Automatic enrollment as soon as they submit studycard.
+                $scope.noCards = true;
+                spinner.stop();
+            }
         }
-        spinner.stop();
-    }).error(function (data) {
-        spinner.stop();
-        // console.log("StudyCards request failed" + data);
+    }).error(function(err) {
+          spinner.stop();
+          alert('Could not get studycards.\n'+err);
     });
-    
+
+    $scope.showClasses = function() {
+        $scope.cards = null;
+        $scope.noCards = false;
+    };
+
+    $scope.classSelect = getCardsForClass;
+
+    function getCardsForClass(classObj) {
+        // Get studycards for selected class
+        var url = '/api/studycards?user='+ $routeParams.id+'&classid='+classObj.id;
+        $http.get(url).success(function(studycards) {
+            //console.log(JSON.stringify(studycards));
+            if (studycards.length > 0) {
+                $scope.cards = orderByWeek(studycards);
+            } else {
+                $scope.noCards = true;
+            }
+            spinner.stop();
+        }).error(function(err) {
+            spinner.stop();
+            alert('Could not get studycards.\n'+err);
+        });
+    }
 });
 
 

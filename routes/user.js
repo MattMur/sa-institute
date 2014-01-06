@@ -1,4 +1,5 @@
 var sql = require('../scripts/sqlconn');
+var squel = require("squel");
 
 exports.getAll = function(req, res, next) {
 
@@ -19,7 +20,7 @@ exports.getOne = function(req, res, next) {
 
     // We do have session, however we need to check if user has access to requested resource
     // check that the user_id is the same as the requested user_id
-    console.log('Checking access:', req.params.id, req.session.userid);
+    console.log('Checking access2:', req.params.id, req.session.userid);
     var isAuthorized = (req.session.access_level == 2) || (req.params.id == req.session.userid);
 
     if (isAuthorized) {
@@ -40,8 +41,8 @@ exports.getOne = function(req, res, next) {
         res.send(403); // Send 403 if user ids do not match
     }
 };
-exports.getUserClass = function(req, res, next) {
-    console.log('Checking access:', req.params.id, req.session.userid);
+exports.getCurrentClass = function(req, res, next) {
+    console.log('Checking access3:', req.params.id, req.session.userid);
     var isAuthorized = (req.session.access_level == 2) || (req.params.id == req.session.userid);
 
     if (isAuthorized) {
@@ -64,6 +65,44 @@ exports.getUserClass = function(req, res, next) {
     } else {
         console.log('Access denied for request');
         res.send(403); 
+    }
+};
+
+exports.getUserClasses = function(req, res, next) {
+    console.log('Checking access4:', req.params.id, req.session.userid);
+    var isAuthorized = (req.session.access_level == 2) || (req.params.id == req.session.userid);
+
+    if (isAuthorized) {
+
+        var injects = [req.params.id];
+        var query = squel.select().from('class')
+            .join('user_enrolled_in_class', 'uc', 'class.id = uc.class_id')
+            .where('uc.user_id = ?')
+            .order('uc.enrolled_date', false); // false=DESC
+
+        if (req.query.date) {  // Filter by classes that were active during the date given
+            query = query.where('? BETWEEN class.start_date AND class.end_date');  //filter += req.query.date ? ' WHERE ? BETWEEN class.startdate AND class.enddate' : "";
+            injects.push(req.query.date);
+        } //DATE_FORMAT(NOW(),'%m-%d-%Y')
+        if (req.query.limit) { // Limit to specific number of results
+            var limit = parseInt(req.query.limit);
+            query = query.limit(limit);
+        }
+
+        console.log('Get user classes query: ' + query.toString());
+        console.log('Injects: '+injects);
+
+        sql.query(query.toString(), injects, function(err, rows) {
+            if (err) {
+                console.log(err);
+                res.send(500);
+            } else {
+                res.json(rows);
+            }
+        });
+    } else {
+        console.log('Access denied for request');
+        res.send(403);
     }
 };
 

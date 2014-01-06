@@ -52,7 +52,7 @@ exports.getOne = function(req, res) {
 };
 
 
-
+// Create a new Studycard ALSO enroll user for class if not already
 exports.createNew = function(req, res) {
     //{"class_id":"1","frequency":"3","quality":"4","block":"","thoughts":" "}
     if (req.body) {
@@ -83,6 +83,31 @@ exports.createNew = function(req, res) {
                         res.status(200).send(result.insertId.toString());
                     }
                 });
+
+                // Enroll user to class they selected if not already enrolled
+                var enrollQuery = "SELECT * FROM user_enrolled_in_class WHERE user_id = ? AND class_id = ?";
+                sql.query(enrollQuery, [req.session.userid,  req.body.class_id], function(err, result) {
+                    if (err) {
+                        console.log(err);
+                        res.send(500);
+                    } else {
+                        if (result.length == 0) {
+                            // User is not enrolled. Enroll them!
+                            var enrollObj = { class_id : req.body.class_id, user_id : req.session.userid };
+                            sql.query('INSERT INTO user_enrolled_in_class SET ?', enrollObj, function(err, result) {
+                                if (err) {
+                                    console.log('Could not enroll user in class:\n'+err);
+                                } else {
+                                    console.log('User successfully enrolled in class: '+req.body.class_id);
+                                }
+                            });
+                        } else {
+                            console.log('User already enrolled in class');
+                            // User is already enrolled. We're done here.
+                        }
+
+                    }
+                });
             }
         });
     }
@@ -103,7 +128,6 @@ exports.remove = function(req, res) {
 
 // Get all NOTES from all study cards. Then filter by query parameters.
 exports.getNotes = function(req, res) {
-    console.log('Hi Mom!');
     var query = squel.select().field('id').field('notes').field('week_number').from('study_card').where('notes IS NOT NULL');
     var isAuthorized, injects = [];  // array of parameters injected into query
 
@@ -129,9 +153,14 @@ exports.getNotes = function(req, res) {
 
 function filterByParams(req, query, injects) {
 
+    // Filter with user id
+    if (req.query.user) {
+        query = query.where('user_id=?');
+        injects.push(req.query.user);
+    }
     // Filter by id or class name
     if (req.query.classid) {
-        query = query.where('class_id=?')
+        query = query.where('class_id=?');
         injects.push(req.query.classid);
     } else if (req.query.classname) {
         // find the classid based on class name
@@ -141,10 +170,10 @@ function filterByParams(req, query, injects) {
 
     // Start and end date range filter
     if (req.query.startdate && req.query.enddate) {
-        query = query.where('study_card.date BETWEEN ? AND ?');
+        query = query.where('study_card.created_date BETWEEN ? AND ?');
         injects.push(req.query.startdate, req.query.enddate);
     } else if (req.query.enddate) {
-        query = query.where('study_card.date=?');
+        query = query.where('study_card.created_date=?');
         injects.push(req.query.enddate);
     }
 
@@ -166,16 +195,12 @@ function checkIsAuthorized(req, query, injects) {
     var isAuthorized = true;
     if (req.query.user) {
         isAuthorized = req.session.userid == req.query.user; //You can't get cards for someone other than yourself
-        query = query.where('user_id=?');
-        injects.push(req.query.user);
     } else { // you don't have userid so request is for ALL studycards. We need to verify admin access for that.
         if (!req.session) {
             isAuthorized = false;
         }
         else if (req.session.access_level < 2) {
-            // If request doesn't have admin then we just get studycards matching their session userid
-            query = query.where('user_id=?');
-            injects.push(req.session.userid);
+            isAuthorized = false;  // User needs admin access to make this request
         }
     }
     return isAuthorized;

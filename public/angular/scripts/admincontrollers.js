@@ -32,7 +32,7 @@ app.controller('AdminViewClassesCntrl', function ($scope, $http) {
     var date = Date.today();
 
     // Query server for classes within selected date. Whenever the date changes we update.
-    $scope.$watch('selectedDate', function(newDate) {
+    $scope.$watch('selectedDate', function(newDate) { //FORMAT: YYYY-MM-DD
         console.log('SelectedDate modified. '+newDate+'\nUpdating class list...');
         $http.get('/api/class?date='+newDate).success(function(data) {
             $scope.classes = data;
@@ -237,7 +237,7 @@ app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams, $loc
 });
 
 
-app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
+app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams, orderByWeek) {
 
     window.spinner.start();
 
@@ -248,41 +248,20 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams) {
     // Get studycard from the specific class with start and end dates filter
     var url = '/api/studycards?classid='+ $routeParams.classid; // classid should be on query string
     $http.get(url).success( function(studycards) {
-        var index = -1, studycard, studyCardsByWeek = [], curWeek = 0; // Array of Arrays of Studycards
 
-        if (studycards.length > 0) {
-            // File cards into StudyCardArray by week_numberber
-            for (var i = 0; i < studycards.length; i++) {
-
-                studycard = studycards[i];
-                //console.log('card#: ' + (i+1) + ' week: ' + studycard.week_number + ' currentWeek: '+curWeek);
-                if (curWeek >= studycard.week_number) { // if current studycard belongs to current week
-                    studyCardsByWeek[index].push(studycard); // Add studycard to that week's array
-                } else {
-                    // Else move to next week  (where we have card data for that week)
-                    //console.log('Going to week ' + studycard.week_number);
-                    var newWeek = [studycard]; // create new array for new week
-                    newWeek.week_number = studycard.week_number;
-                    curWeek = studycard.week_number;
-                    studyCardsByWeek[++index] = newWeek;
-                }
-            }
-        }
-        $scope.studyCardArray = studyCardsByWeek;
+        $scope.studyCardArray = orderByWeek(studycards);
         $scope.classAverages = calculateAvg(studycards);
 
         // Calculate averages for each week
-        for (var i = 0; i < studyCardsByWeek.length; i++) {
+        for (var i = 0; i < $scope.studyCardArray.length; i++) {
             // Only do calculations once. If there is a definition at that index then it is already done.
             if ($scope.weekAvg[i] === undefined) {
                 if  ($scope.studyCardArray[i]) {
-                    $scope.weekAvg[i] = calculateAvg(studyCardsByWeek[i]); // Calculate avg for specific week
+                    $scope.weekAvg[i] = calculateAvg($scope.studyCardArray[i]); // Calculate avg for specific week
                 }
             }
         }
-
         window.spinner.stop();
-
 
     }).error(function (data) {
         console.log("StudyCards request failed" + data);

@@ -41,11 +41,13 @@ var AdminAccess = 2;
 // (\\d+) --Match any number
 app.get('/api/users', auth.basicAuth(express, AdminAccess), user.getAll);
 app.get('/api/users/:id(\\d+)', auth.basicAuth(express, UserAccess), user.getOne);
-app.get('/api/users/:id(\\d+)/studycards', auth.basicAuth(express, 1), user.getUserStudyCards);
+app.get('/api/users/:id(\\d+)/studycards', auth.basicAuth(express, UserAccess), user.getUserStudyCards);
+app.get('/api/users/:id(\\d+)/class', auth.basicAuth(express, UserAccess), user.getCurrentClass);
+app.get('/api/users/:id(\\d+)/classes', auth.basicAuth(express, UserAccess), user.getUserClasses)
 app.post('/api/users', user.createNew); // No auth needed to create new user
 app.put('/api/users/:id(\\d+)', auth.basicAuth(express, UserAccess), user.modify);
 app.del('/api/users/:id(\\d+)', auth.basicAuth(express, AdminAccess), user.remove);
-app.get('/api/users/:id(\\d+)/class', auth.basicAuth(express, AdminAccess), user.getUserClass);
+
 
 app.get('/api/studycards', auth.basicAuth(express, UserAccess), studyCard.getAll);
 app.get('/api/studycards/:id(\\d+)', auth.basicAuth(express, UserAccess), studyCard.getOne)
@@ -92,8 +94,8 @@ app.get(/^\/users(?:\/)?([0-9]*)?/, function(req, res, next) {
         res.redirect('/login.html'); // No userid? need to login
     } else {
         console.log('Sending to User Index');
-        var paramId = req.params[0];
-        console.log('Checking access:', paramId, req.session.userid);
+        var paramId = req.session.userid;
+        console.log('Checking access1:', paramId, req.session.userid);
         var isAuthorized = paramId == req.session.userid; // Check that userid matches what they are requesting
         if (!isAuthorized) {
             console.log('Access denied');

@@ -60,3 +60,31 @@ app.factory('checkValidFileType', function() {
         return isValid;
     }
 });
+
+// Orders array of items into new array of array by week. Items must have property 'week_number'
+app.factory('orderByWeek', function() {
+
+    return function(items) {
+        var index = -1, itemsByWeek = [], curWeek = 0, item;
+        if (items.length > 0) {
+            // File items into array by week_number
+            for (var i = 0; i < items.length; i++) {
+
+                item = items[i];
+                //console.log('item#: ' + (i+1) + ' week: ' + item.week_number + ' currentWeek: '+curWeek);
+                if (curWeek >= item.week_number) { // if current studycard belongs to current week
+                    itemsByWeek[index].push(item); // Add studycard to that week's array
+                } else {
+                    // Else move to next week  (where we have card data for that week)
+                    //console.log('Going to week ' + item.week_number);
+                    var newWeek = [item]; // create new array for new week
+                    newWeek.week_number = item.week_number;
+                    curWeek = item.week_number;
+                    itemsByWeek[++index] = newWeek;
+                }
+            }
+        }
+        //console.log('Items By Week:\n'+JSON.stringify(itemsByWeek));
+        return itemsByWeek;
+    }
+});
