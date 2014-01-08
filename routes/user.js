@@ -41,6 +41,7 @@ exports.getOne = function(req, res, next) {
         res.send(403); // Send 403 if user ids do not match
     }
 };
+
 exports.getCurrentClass = function(req, res, next) {
     console.log('Checking access3:', req.params.id, req.session.userid);
     var isAuthorized = (req.session.access_level == 2) || (req.params.id == req.session.userid);

@@ -1,5 +1,5 @@
 <div>
-    <subtitle>Admin - {{className}}<span class="sub"> Study Cards</span></subtitle>
+    <subtitle>Admin - StudyCards <span class="sub">{{className}}</span></subtitle>
 
     <br>
     <div class="alert alert-info" ng-hide="studyCardArray.length > 0">No study cards yet.</div>
@@ -11,7 +11,7 @@
         </div>
         <div class="panel-body">
             <ul class="flowlist">
-                <li>Frequency: <strong>{{ classAverages.frequency }}</strong></li>
+                <li>Reading Frequency: <strong>{{ classAverages.frequency }}</strong> days a week</li>
                 <li style="display: inline-block">Prepare: <strong>{{ classAverages.percentPrepare }}%</strong></li>
                 <li style="display: inline-block">Seek: <strong>{{ classAverages.percentSeek }}%</strong></li>
                 <li style="display: inline-block">Do: <strong>{{ classAverages.percentDo }}%</strong></li>
@@ -27,7 +27,7 @@
 
             <a class="accordion-toggle" id="drop-down" data-toggle="collapse" data-parent="#accordion" data-target="#week-{{studyCards.week_number}}">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Week {{ studyCards.week_number }}</h4>
+                    <h4 class="panel-title">Week {{ studyCards.week_number }} Averages</h4>
                 </div><!-- \.panel-heading -->
             </a>
 
@@ -36,7 +36,7 @@
                 <div class="panel-body">
                     <ul class="flowlist">
                         <li>Total: <strong>{{ weekAvg[$index].numCards }}</strong></li>
-                        <li>Frequency: <strong>{{ weekAvg[$index].frequency }}</strong> (avg)</li>
+                        <li>Frequency: <strong>{{ weekAvg[$index].frequency }}</strong> days a week</li>
                         <li style="display: inline-block">Prepare: <strong>{{ weekAvg[$index].percentPrepare }}%</strong></li>
                         <li style="display: inline-block">Seek: <strong>{{ weekAvg[$index].percentSeek }}%</strong></li>
                         <li style="display: inline-block">Do: <strong>{{ weekAvg[$index].percentDo }}%</strong></li>

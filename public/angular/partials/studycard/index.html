@@ -1,4 +1,4 @@
-<subtitle>Study Cards <span class="sub">Overview</span></subtitle>
+<subtitle>StudyCards <span class="sub">Overview</span></subtitle>
 
 <!-- CLASS AVERAGES -->
 <div class="panel panel-info" ng-show="classAverages" ng-cloak>
@@ -7,7 +7,7 @@
     </div>
     <div class="panel-body">
         <ul class="flowlist">
-            <li>Frequency: <strong>{{ classAverages.frequency }}</strong></li>
+            <li>Reading Frequency: <strong>{{ classAverages.frequency }}</strong> days a week</li>
             <li style="display: inline-block">Prepare: <strong>{{ classAverages.percentPrepare }}%</strong></li>
             <li style="display: inline-block">Seek: <strong>{{ classAverages.percentSeek }}%</strong></li>
             <li style="display: inline-block">Do: <strong>{{ classAverages.percentDo }}%</strong></li>
@@ -17,8 +17,7 @@
     </div>
 </div>
 
-<!-- Show list of classes user has enrolled in -->
-
+<!-- Show list of classes user has enrolled in for CURRENT SEMESTER -->
 <div class="panel panel-default" ng-show="classAverages" ng-show="classes.length > 1 && !noCards && !cards" ng-cloak>
     <div class="panel-heading">
         <h3 class="panel-title">Your Classes <span class="pull-right"><a ng-click="showAll()" href="">(Show all previous classes)</a></span> </h3>

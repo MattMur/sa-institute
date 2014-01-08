@@ -1,4 +1,4 @@
-<subtitle>Study Cards <span class="sub">{{ class.name }}</span></subtitle>
+<subtitle>StudyCards <span class="sub">{{ className }}</span></subtitle>
 
 <!-- CLASS AVERAGES -->
 <div class="panel panel-info" ng-show="classAverages" ng-cloak>
@@ -7,7 +7,7 @@
     </div>
     <div class="panel-body">
         <ul class="flowlist">
-            <li>Frequency: <strong>{{ classAverages.frequency }}</strong></li>
+            <li>Reading Frequency: <strong>{{ classAverages.frequency }}</strong> days a week</li>
             <li style="display: inline-block">Prepare: <strong>{{ classAverages.percentPrepare }}%</strong></li>
             <li style="display: inline-block">Seek: <strong>{{ classAverages.percentSeek }}%</strong></li>
             <li style="display: inline-block">Do: <strong>{{ classAverages.percentDo }}%</strong></li>
@@ -19,31 +19,32 @@
 
 <!-- Show studycards grouped by week -->
 <div ng-show="cards.length > 0" class="panel-group" id="accordion">
-    <div class="panel panel-default" ng-repeat="card in cards">
+    <div class="panel panel-default" ng-repeat="weeklyCards in cards">
 
         <a class="accordion-toggle" id="drop-down" data-toggle="collapse"
            data-parent="#accordion" data-target="#week-{{$index+1}}">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    Week {{card.week_number}}
+                    Week {{weeklyCards.week_number}}
                 </h4>
             </div><!-- \.panel-heading -->
         </a>
 
         <div id="week-{{$index+1}}" class="panel-collapse collapse">
             <div class="panel-body">
-                <ul>
-                    <li>Class: {{card.class_id }}</li>
-                    <li>Frequency: {{ card.frequency }}</li>
-                    <li>Prepare: {{ card.prepare | yesno }}</li>
-                    <li>Seek: {{ card.seek | yesno }}</li>
-                    <li>Do: {{ card.do | yesno }}</li>
-                    <li>Teach: {{ card.teach | yesno }}</li>
-                    <li>Read assigned block?: {{ card.assignedBlock | yesno }}</li>
-                    <li ng-show="card.notes">Comments: {{ card.notes }}</li>
+                <ul class="flowlist">
+                    <li>Class: {{weeklyCards[0].class_id }}</li>
+                    <li>Frequency: {{ weeklyCards[0].frequency }}</li>
+                    <li>Prepare: {{ weeklyCards[0].prepare | yesno }}</li>
+                    <li>Seek: {{ weeklyCards[0].seek | yesno }}</li>
+                    <li>Do: {{ weeklyCards[0].do | yesno }}</li>
+                    <li>Teach: {{ weeklyCards[0].teach | yesno }}</li>
+                    <li>Read assigned block?: {{ weeklyCards[0].assignedBlock | yesno }}</li>
                 </ul>
-                <blockquote ng-show="card.notes">{{ card.notes }}</blockquote>
+                <blockquote ng-show="weeklyCards[0].notes">{{ weeklyCards[0].notes }}</blockquote>
             </div><!-- \.panel-body -->
         </div><!-- \.panel-collapse -->
     </div><!-- \.panel-default -->
 </div><!-- \.panel-group -->
+
+<div ng-show="noCards" class="alert alert-warning">You do not have any studycards for the current semester.</div>

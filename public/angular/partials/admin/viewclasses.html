@@ -15,9 +15,9 @@
         </div>
         <div class="panel-body">
             <ul class="flowlist">
-                <li><a ng-href="/admin/classes/{{ class.name | lowercase }}/studycards?classid={{ class.id }}">Studycards</a></li>
-                <li><a ng-href="/admin/classes/{{ class.name | lowercase }}/students?classid={{ class.id }}">Student List</a></li>
-                <li><a ng-href="/admin/classes/{{ class.name | lowercase }}/comments?classid={{ class.id }}">Comments & Questions</a></li>
+                <li><a ng-href="/admin/classes/{{ class.name.toCamel() }}/studycards?classid={{ class.id }}">Studycards</a></li>
+                <li><a ng-href="/admin/classes/{{ class.name.toCamel() }}/students?classid={{ class.id }}">Student List</a></li>
+                <li><a ng-href="/admin/classes/{{ class.name.toCamel() }}/comments?classid={{ class.id }}">Comments & Questions</a></li>
                 <li><a ng-show="class.syllabus"  target="_self" href="/api/class/{{ class.id }}/syllabus">Syllabus</a></li>
             </ul>
         </div>

@@ -48,23 +48,15 @@ app.post('/api/users', user.createNew); // No auth needed to create new user
 app.put('/api/users/:id(\\d+)', auth.basicAuth(express, UserAccess), user.modify);
 app.del('/api/users/:id(\\d+)', auth.basicAuth(express, AdminAccess), user.remove);
 
-
 app.get('/api/studycards', auth.basicAuth(express, UserAccess), studyCard.getAll);
 app.get('/api/studycards/:id(\\d+)', auth.basicAuth(express, UserAccess), studyCard.getOne)
 app.post('/api/studycards', auth.basicAuth(express, UserAccess), studyCard.createNew);
 app.del('/api/studycards/:id(\\d+)', auth.basicAuth(express, UserAccess), studyCard.remove);
 app.get('/api/studycards/notes', auth.basicAuth(express, AdminAccess), studyCard.getNotes);
 
-app.get('/api/teachers', auth.basicAuth(express, UserAccess), teacher.getAll);
-app.get('/api/teachers/:id(\\d+)', auth.basicAuth(express, UserAccess), teacher.getOne);
-app.get('/api/teachers/:id(\\d+)/classes', auth.basicAuth(express, UserAccess), teacher.getClasses);
-app.post('/api/teachers', auth.basicAuth(express, AdminAccess), teacher.createNew);
-app.del('/api/teachers/:id(\\d+)', auth.basicAuth(express, AdminAccess), teacher.remove);
-
 app.get('/api/class', auth.basicAuth(express, UserAccess), classSubject.getALL);
 app.get('/api/class/:id(\\d+)', auth.basicAuth(express, UserAccess), classSubject.getOne);
-app.get('/api/class/:id(\\d+)/teachers', auth.basicAuth(express, UserAccess), classSubject.getTeachers);
-app.get('/api/class/:id(\\d+)/students', auth.basicAuth(express, UserAccess), classSubject.getStudents);
+app.get('/api/class/:id(\\d+)/students', auth.basicAuth(express, AdminAccess), classSubject.getStudents);
 app.get('/api/class/:id(\\d+)/syllabus', classSubject.getSyllabus);
 app.post('/api/class', auth.basicAuth(express, AdminAccess), classSubject.createNew);
 app.put('/api/class/syllabus', classSubject.uploadSyllabus);

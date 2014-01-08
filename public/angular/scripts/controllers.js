@@ -95,11 +95,11 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $location) {
     function switchBetweenAdminStudent() {
         $scope.isLocationAdmin = (/admin/).test($location.path());
         if ($scope.isLocationAdmin) {
-            $scope.menuType = 'Admin';
+            $scope.menuType = 'Action';
             $scope.menuItems = adminMenuItems;
             console.log('set menu to admin');
         } else {
-            $scope.menuType = 'Student';
+            $scope.menuType = 'Action';
             $scope.menuItems = userMenuItems;
             console.log('set menu to student');
         }
@@ -156,7 +156,6 @@ app.controller('StudyCardClasses', function($scope, $http, $routeParams, calcula
     };
     loader.start(2);
 
-
     // Get all studycards for user so we can calculate overall averages
     var url = '/api/studycards?user='+ $routeParams.id;
     $http.get(url).success(function(studycards) {
@@ -198,15 +197,24 @@ app.controller('StudyCardClasses', function($scope, $http, $routeParams, calcula
         alert('Could not get studycards.\n'+err);
     });
 
-    $scope.showClasses = function() {
-        $scope.cards = null;
-        $scope.noCards = false;
+    // Get ALL CLASSES that the user has ever enrolled in
+    $scope.showAll = function() {
+        $http.get('/api/users/'+$routeParams.id+'/classes').success(function(classes) {
+            if (classes) {
+                //console.log(JSON.stringify(classes));
+                if (classes.length > 0) {
+                    // Display the list of classes from scope
+                    $scope.classes = classes;
+                }
+            }
+        }).error(function(err) {
+            alert('Could not get studycards.\n'+err);
+        });
     };
 });
 
 app.controller('StudyCardsCntrl', function($scope, $http, $routeParams, orderByWeek, calculateAvg) {
-
-
+    $scope.className = $routeParams.className;
     // Classid comes from query parameter
     //console.log('Classid: '+$routeParams.classid);
     var cards = getCardsForClass($routeParams.classid);

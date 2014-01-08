@@ -57,31 +57,21 @@ exports.getOne = function(req, res, next) {
 
 };
 
-exports.getTeachers = function(req, res, next) {
-
-    var queryStr = 'SELECT t.* FROM teacher t JOIN class_has_teachers cht ON t.id = cht.teachers_id WHERE cht.class_id = ?';
-
-    sql.query(queryStr, req.params.id, function(err, rows) {
-        if (err) {
-            console.log(err);
-            res.status(500).send('Could not get teachers');
-        } else {
-            console.log('teachers for class are are: \n', JSON.stringify(rows));
-            res.json(rows);
-        }
-    });
-};
 
 exports.getStudents = function(req, res, next) {
 
-    var queryStr = 'SELECT * FROM user WHERE class_id = ?';
+    // Get all students that have enrolled in a class
+    var query = squel.select().from('user')
+        .join('user_enrolled_in_class', 'uc', 'user.id = uc.user_id')
+        .where('uc.class_id = ?');
+    console.log('Query: ' + query.toString());
 
-    sql.query(queryStr, req.params.id, function(err, rows) {
+    sql.query(query.toString(), req.params.id, function(err, rows) {
         if (err) {
             console.log(err);
-            res.status(500).send('Could not get users');
+            res.status(500).send('Could not get students');
         } else {
-            console.log('teachers for class are are: \n', JSON.stringify(rows));
+            //console.log('students for class are are: \n', JSON.stringify(rows));
             res.json(rows);
         }
     });
