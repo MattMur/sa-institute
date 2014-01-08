@@ -12,12 +12,13 @@
     <table class="table">
         <thead>
             <tr>
-                <td>Current Classes</td><td>Location</td><td>Syllabus</td>
+                <td>Current Classes</td><td>Time</td><td>Location</td><td>Syllabus</td>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="classObj in classes">
                 <td>{{ classObj.name }}</td>
+                <td>{{ classObj.time | time }}</td>
                 <td> {{ classObj.location }}</td>
                 <td><a ng-show="classObj.syllabus" target="_self" href="/api/class/{{ classObj.id }}/syllabus">Class Syllabus</a></td>
             </tr>
