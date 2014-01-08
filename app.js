@@ -41,8 +41,7 @@ var AdminAccess = 2;
 app.get('/api/users', auth.basicAuth(express, AdminAccess), user.getAll);
 app.get('/api/users/:id(\\d+)', auth.basicAuth(express, UserAccess), user.getOne);
 app.get('/api/users/:id(\\d+)/studycards', auth.basicAuth(express, UserAccess), user.getUserStudyCards);
-app.get('/api/users/:id(\\d+)/class', auth.basicAuth(express, UserAccess), user.getCurrentClass);
-app.get('/api/users/:id(\\d+)/classes', auth.basicAuth(express, UserAccess), user.getUserClasses)
+app.get('/api/users/:id(\\d+)/classes', auth.basicAuth(express, UserAccess), user.getUserClasses);
 app.post('/api/users', user.createNew); // No auth needed to create new user
 app.put('/api/users/:id(\\d+)', auth.basicAuth(express, UserAccess), user.modify);
 app.del('/api/users/:id(\\d+)', auth.basicAuth(express, AdminAccess), user.remove);
@@ -53,8 +52,8 @@ app.post('/api/studycards', auth.basicAuth(express, UserAccess), studyCard.creat
 app.del('/api/studycards/:id(\\d+)', auth.basicAuth(express, UserAccess), studyCard.remove);
 app.get('/api/studycards/notes', auth.basicAuth(express, AdminAccess), studyCard.getNotes);
 
-app.get('/api/class', auth.basicAuth(express, UserAccess), classSubject.getALL);
-app.get('/api/class/:id(\\d+)', auth.basicAuth(express, UserAccess), classSubject.getOne);
+app.get('/api/class', classSubject.getALL); // No auth needed
+app.get('/api/class/:id(\\d+)', classSubject.getOne); // No auth needed
 app.get('/api/class/:id(\\d+)/students', auth.basicAuth(express, AdminAccess), classSubject.getStudents);
 app.get('/api/class/:id(\\d+)/syllabus', classSubject.getSyllabus);
 app.post('/api/class', auth.basicAuth(express, AdminAccess), classSubject.createNew);
@@ -68,13 +67,11 @@ app.post('/login', auth.login);
 app.get('/logoff', auth.logoff);
 
 app.get('/', function(req, res, next) {
-    if (!req.session.userid) {
-        console.log("Redirecting to login");
-        res.redirect('/login.html'); // No userid? need to login
-    } else {
-        console.log("Redirecting to institute app");
-        res.redirect('/users/' + req.session.userid); // send them to their studycard
-    }
+    res.sendfile('public/angular/instituteapp.html', { maxAge : 3600 }, null);
+});
+
+app.get('/login.html', function(req, res, next) {
+    res.sendfile('public/angular/login.html', { maxAge : 3600 }, null);
 });
 
 
@@ -84,7 +81,7 @@ app.get(/^\/users(?:\/)?([0-9]*)?/, function(req, res, next) {
         console.log("Redirecting to login");
         res.redirect('/login.html'); // No userid? need to login
     } else {
-        console.log('Sending to User Index');
+        console.log('Sending to Home');
         var paramId = req.session.userid;
         console.log('Checking access1:', paramId, req.session.userid);
         var isAuthorized = paramId == req.session.userid; // Check that userid matches what they are requesting

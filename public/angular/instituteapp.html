@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
-    <title>Institute Form</title>
+    <meta name="description" content="San Antonio Institute Website">
+    <meta name="author" content="Matthew Murray">
+    <!--<link rel="shortcut icon" href="../../assets/ico/favicon.png">-->
+    <title>SA Institute</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
 
     <!-- Less page flicker by putting this script at top -->
@@ -28,9 +28,9 @@
                 </button>
                 <a class="navbar-brand" href="/">San Antonio Institute</a>
             </div><!-- /.navbar-header -->
-            <div class="navbar-collapse collapse">  
+            <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
+                    <li class="dropdown" ng-show="user.id">
                         <a class="dropdown-toggle" data-toggle="dropdown">{{ user.first_name }}<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li ng-show="user.access_level > 1 &amp;&amp; !isLocationAdmin"><a href="/admin">Admin</a></li>
@@ -38,17 +38,18 @@
                             <li><a ng-click="logoff()">Log out</a></li>
                         </ul><!-- /.dropdown-menu -->
                     </li><!-- /.dropdown -->
-                    <li ng-hide="user.class.name"><a href='#'>Enroll in a Class</a></li>
-                    <li class="dropdown">
-                        <a ng-show="user.class.name" 
-                        href="#" class="dropdown-toggle" 
-                        data-toggle="dropdown">{{ menuType }}
-                            <b class="caret"></b>
+                    <li class="dropdown" ng-show="user.id">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            {{ menuType }} <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
                             <li ng-repeat="item in menuItems"><a ng-href="{{ item.href }}">{{ item.name }}</a></li>
                         </ul><!-- /.dropdown-menu -->
-                    </li><!-- /.dropdown -->
+                    </li>
+                    <li ng-hide="user.id">
+                        <a href="/login.html">Login</a>
+                    </li>
+                    <!-- /.dropdown -->
                 </ul><!-- /.nav navbar-nav -->
             </div><!--/.nav-collapse collapse -->
         </div><!-- /.container -->

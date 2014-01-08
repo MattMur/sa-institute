@@ -31,21 +31,20 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $location) {
                 $rootScope.user['id'] = $.cookie('userid');
                 console.log('User at RootLevel: ' + JSON.stringify(data));
 
-                getUserSchedule($rootScope.user, function() {
+                // Contextual menu items based on Admin or Student
+                userMenuItems = [
+                    new MenuItem('New Study Card', '/users/'+ $rootScope.user.id +'/studycards/new'),
+                    new MenuItem('View Study Cards', '/users/'+ $rootScope.user.id +'/studycards')
+                    //new MenuItem('Syllabus', '/classes/'+ $rootScope.user.class_id +'/syllabus')
+                ];
+                adminMenuItems = [
+                    new MenuItem('View Classes', '/admin/classes'),
+                    new MenuItem('New Class', '/admin/classes/new'),
+                    new MenuItem('Manage Users', '/admin/users')
+                ];
+                switchBetweenAdminStudent();
 
-                    // Contextual menu items based on Admin or Student
-                    userMenuItems = [
-                        new MenuItem('New Study Card', '/users/'+ $rootScope.user.id +'/studycards/new'),
-                        new MenuItem('View Study Cards', '/users/'+ $rootScope.user.id +'/studycards')
-                        //new MenuItem('Syllabus', '/classes/'+ $rootScope.user.class_id +'/syllabus')
-                    ];
-                    adminMenuItems = [
-                        new MenuItem('View Classes', '/admin/classes'),
-                        new MenuItem('New Class', '/admin/classes/new'),
-                        new MenuItem('Manage Users', '/admin/users')
-                    ];
-                    switchBetweenAdminStudent();
-                });
+                //getUserSchedule($rootScope.user, function() { });
 
             })
             .error(function(data) {
@@ -81,7 +80,6 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $location) {
     $scope.logoff = function() {
         $.removeCookie('userid', { path:'/'})
         $rootScope.user = null;
-        window.location = '/logoff';
     }
 
     //$scope.menuItems = userMenuItems;
@@ -104,6 +102,19 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $location) {
             console.log('set menu to student');
         }
     }
+});
+
+app.controller('WelcomeCntrl', function($scope, $http) {
+
+    var today = Date.today().toString('yyyy-MM-dd');
+
+    // Get all availible classes for current semester
+    $http.get('/api/class?date='+today).success( function(data) {
+        $scope.classes = data;
+        console.log(data);
+    }).error(function (data) {
+        console.log("NewStudyCard request failed" + data);
+    });
 });
 
 

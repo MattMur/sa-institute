@@ -10,11 +10,11 @@ var app = angular.module('loginApp', ['ngRoute']);
 
 app.config(function($routeProvider, $locationProvider) {
     $routeProvider.when('/login.html', {
-        templateUrl:'/angular/partials/loginpart.html',
+        templateUrl:'/angular/partials/login/loginpart.html',
         controller: 'LoginCntrl'
     });
     $routeProvider.when('/register.html', {
-        templateUrl:'/angular/partials/registerpart.html',
+        templateUrl:'/angular/partials/login/registerpart.html',
         controller: 'RegisterCntrl'
     });
     //.otherwise({redirectTo: '/'});

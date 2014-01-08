@@ -13,10 +13,15 @@ body {
     cursor: pointer;
 }
 
+.flowlist {
+    margin: 0;
+    padding-left: 15px;
+}
+
 .flowlist li {
     list-style-type: none;
     display: block;
-    padding: 5px 10px 10px 0px;
+    padding: 5px 10px 10px 0;
     margin: 0;
 }
 
@@ -68,3 +73,18 @@ body {
     padding: 5px 5px 5px 0;
     font-size: 16px;
 }
+
+.table thead {
+    font-weight: bold;
+}
+
+/*.jumbotron {
+    background-image: url(../images/Sunshine.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fffaf5;
+    text-shadow: #232323 0.1em 0.1em 0.1em;
+    border-style: solid;
+    border: #000000 1px;
+}*/

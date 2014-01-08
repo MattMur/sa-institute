@@ -1,0 +1,26 @@
+<div class="jumbotron">
+    <h1>Welcome to SA Institute!</h1> <!--<h1 style="text-align: right"></h1>-->
+    <p>Here you will be able to find what classes are currently offered, as well as keep track of your scripture reading progress.
+        We hope it enlightens you in your daily scripture reading habits.</p>
+    <br>
+
+    <p ng-hide="user.id"><a class="btn btn-primary btn-lg" role="button">Register</a> <a class="btn btn-primary btn-lg" role="button">Login</a></p>
+    <p ng-show="user.id"><a ng-href="/users/{{ user.id }}/studycards/new" class="btn btn-primary btn-lg" role="button">Submit a StudyCard</a></p>
+</div>
+<div style="padding: 2%" ng-show="classes" ng-cloak>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Current Classes</td><td>Location</td><td>Syllabus</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="classObj in classes">
+                <td>{{ classObj.name }}</td>
+                <td> {{ classObj.location }}</td>
+                <td><a ng-show="classObj.syllabus" target="_self" href="/api/class/{{ classObj.id }}/syllabus">Class Syllabus</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

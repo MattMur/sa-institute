@@ -10,6 +10,10 @@ var app = angular.module('instituteApp', ['ngRoute', 'ui.bootstrap', 'angularFil
 
 app.config(function($routeProvider, $locationProvider) {
 
+    $routeProvider.when('/', {
+        templateUrl:'/angular/partials/welcome.html',
+        controller: 'WelcomeCntrl'
+    });
     $routeProvider.when('/users/:id', {
         redirectTo: '/users/:id/studycards'
     });
