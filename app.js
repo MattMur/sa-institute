@@ -4,7 +4,6 @@ var app = express();
 
 var auth = require('./scripts/authentication');
 var user = require('./routes/user');
-var teacher = require('./routes/teachers');
 var classSubject = require('./routes/class');
 var studyCard = require('./routes/studyCards');
 var aws = require('./scripts/aws-functions');
