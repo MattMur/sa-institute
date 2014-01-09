@@ -1,5 +1,6 @@
 @import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css");
 .nav, .pagination, .carousel a { cursor: pointer; }
+@import url(http://fonts.googleapis.com/css?family=Bree+Serif);
 
 body { 
     padding-top: 65px; 
@@ -77,6 +78,57 @@ body {
 .table thead {
     font-weight: bold;
 }
+
+/*.logincontainer {
+    background-color: #4d4dbe;
+    color: #ffffff;
+}*/
+
+.form-control, .btn, .registerBtn {
+    transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+}
+
+.logincontainer label {
+    font-weight: 100;
+    font-size: 18px;
+}
+
+.logincontainer .form-control:hover {
+    background: #f1f7fa; /*DFE9EC*/
+    color: #414848;
+}
+.logincontainer .form-control:focus {
+    background: #f1f7fa;
+    color: #414848;
+
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+    -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+}
+
+.loginBtn {
+    display: inline-block;
+}
+
+.registerBtn {
+    margin-left: 5px;
+    color: #c6c6c6;
+}
+
+.registerBtn:hover {
+    color: #3272ba;
+}
+
+.registerBtn:focus {
+    position: relative;
+    bottom: -1px;
+}
+
+
 
 /*.jumbotron {
     background-image: url(../images/Sunshine.jpg);

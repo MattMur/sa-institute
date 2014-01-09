@@ -1,44 +1,51 @@
-<div id="registerwrapper" >
-    <!--SLIDE-IN ICONS-->
-    <div class="user-icon"></div>
-    <div class="pass-icon"></div>
-    <!--END SLIDE-IN ICONS-->
-
-    <!--LOGIN FORM-->
-    <form name="login-form" class="login-form" ng-submit="register()">
-
-        <!--HEADER-->
-        <div class="header">
-            <!--TITLE--><h1>SA Institute Registration</h1><!--END TITLE-->
-            <!--DESCRIPTION--><span>San Antonio, Texas</span><!--END DESCRIPTION-->
+<div class="row logincontainer" >
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <div class="row">
+            <div class="col-sm-offset-3 col-sm-9">
+                <h3 class="loginBtn">Register</h3>
+                <a href="/login.html" class="registerBtn"><h3 style="display: inline-block"> Login</h3></a>
+            </div>
         </div>
-        <!--END HEADER-->
 
-        <!--CONTENT-->
-        <div class="content">
-            <!--EMAIL--><input ng-model="newUser.email" name="username" type="email" class="input username" placeholder="Email" required><!--END EMAIL-->
-            <!--PASSWORD--><input ng-model="newUser.password" name="password" type="password" class="input password" placeholder="Password" required><!--END PASSWORD-->
-            <!--FIRSTNAME--><input ng-model="newUser.first_name" name="first" type="text" class="input password" placeholder="First name" required><!--END FIRSTNAME-->
-            <!--LASTNAME--><input ng-model="newUser.last_name" name="last" type="text" class="input password" placeholder="Last name" required><!--END LASTNAME-->
-            <!--PHONE--><input ng-model="newUser.phone" name="phone" type="tel" class="input password" placeholder="Phone (optional)"><!--END PHONE-->
-
-            <!--CLASS (commented out for now)
-            <select name="class" ng-model="studycard.class_id" class="input">
-                <option value="" selected>- Current Class -</option>
-                <option ng-repeat="class in classes" value="{{ class.id }}">{{ class.name }}</option>
-             </select>
-             -->
-        </div>
-        <!--END CONTENT-->
-
-        <!--FOOTER-->
-        <div class="footer">
-            <!--LOGIN BUTTON--><input ng-click="changeToLogin()" type="button" name="login" value="Login" class="register" /><!--END LOGIN BUTTON-->
-            <!--REGISTER BUTTON--><input type="submit" name="submit" value="Register" class="button" /><!--END REGISTER BUTTON-->
-        </div>
-        <!--END FOOTER-->
-
-    </form>
-    <!--END LOGIN FORM-->
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="inputEmail" class="col-xs-3 control-label">Email</label>
+                <div class="col-xs-9">
+                    <input ng-model="newUser.email" type="email" class="form-control" id="inputEmail" placeholder="Email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword" class="col-xs-3 control-label">Password</label>
+                <div class="col-xs-9">
+                    <input ng-model="newUser.password" type="password" class="form-control" id="inputPassword" placeholder="Password" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputfname" class="col-xs-3 control-label">First Name</label>
+                <div class="col-xs-9">
+                    <input ng-model="newUser.first_name" type="text" class="form-control" id="inputfname" placeholder="First Name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputlname" class="col-xs-3 control-label">Last Name</label>
+                <div class="col-xs-9">
+                    <input ng-model="newUser.last_name" type="text" class="form-control" id="inputlname" placeholder="Last Name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputTel" class="col-xs-3 control-label">Phone</label>
+                <div class="col-xs-9">
+                    <input ng-model="newUser.phone" type="tel" class="form-control" id="inputTel" placeholder="Phone (Optional)">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button type="submit" class="btn btn-primary btn-lg" ng-click="register()">Register</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-2"></div>
 </div>
 

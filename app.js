@@ -70,8 +70,9 @@ app.get('/', function(req, res, next) {
     res.sendfile('public/angular/instituteapp.html', { maxAge : 3600 }, null);
 });
 
-app.get('/login.html', function(req, res, next) {
-    res.sendfile('public/angular/login.html', { maxAge : 3600 }, null);
+// register or login html paths
+app.get(/^\/(login|register).html/, function(req, res, next) {
+    res.sendfile('public/angular/instituteapp.html', { maxAge : 3600 }, null);
 });
 
 

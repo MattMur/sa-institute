@@ -14,6 +14,16 @@ app.config(function($routeProvider, $locationProvider) {
         templateUrl:'/angular/partials/welcome.html',
         controller: 'WelcomeCntrl'
     });
+    $routeProvider.when('/login.html', {
+        templateUrl:'/angular/partials/login/newlogin.html',
+        controller: 'LoginCntrl'
+    });
+    $routeProvider.when('/register.html', {
+        templateUrl:'/angular/partials/login/registerpart.html',
+        controller: 'RegisterCntrl'
+    });
+
+
     $routeProvider.when('/users/:id', {
         redirectTo: '/users/:id/studycards'
     });
