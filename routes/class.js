@@ -179,6 +179,7 @@ exports.getSyllabus = function(req, res) {
                         // Send the data to the client
                         res.set('Content-Disposition', 'filename:'+fileName);
                         res.set('Content-Type', data.ContentType);
+                        res.set('Cache-Control', 'max-age=518400'); // Cache for 6 days
                         res.send(data.Body);
                     }
                });

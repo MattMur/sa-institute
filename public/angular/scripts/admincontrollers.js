@@ -183,10 +183,9 @@ app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams, $loc
         $("#confirmModal").on('hidden.bs.modal', function () {
             spinner.start();
             if ($scope.files.length > 0) {
-                // Syllabus name derived from class name. Used to retrieve file from S3 later.
-                $scope.class.syllabus = $scope.class.name.toCamel() + '-Syllabus.pdf';
-            } else {
-                $scope.class.syllabus = null;
+                // Syllabus name derived from class name. Date as unique identifier. Used to retrieve file from S3 later.
+                var date = Date.today().toString('M-dd-yyyy');
+                $scope.class.syllabus = $scope.class.name.toCamel() + date + '-Syllabus.pdf';
             }
 
             $http.put('/api/class/'+ $routeParams.classid, $scope.class).success(function(id) {

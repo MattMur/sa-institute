@@ -81,7 +81,7 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $location) {
         $.removeCookie('userid', { path:'/'})
         $rootScope.user = null;
         $location.path('/');
-    }
+    };
 
     //$scope.menuItems = userMenuItems;
 
