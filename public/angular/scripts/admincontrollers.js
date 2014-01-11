@@ -100,8 +100,6 @@ app.controller('AdminNewClassCntrl', ['$scope', '$http', '$location', 'uploadSyl
                 // Syllabus name derived from class name. Date as unique identifier. Used to retrieve file from S3 later.
                 var date = Date.today().toString('M-dd-yyyy');
                 $scope.class.syllabus = $scope.class.name.toCamel() + date + '-Syllabus.pdf';
-            } else {
-                $scope.class.syllabus = null;
             }
 
             // Once the modal finishes hiding
