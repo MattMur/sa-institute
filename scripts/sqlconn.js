@@ -6,14 +6,22 @@
  * To change this template use File | Settings | File Templates.
  */
 var mysql      = require('mysql');
-var db_config = {
+var local_db_config = {
     host     : '127.0.0.1',
     user     : 'root',
     database : 'institute'
 };
 
+var aws_db_config = {
+    host     : 'aa16kng1n50tqcy.cyp63uyd0j62.us-east-1.rds.amazonaws.com:3306',
+    user     : 'ebroot',
+    database : 'institute'
+};
+
+
+
 console.log('Creating new SQL connection');
-var connection = mysql.createConnection(db_config);
+var connection = mysql.createConnection(aws_db_config);
 
 connection.connect(function(err) {
     if (err) {

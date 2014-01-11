@@ -125,4 +125,4 @@ var path_requested = path.join(__dirname, 'public');
 app.use(express.static(path_requested, { maxAge : 3600 }));
 
 // Listen
-app.listen(8888);
+app.listen(80);
