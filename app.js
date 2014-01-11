@@ -25,6 +25,9 @@ app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.cookieSession({secret: 'NEPHIISCOOL', key: 'inst.sess'}));
 
+// Set port here - Compatibility with Nginx for AWS
+app.set('port', process.env.PORT || 8888);
+
 // logger
 app.use(function(req, res, next) {
     //console.log("sess: " + JSON.stringify(req.session));
@@ -125,4 +128,4 @@ var path_requested = path.join(__dirname, 'public');
 app.use(express.static(path_requested, { maxAge : 3600 }));
 
 // Listen
-app.listen(80);
+app.listen(app.get('port'));
