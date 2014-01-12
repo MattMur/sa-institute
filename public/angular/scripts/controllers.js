@@ -194,8 +194,10 @@ app.controller('StudyCardClasses', function($scope, $http, $routeParams, calcula
                 // Only one class so automatically route to view studycards
                 var className = classes[0].name.toCamel();
                 $location.path(classes[0].name+'/studycards?classid='+classes[0].id);
-            } else*/ if (classes.length > 0) {
+            } else*/
+            if (classes.length > 0) {
                 // Display the list of classes from scope
+                //console.log('classes: '+ JSON.stringify(classes));
                 $scope.classes = classes;
                 loader.finish();
             } else {
@@ -211,6 +213,7 @@ app.controller('StudyCardClasses', function($scope, $http, $routeParams, calcula
 
     // Get ALL CLASSES that the user has ever enrolled in
     $scope.showAll = function() {
+        $scope.hideShowAll = true; // hide the link
         $http.get('/api/users/'+$routeParams.id+'/classes').success(function(classes) {
             if (classes) {
                 //console.log(JSON.stringify(classes));

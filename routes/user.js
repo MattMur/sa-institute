@@ -71,12 +71,13 @@ exports.getCurrentClass = function(req, res, next) {
 
 exports.getUserClasses = function(req, res, next) {
     console.log('Checking access4:', req.params.id, req.session.userid);
+    console.log('HIIII');
     var isAuthorized = (req.session.access_level == 2) || (req.params.id == req.session.userid);
 
     if (isAuthorized) {
 
         var injects = [req.params.id];
-        var query = squel.select().from('class')
+        var query = squel.select().field('class.*').from('class')
             .join('user_enrolled_in_class', 'uc', 'class.id = uc.class_id')
             .where('uc.user_id = ?')
             .order('uc.enrolled_date', false); // false=DESC

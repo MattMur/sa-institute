@@ -21,6 +21,7 @@ app.controller('AdminViewStudentsCntrl', function ($scope, $http, $routeParams, 
         $scope.students = data;
     }).error(function(data) {
         console.log("students request failed" + data);
+        alert('Request for students failed.');
     });
 
     $scope.exportCSV = function() {
@@ -38,6 +39,7 @@ app.controller('AdminViewClassesCntrl', function ($scope, $http) {
             $scope.classes = data;
         }).error(function(data) {
             console.log("Classes request failed" + data);
+            alert('Request for classes failed.');
         });
 
         // Hide date selector if date is Today!
@@ -68,6 +70,7 @@ app.controller('AdminViewClassesCntrl', function ($scope, $http) {
             $scope.classes.removeItem(classObj);
             console.log(JSON.stringify($scope.classes));
         }).error(function(data) {
+            console.log(data);
             alert("Could not delete class");
         });
         $('#confirmModal').modal('hide');
@@ -119,7 +122,9 @@ app.controller('AdminNewClassCntrl', ['$scope', '$http', '$location', 'uploadSyl
                 }
 
             }).error(function(error) {
-                console.log("Create new class failed" + error);
+                //console.log("Create new class failed" + error);
+                console.log(error);
+                alert('Error creating new class.');
                 spinner.stop();
             });
         });
@@ -263,6 +268,7 @@ app.controller('AdminViewCardsCntrl', function($scope, $http, $routeParams, orde
 
     }).error(function (data) {
         console.log("StudyCards request failed" + data);
+        alert("StudyCards request failed. " + data);
         window.spinner.stop();
     });
 

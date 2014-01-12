@@ -1,4 +1,4 @@
-<subtitle>StudyCards <span class="sub">Overview</span></subtitle>
+<subtitle xmlns="http://www.w3.org/1999/html">StudyCards <span class="sub">Overview</span></subtitle>
 
 <!-- CLASS AVERAGES -->
 <div class="panel panel-info" ng-show="classAverages" ng-cloak>
@@ -20,10 +20,11 @@
 <!-- Show list of classes user has enrolled in for CURRENT SEMESTER -->
 <div class="panel panel-default" ng-show="classAverages" ng-show="classes.length > 1 && !noCards && !cards" ng-cloak>
     <div class="panel-heading">
-        <h3 class="panel-title">Your Classes <span class="pull-right"><a ng-click="showAll()" href="">(Show all previous classes)</a></span> </h3>
+        <h3 class="panel-title">Your Classes</h3>
     </div>
     <div class="panel-body" >
         <p ng-repeat="classObj in classes" class="selectClass"><a ng-href="studycards/{{classObj.name.toCamel()}}?classid={{classObj.id}}">{{ classObj.name }}</a></p>
+        <p ng-hide="hideShowAll"><a ng-click="showAll()" href="">(Show all previous classes)</a></p>
     </div>
 </div>
 

@@ -61,7 +61,7 @@ exports.getOne = function(req, res, next) {
 exports.getStudents = function(req, res, next) {
 
     // Get all students that have enrolled in a class
-    var query = squel.select().from('user')
+    var query = squel.select().field('user.*').from('user')
         .join('user_enrolled_in_class', 'uc', 'user.id = uc.user_id')
         .where('uc.class_id = ?');
     console.log('Query: ' + query.toString());
