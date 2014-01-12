@@ -15,6 +15,7 @@ var local_db_config = {
 var aws_db_config = {
     host     : 'aa16kng1n50tqcy.cyp63uyd0j62.us-east-1.rds.amazonaws.com:3306',
     user     : 'ebroot',
+    password : 'password',
     database : 'institute'
 };
 
@@ -25,14 +26,14 @@ var connection = mysql.createConnection(aws_db_config);
 
 connection.connect(function(err) {
     if (err) {
-        console.log('Could not connect to Database!!');
+        console.log('Could not connect to Database!! :'+err);
     }
 });
 
 connection.on('error', function(err) {
     console.log('db error', err);
     if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-        connection = mysql.createConnection(db_config);  // lost due to either server restart, or a
+        connection = mysql.createConnection(aws_db_config);  // lost due to either server restart, or a
     } else {                                      // connnection idle timeout (the wait_timeout
         throw err;                                 // server variable configures this)
     }
