@@ -60,10 +60,6 @@ app.config(function($routeProvider, $locationProvider) {
         templateUrl:'/angular/partials/admin/viewstudycards.html',
         controller: 'AdminViewCardsCntrl'
     });
-    $routeProvider.when('/admin/teachers', {
-        templateUrl:'/angular/partials/admin/viewteachers.html',
-        controller: 'AdminViewTeachersCntrl'
-    });
     $routeProvider.when('/admin/classes/:className/students', {
         templateUrl:'/angular/partials/admin/viewstudents.html',
         controller: 'AdminViewStudentsCntrl'

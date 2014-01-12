@@ -34,13 +34,13 @@ app.controller('RegisterCntrl', function($scope, $http) {
     $scope.register = function() {
         // Do PUT to register new user
         var user = $scope.newUser;
-        console.log(JSON.stringify(user));
+        //console.log(JSON.stringify(user));
         $http.post('/api/users', user).success(function(data) {
             // Success. Now lets login with new user.
             login($http, user.email, user.password, null);
         }).error(function(data) {
-                window.alert("Attempt to create new user failed " + data);
-            });
+            window.alert("Attempt to create new user failed. Please try again later." + data);
+        });
     };
 
 });
@@ -67,6 +67,6 @@ function login($http, user, pass, callback) {
 
         }).error(function(data) {
             $http.defaults.headers.common['Authorization'] = null;
-            window.alert("Login failed " + data);
+            window.alert("Login failed. " + data);
         });
 }

@@ -16,7 +16,7 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $location) {
     var userMenuItems, adminMenuItems;
 
     // get the current user from cookie
-    console.log("Cookies: " + JSON.stringify($.cookie()));
+    //console.log("Cookies: " + JSON.stringify($.cookie()));
     if ($.cookie('userid')) {
         var userid = $.cookie('userid');
 
@@ -29,7 +29,7 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $location) {
                 // Since this is global scope to the app all other controllers will have access to it
                 $rootScope.user = data;
                 $rootScope.user['id'] = $.cookie('userid');
-                console.log('User at RootLevel: ' + JSON.stringify(data));
+                //console.log('User at RootLevel: ' + JSON.stringify(data));
 
                 // Contextual menu items based on Admin or Student
                 userMenuItems = [
@@ -43,38 +43,12 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $location) {
                     new MenuItem('Manage Users', '/admin/users')
                 ];
                 switchBetweenAdminStudent();
-
-                //getUserSchedule($rootScope.user, function() { });
-
             })
             .error(function(data) {
-                window.alert("Could not get user " + data);
+                window.alert("Could not get user. " + data);
             });
     } else {
-        console.log('Cookies were not set! Cannot get user');
-    }
-    
-    // Given a user, find the classes they are currently enrolled in
-    // Abstracted for possible reuse in other controllers
-    function getUserSchedule(user, callback) {
-        if (user.id){
-            console.log("user.id: " + user.id);
-            var url = '/api/users/' + user.id + '/classes?limit=1';
-            $http.get(url).success( function(data) {
-                if (data.length > 0) {
-                    user['class'] = data[0];
-                    callback();
-                } else {
-                    user['class'] = { name: 'Unregistered' };
-                }
-            }).error(function (data) {
-                console.log("The request failed" + data);
-                callback();
-            });
-        } else {
-            user['class'] = { name: 'Unregistered' };
-            callback();
-        }     
+        console.log('Cookie not set- Cannot get user.');
     }
 
     $scope.logoff = function() {
@@ -87,7 +61,6 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $location) {
 
     // Listen for even $routeChangeSuccess(url change), then change admin portal link
     $scope.$on('$routeChangeSuccess', function(){
-
         switchBetweenAdminStudent();
     });
 
@@ -96,11 +69,11 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $location) {
         if ($scope.isLocationAdmin) {
             $scope.menuType = 'Action';
             $scope.menuItems = adminMenuItems;
-            console.log('set menu to admin');
+            //console.log('set menu to admin');
         } else {
             $scope.menuType = 'Action';
             $scope.menuItems = userMenuItems;
-            console.log('set menu to student');
+            //console.log('set menu to student');
         }
     }
 });
@@ -112,9 +85,10 @@ app.controller('WelcomeCntrl', function($scope, $http) {
     // Get all availible classes for current semester
     $http.get('/api/class?date='+today).success( function(data) {
         $scope.classes = data;
-        console.log(JSON.stringify(data));
+        //console.log(JSON.stringify(data));
     }).error(function (data) {
         console.log("NewStudyCard request failed" + data);
+        alert('NewStudyCard request failed.');
     });
 });
 
@@ -127,9 +101,9 @@ app.controller('NewStudyCardCntrl', function ($rootScope, $scope, $http, $locati
     // Get all availible classes for current semester
     $http.get('/api/class?date='+today).success( function(data) {
         $scope.classes = data;
-        console.log(data);
+        //console.log(data);
     }).error(function (data) {
-       console.log("NewStudyCard request failed" + data);
+       console.log("Request for classes failed. " + data);
     });
 
     //submit a new studycard from the form
@@ -142,7 +116,7 @@ app.controller('NewStudyCardCntrl', function ($rootScope, $scope, $http, $locati
             // After creating a new studycard route to home
             $location.path("/users/"+$routeParams.id);
         }).error(function(data) {
-            window.alert("Attempt to create new studycard failed " + data);
+            window.alert("Request to create new studycard failed. " + data);
         });
     }
 });
@@ -185,8 +159,8 @@ app.controller('StudyCardClasses', function($rootScope, $scope, $http, $routePar
         }
         loader.finish();
     }).error(function(err) {
-            loader.finish();
-        alert('Could not get studycards.\n'+err);
+        loader.finish();
+        console.log('Could not get studycards.\n'+err);
     });
 
     // Get all the classes for the user for current semester
@@ -214,7 +188,7 @@ app.controller('StudyCardClasses', function($rootScope, $scope, $http, $routePar
         }
     }).error(function(err) {
         loader.finish();
-        alert('Could not get studycards.\n'+err);
+        alert('Could not get classes.\n'+err);
     });
 
     // Get ALL CLASSES that the user has ever enrolled in
@@ -248,7 +222,7 @@ app.controller('StudyCardsCntrl', function($rootScope, $scope, $http, $routePara
         }
         var url = '/api/studycards?user='+ $routeParams.id+'&classid='+classId;
         $http.get(url, { headers : headersObj }).success(function(studycards) {
-            console.log(JSON.stringify(studycards));
+            //console.log(JSON.stringify(studycards));
             if (studycards.length > 0) {
                 $scope.classAverages = calculateAvg(studycards);
                 $scope.cards = orderByWeek(studycards);

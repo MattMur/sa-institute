@@ -7,13 +7,6 @@
  */
 
 
-app.controller('AdminViewTeachersCntrl', function ($scope, $http) {
-    $http.get('/api/teachers').success(function(data) {
-        $scope.teachers = data;
-    }).error(function(data) {
-            console.log("Teacher request failed" + data);
-        });
-});
 
 app.controller('AdminViewStudentsCntrl', function ($scope, $http, $routeParams, exportCSV) {
     $scope.className = $routeParams.className.capitalize();
@@ -34,7 +27,7 @@ app.controller('AdminViewClassesCntrl', function ($scope, $http) {
 
     // Query server for classes within selected date. Whenever the date changes we update.
     $scope.$watch('selectedDate', function(newDate) { //FORMAT: YYYY-MM-DD
-        console.log('SelectedDate modified. '+newDate+'\nUpdating class list...');
+        //console.log('SelectedDate modified. '+newDate+'\nUpdating class list...');
         $http.get('/api/class?date='+newDate).success(function(data) {
             $scope.classes = data;
         }).error(function(data) {
@@ -68,7 +61,7 @@ app.controller('AdminViewClassesCntrl', function ($scope, $http) {
             //console.log('Deleted class ' + JSON.stringify(classObj));
             //remove class from array now that its gone
             $scope.classes.removeItem(classObj);
-            console.log(JSON.stringify($scope.classes));
+            //console.log(JSON.stringify($scope.classes));
         }).error(function(data) {
             console.log(data);
             alert("Could not delete class");
@@ -168,11 +161,12 @@ app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams, $loc
         var dateformat = "yyyy-MM-ddTHH:mm:ss.000Z";
         classObj.start_date = Date.parseExact(classObj.start_date, dateformat).toString('yyyy-MM-dd');
         classObj.end_date = Date.parseExact(classObj.end_date, dateformat).toString('yyyy-MM-dd');
-        console.log(JSON.stringify(classObj));
+        //console.log(JSON.stringify(classObj));
         $scope.class = classObj;
 
     }).error(function(data) {
-        console.log("Class request failed" + data);
+        console.log("Class request failed. " + data);
+        alert("Request for class data failed.");
     });
 
     $scope.confirmSubmit = function() {
@@ -208,6 +202,7 @@ app.controller('AdminEditClassCntrl', function($scope, $http, $routeParams, $loc
                 }
             }).error(function(error) {
                 console.log("Edit class failed\n" + error);
+                alert('Request to edit class failed.');
                 spinner.stop();
             });
 
@@ -279,7 +274,7 @@ app.controller('AdminViewCommentsCntrl', function($scope, $http, $routeParams) {
     $scope.className = $routeParams.className.capitalize();
     $http.get('/api/studycards/notes?classid='+$routeParams.classid).success(function(commentsJson) {
 
-        console.log('Comments: ' + JSON.stringify(commentsJson));
+        //console.log('Comments: ' + JSON.stringify(commentsJson));
         var index = -1, comment, commentsByWeek = [], curWeek = 0; // Array of Arrays of Studycards
 
         if (commentsJson.length > 0) {
@@ -321,6 +316,7 @@ app.controller('AdminViewUsersCntrl', function($scope, $http, exportCSV) {
             }
         }
     }).error(function(err) {
+        console.log(err);
         alert('Could not retrieve user data');
     });
 
@@ -360,8 +356,9 @@ app.controller('AdminViewUsersCntrl', function($scope, $http, exportCSV) {
             $scope.students.removeItem(user);
             $scope.admin.push(user);
             $('#confirmModal').modal('hide');
-        }).error(function() {
+        }).error(function(err) {
             $('#confirmModal').modal('hide');
+            console.log(err);
             alert('Could not give user admin privileges');
         });
     };
@@ -371,8 +368,9 @@ app.controller('AdminViewUsersCntrl', function($scope, $http, exportCSV) {
             $scope.students.push(user);
             $scope.admin.removeItem(user);
             $('#confirmModal').modal('hide');
-        }).error(function() {
+        }).error(function(err) {
             $('#confirmModal').modal('hide');
+            console.log(err);
             alert('Could not demote user');
         });
     };
@@ -385,8 +383,9 @@ app.controller('AdminViewUsersCntrl', function($scope, $http, exportCSV) {
                 $scope.students.removeItem(user);
             }
             $('#confirmModal').modal('hide');
-        }).error(function() {
+        }).error(function(err) {
             $('#confirmModal').modal('hide');
+            console.log(err);
             alert('Could not delete user');
         });
     };

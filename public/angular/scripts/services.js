@@ -39,7 +39,7 @@ app.factory('uploadSyllabus', [ '$upload', function($upload) {
                 /* customize how data is added to formData. See #40#issuecomment-28612000 for example */
                 //formDataAppender: function(formData, key, val){}
             }).progress(function(evt) {
-                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                    //console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
                 }).success(callback).error(function(err) {
                     alert('Could Not complete upload of syllabus. \n'+err);
                 });
@@ -53,10 +53,10 @@ app.factory('checkValidFileType', function() {
 
     return function(fileName, typeExpected) {
         var ext = fileName.substr(fileName.lastIndexOf('.') + 1);
-        console.log('Extention given: '+ext +'\nExpected: '+typeExpected);
+        //console.log('Extention given: '+ext +'\nExpected: '+typeExpected);
         var regex = new RegExp('[\\.]?'+ext, 'i'); // Allow for optional '.' before extention
         var isValid = typeExpected.match(regex) ? true : false;
-        console.log('isValid: '+isValid);
+        //console.log('isValid: '+isValid);
         return isValid;
     }
 });
@@ -109,7 +109,7 @@ app.factory('calculateAvg', function() {
 
 
            averages.numCards = studyCards.length;
-           console.log('NumCards: ' +averages.numCards);
+           //console.log('NumCards: ' +averages.numCards);
            averages.frequency = Math.round((totalFreq / averages.numCards) *100)/100;
            averages.percentPrepare = Math.round((totalPrepare / averages.numCards) * 100);
            averages.percentSeek = Math.round((totalSeek / averages.numCards) * 100);
@@ -117,7 +117,7 @@ app.factory('calculateAvg', function() {
            averages.percentTeach = Math.round((totalTeach / averages.numCards) * 100);
            averages.percentRead = Math.round((totalReadBlock / averages.numCards) * 100);
 
-           console.log('Averages: '+ JSON.stringify(averages));
+           //console.log('Averages: '+ JSON.stringify(averages));
        }
        return averages;
    }

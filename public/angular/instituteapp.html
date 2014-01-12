@@ -12,7 +12,8 @@
 
     <!-- Less page flicker by putting this script at top -->
     <script src="/js/lib/angular-file-upload-shim.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.js"></script>-->
 </head>
 
 
@@ -65,38 +66,14 @@
 
 </footer>
 
+<!-- Start Loading Spinner While We Load Scripts. Spinner is globally accessible through window -->
 <script type="text/javascript" src="/js/lib/spin.min.js"></script>
-<script>
-    // Create global spinner.. Accesible from ANYWHERE. boom.
-    window.spinner = new Spinner({
-        lines: 9, // The number of lines to draw
-        length: 7, // The length of each line
-        width: 4, // The line thickness
-        radius: 7, // The radius of the inner circle
-        corners: 2, // Corner roundness (0..1)
-        rotate: 0, // The rotation offset
-        direction: 1, // 1: clockwise, -1: counterclockwise
-        color: '#fff', // #rgb or #rrggbb or array of colors
-        speed: 1.2, // Rounds per second
-        trail: 60, // Afterglow percentage
-        shadow: true, // Whether to render a shadow
-        hwaccel: true, // Whether to use hardware acceleration
-        className: 'spinner', // The CSS class to assign to the spinner
-        zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: 'auto', // Top position relative to parent in px
-        left: 'auto' // Left position relative to parent in px
-    });
+<script type="text/javascript" src="/js/myspinner.js"></script>
+<script>window.spinner.start();</script>
 
-    // Call 'start' method to have it added to center pannel automatically
-    window.spinner.start = function() {
-        this.spin(document.getElementById('container'));
-    };
-    window.spinner.start();
-</script>
-<script src="/js/lib/jquery-1.10.2.js"></script>
-<!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular-cookies.js"></script>-->
-<script src="http://code.angularjs.org/1.2.4/angular-route.min.js"></script>
-<script src="https://datejs.googlecode.com/svn/trunk/build/date-en-US.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://code.angularjs.org/1.2.6/angular-route.min.js"></script>
+<script src="/js/lib/date.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="/js/lib/jquery.cookie.js"></script>
 <script src="/js/lib/ui-bootstrap-tpls-0.6.0.js"></script>
