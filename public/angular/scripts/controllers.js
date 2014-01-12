@@ -119,7 +119,7 @@ app.controller('WelcomeCntrl', function($scope, $http) {
 });
 
 
-app.controller('NewStudyCardCntrl', function ($scope, $http, $location, $routeParams) {
+app.controller('NewStudyCardCntrl', function ($rootScope, $scope, $http, $location, $routeParams) {
 
     //console.log('routeparams ' + JSON.stringify($routeParams));
     var today = Date.today().toString('yyyy-MM-dd');
@@ -137,6 +137,8 @@ app.controller('NewStudyCardCntrl', function ($scope, $http, $location, $routePa
 
         $scope.studycard.user_id = $routeParams.id; // Set the userId from routeParams
         $http.post('/api/studycards', $scope.studycard).success(function(data) {
+            // Don't allow caching since we need studycards to be refreshed now
+            $rootScope.mustRefresh = true;
             // After creating a new studycard route to home
             $location.path("/users/"+$routeParams.id);
         }).error(function(data) {
@@ -149,7 +151,7 @@ app.controller('NewStudyCardCntrl', function ($scope, $http, $location, $routePa
 
 
 
-app.controller('StudyCardClasses', function($scope, $http, $routeParams, calculateAvg) {
+app.controller('StudyCardClasses', function($rootScope, $scope, $http, $routeParams, calculateAvg) {
 
     $scope.isCollapsed = false;
 
@@ -169,8 +171,12 @@ app.controller('StudyCardClasses', function($scope, $http, $routeParams, calcula
     loader.start(2);
 
     // Get all studycards for user so we can calculate overall averages
+    var headersObj;
+    if ($rootScope.mustRefresh) {
+        headersObj = { 'Cache-Control' : 'no-cache' };
+    }
     var url = '/api/studycards?user='+ $routeParams.id;
-    $http.get(url).success(function(studycards) {
+    $http.get(url, { headers : headersObj }).success(function(studycards) {
         //console.log(JSON.stringify(studycards));
         if (studycards.length > 0) {
             $scope.classAverages = calculateAvg(studycards);
@@ -228,7 +234,7 @@ app.controller('StudyCardClasses', function($scope, $http, $routeParams, calcula
     };
 });
 
-app.controller('StudyCardsCntrl', function($scope, $http, $routeParams, orderByWeek, calculateAvg) {
+app.controller('StudyCardsCntrl', function($rootScope, $scope, $http, $routeParams, orderByWeek, calculateAvg) {
     $scope.className = $routeParams.className;
     // Classid comes from query parameter
     //console.log('Classid: '+$routeParams.classid);
@@ -236,8 +242,12 @@ app.controller('StudyCardsCntrl', function($scope, $http, $routeParams, orderByW
 
     function getCardsForClass(classId) {
         // Get studycards for selected class
+        var headersObj;
+        if ($rootScope.mustRefresh) {
+            headersObj = { 'Cache-Control' : 'no-cache' };
+        }
         var url = '/api/studycards?user='+ $routeParams.id+'&classid='+classId;
-        $http.get(url).success(function(studycards) {
+        $http.get(url, { headers : headersObj }).success(function(studycards) {
             console.log(JSON.stringify(studycards));
             if (studycards.length > 0) {
                 $scope.classAverages = calculateAvg(studycards);

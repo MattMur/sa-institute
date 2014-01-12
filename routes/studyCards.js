@@ -73,8 +73,8 @@ exports.createNew = function(req, res) {
                 var created_date = Date.today();
                 req.body.week_number = week_number; // Add one to get current week
                 req.body.created_date = created_date;
-                console.log('Current Week: ' + JSON.stringify(req.body.week_number));
-                console.log("Studycard json: " + JSON.stringify(req.body));
+                //console.log('Current Week: ' + JSON.stringify(req.body.week_number));
+                //console.log("Studycard json: " + JSON.stringify(req.body));
 
                 // Insert new card into database
                 sql.query('INSERT INTO study_card SET ?', req.body, function(err, result) {
@@ -145,7 +145,7 @@ exports.getNotes = function(req, res) {
                 console.log(err);
                 res.send(500);
             } else {
-                console.log('Notes are: \n', JSON.stringify(rows));
+                //console.log('Notes are: \n', JSON.stringify(rows));
                 res.set('Cache-Control', 'max-age=900, private, must-revalidate');
                 res.json(rows);
             }

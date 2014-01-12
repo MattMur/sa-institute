@@ -71,7 +71,6 @@ exports.getCurrentClass = function(req, res, next) {
 
 exports.getUserClasses = function(req, res, next) {
     console.log('Checking access4:', req.params.id, req.session.userid);
-    console.log('HIIII');
     var isAuthorized = (req.session.access_level == 2) || (req.params.id == req.session.userid);
 
     if (isAuthorized) {
