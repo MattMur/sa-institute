@@ -13,7 +13,8 @@ var local_db_config = {
 };
 
 var aws_db_config = {
-    host     : 'aa16kng1n50tqcy.cyp63uyd0j62.us-east-1.rds.amazonaws.com:3306',
+    host     : 'aa16kng1n50tqcy.cyp63uyd0j62.us-east-1.rds.amazonaws.com',
+    port     : '3306',
     user     : 'ebroot',
     password : 'password',
     database : 'institute'
