@@ -112,7 +112,7 @@ app.controller('WelcomeCntrl', function($scope, $http) {
     // Get all availible classes for current semester
     $http.get('/api/class?date='+today).success( function(data) {
         $scope.classes = data;
-        console.log(data);
+        console.log(JSON.stringify(data));
     }).error(function (data) {
         console.log("NewStudyCard request failed" + data);
     });

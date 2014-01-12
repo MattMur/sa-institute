@@ -29,7 +29,7 @@ exports.getAll = function(req, res, next) {
                 //console.log('studyCards are: \n', JSON.stringify(rows));
 
                 // This could be a big payload so lets allow caching. 15min caching limit.
-                res.set('Cache-Control', 'max-age=900, private, must-revalidate');
+                //res.set('Cache-Control', 'max-age=900, private, must-revalidate');
                 res.json(rows);
             }
         });
