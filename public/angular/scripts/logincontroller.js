@@ -6,34 +6,24 @@
  * To change this template use File | Settings | File Templates.
  */
 
-//var app = angular.module('loginApp', ['ngRoute']);
 
-/*app.config(function($routeProvider, $locationProvider) {
-    $routeProvider.when('/login.html', {
-        templateUrl:'/angular/partials/login/loginpart.html',
-        controller: 'LoginCntrl'
-    });
-    $routeProvider.when('/register.html', {
-        templateUrl:'/angular/partials/login/registerpart.html',
-        controller: 'RegisterCntrl'
-    });
-    //.otherwise({redirectTo: '/'});
-    $locationProvider.html5Mode(true);
-});
-*/
-
-app.controller('LoginCntrl', function($scope, $http) {
+app.controller('LoginCntrl', function($scope, $http, md5) {
 
     $scope.login = function() {
-        login($http, $scope.user, $scope.pass, null);
+        login($http, $scope.user, md5($scope.pass), null);
     };
 });
 
-app.controller('RegisterCntrl', function($scope, $http) {
+app.controller('RegisterCntrl', function($scope, $http, md5) {
 
     $scope.register = function() {
+
+        var user = angular.copy($scope.newUser);
+
+        // Encrypt password
+        user.password = md5(user.password);
+
         // Do PUT to register new user
-        var user = $scope.newUser;
         //console.log(JSON.stringify(user));
         $http.post('/api/users', user).success(function(data) {
             // Success. Now lets login with new user.
@@ -46,7 +36,7 @@ app.controller('RegisterCntrl', function($scope, $http) {
 });
 
 
-// Custom method for logging in. NOT a controller.
+// Custom method for logging in. Not a controller.
 function login($http, user, pass, callback) {
 
     //var basicAuth = 'Basic ' + Base64.encode(user + ':' + pass);

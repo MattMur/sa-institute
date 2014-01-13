@@ -6,7 +6,7 @@
         <!-- Class -->
         <div class="form-group row">
             <div>
-                <select id='institute-classes' class="form-control" name="class" ng-model="studycard.class_id">
+                <select id='institute-classes' class="form-control" name="class" ng-model="studycard.class_id" required>
                     <option value="" selected>- Select Class -</option>
                     <option ng-repeat="class in classes" value="{{ class.id }}">{{ class.name }}</option>
                 </select>

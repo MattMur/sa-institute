@@ -1,12 +1,13 @@
 {
-  "name": "SA-Institute",
+  "name": "sa-institute",
   "version": "0.0.3",
   "private": true,
   "dependencies": {
     "aws-sdk": "2.0.0-rc1",
     "express": "3.3.4",
     "mysql": "2.0.0-alpha9",
-    "squel": "1.1.3"
+    "squel": "1.1.3",
+    "bcrypt": "0.7.7"
   }
 }
 

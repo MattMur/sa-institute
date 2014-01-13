@@ -87,8 +87,8 @@ app.controller('WelcomeCntrl', function($scope, $http) {
         $scope.classes = data;
         //console.log(JSON.stringify(data));
     }).error(function (data) {
-        console.log("NewStudyCard request failed" + data);
-        alert('NewStudyCard request failed.');
+        console.log("Classes request failed" + data);
+        alert('Could not get classes.');
     });
 });
 
@@ -108,7 +108,7 @@ app.controller('NewStudyCardCntrl', function ($rootScope, $scope, $http, $locati
 
     //submit a new studycard from the form
     $scope.submit = function () {
-
+        // make sure a class has been selected
         $scope.studycard.user_id = $routeParams.id; // Set the userId from routeParams
         $http.post('/api/studycards', $scope.studycard).success(function(data) {
             // Don't allow caching since we need studycards to be refreshed now

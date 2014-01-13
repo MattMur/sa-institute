@@ -1,8 +1,8 @@
 var sql = require('../scripts/sqlconn');
+var crypt = require('../scripts/cryptpassword');
 var squel = require("squel");
 
 exports.getAll = function(req, res, next) {
-
     sql.query('SELECT id, first_name, last_name, email, phone, access_level FROM user ORDER BY last_name', function(err, rows) {
         if (err) {
             console.log(err);
@@ -11,9 +11,7 @@ exports.getAll = function(req, res, next) {
             console.log('users are: \n', JSON.stringify(rows));
             res.json(rows);
         }
-
     });
-
 };
 
 exports.getOne = function(req, res, next) {

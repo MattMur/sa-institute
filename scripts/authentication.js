@@ -95,7 +95,7 @@ function login(email, password, callback) {
                 var user = rows[0];
                 isAuthorized = (user.password == password);  // Does password match?
                 console.log('User?: \n', JSON.stringify(rows));
-                console.log('Password received?: ', user.password);
+                console.log('Password received?: ', password);
                 console.log("Authorized?: ", isAuthorized);
             }
             callback(isAuthorized, user);
@@ -103,6 +103,8 @@ function login(email, password, callback) {
         }
     });
 }
+
+
 
 //module.exports.checkSession = function (req, res, next) {
 //    console.log('Checking access:', req.params.id, req.session.userid);
