@@ -118,14 +118,11 @@ app.get(/^\/admin/, function(req, res, next) {
 });
 
 
-app.get('/register.html', function(req, res, next) {
-    console.log("Sending login");
-    res.sendfile('public/login.html', { maxAge : 3600 }, null);
-});
-
+// Nginx should handle this
 // Static mapping
-var path_requested = path.join(__dirname, 'public');
+/*var path_requested = path.join(__dirname, 'public');
 app.use(express.static(path_requested, { maxAge : 3600 }));
+*/
 
 // Listen
 app.listen(app.get('port'));
