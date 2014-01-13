@@ -6,7 +6,7 @@ exports.getAll = function(req, res, next) {
     sql.query('SELECT id, first_name, last_name, email, phone, access_level FROM user ORDER BY last_name', function(err, rows) {
         if (err) {
             console.log(err);
-            res.send(500);
+            res.status(500).send(err);
         } else {
             console.log('users are: \n', JSON.stringify(rows));
             res.json(rows);
@@ -28,7 +28,7 @@ exports.getOne = function(req, res, next) {
         sql.query(queryStr, req.params.id, function(err, rows) {
             if (err) {
                 console.log(err);
-                res.send(500);
+                res.status(500).send(err);
             } else {
                 var response = rows.length == 1 ? rows[0] : {};
                 res.json(response);
@@ -55,7 +55,7 @@ exports.getCurrentClass = function(req, res, next) {
         sql.query(queryStr, req.params.id, function(err, rows) {
             if (err) {
                 console.log(err);
-                res.send(500);
+                res.status(500).send(err);
             } else {
                 var response = rows.length == 1 ? rows[0] : {};
                 res.json(response);
@@ -94,7 +94,7 @@ exports.getUserClasses = function(req, res, next) {
         sql.query(query.toString(), injects, function(err, rows) {
             if (err) {
                 console.log(err);
-                res.send(500);
+                res.status(500).send(err);
             } else {
                 res.json(rows);
             }
@@ -118,7 +118,7 @@ exports.getUserStudyCards = function(req, res, next) {
         sql.query(queryStr, req.params.id, function(err, rows) {
             if (err) {
                 console.log(err);
-                res.send(500);
+                res.status(500).send(err);
             } else {
                 console.log('studycards are: \n', JSON.stringify(rows));
                 res.json(rows);
@@ -132,28 +132,44 @@ exports.getUserStudyCards = function(req, res, next) {
 
 exports.createNew = function(req, res, next) {
 
-    // Add default access level to user
-    req.body.access_level = 1;
-    console.log(JSON.stringify(req.body));
-    sql.query('INSERT INTO user SET ?', req.body, function(err, result) {
-        if (err) {
-            console.log(err);
-            res.send(500);
-        } else {
-            req.session.userid = result.insertId;  // Change session id to newly created user
-            console.log(' added new User', result.insertId);
-            res.send(result.insertId.toString());  // Send back user id they they know who they are
-        }
+    // Check that user doesn't already exist
+    console.log('Checking if user already exists...');
+    sql.query('SELECT email FROM user WHERE email = ?', req.body.email, function(err, result) {
+         if (err) {
+             console.log(err);
+         } else {
+             if (result.length == 0) { // User does not exist
+
+                 // Add default access level to user
+                 req.body.access_level = 1;
+                 console.log('Adding new user: '+ JSON.stringify(req.body));
+                 sql.query('INSERT INTO user SET ?', req.body, function(err, result) {
+                     if (err) {
+                         console.log(err);
+                         res.status(500).send(err);
+                     } else {
+                         req.session.userid = result.insertId;  // Change session id to newly created user
+                         console.log(' added new User', result.insertId);
+                         res.send(result.insertId.toString());  // Send back user id they they know who they are
+                     }
+                 });
+             } else {
+                 res.status(409).send('User already exists.');
+             }
+         }
     });
+
+
 }
 
 // READ UP ON CASCADING DELETES
 exports.remove  = function(req, res, next) {
 
+        console.log('Deleting user..');
         sql.query('DELETE FROM user WHERE user.id = ?', req.params.id, function(err, result) {
             if (err) {
                 console.log("mysql err: " + err);
-                res.send(500);
+                res.status(500).send(err);
             } else {
                 console.log('Removed user');
                 res.send(200);
@@ -171,7 +187,7 @@ exports.modify  = function(req, res, next) {
         sql.query('UPDATE user SET ? WHERE user.id = ?', [req.body,  req.params.id], function(err, result) {
             if (err) {
                 console.log("mysql err: " + err);
-                res.send(500);
+                res.status(500).send(err);
             } else {
                 console.log('Modified user');
                 res.send(200);

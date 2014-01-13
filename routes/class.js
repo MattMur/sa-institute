@@ -32,7 +32,7 @@ exports.getALL = function(req, res) {
     sql.query(query.toString(), injects, function(err, rows) {
         if (err) {
             console.log(err);
-            res.status(500).send('Could not get classes');
+            res.status(500).send(err);
         } else {
             console.log('classes are: \n', JSON.stringify(rows));
             res.json(rows);
@@ -47,7 +47,7 @@ exports.getOne = function(req, res, next) {
     sql.query('SELECT * FROM class WHERE id = ?', req.params.id, function(err, rows) {
         if (err) {
             console.log(err);
-            res.status(500).send('Could not get class');
+            res.status(500).send(err);
         } else {
             console.log('classes are: \n', JSON.stringify(rows));
             var response = rows.length == 1 ? rows[0] : {};
@@ -69,7 +69,7 @@ exports.getStudents = function(req, res, next) {
     sql.query(query.toString(), req.params.id, function(err, rows) {
         if (err) {
             console.log(err);
-            res.status(500).send('Could not get students');
+            res.status(500).send(err);
         } else {
             //console.log('students for class are are: \n', JSON.stringify(rows));
             res.json(rows);
@@ -82,7 +82,7 @@ exports.createNew = function(req, res, next) {
     sql.query('INSERT INTO class SET ?', req.body, function(err, result) {
         if (err) {
             console.log(err);
-            res.status(500).send('Could not create new class');
+            res.status(500).send(err);
         } else {
             console.log('Added new class', result.insertId);
             res.send(result.insertId.toString());  // Send back class id
@@ -102,7 +102,7 @@ exports.modify = function(req, res, next) {
         sql.query(queryStr, [req.body, req.params.id], function(err, result) {
             if (err) {
                 console.log(err);
-                res.status(500).send('Modify class failed');
+                res.status(500).send(err);
             } else {
                 console.log('Modified class succesfully');
                 res.send(200);  // Send back user id they they know who they are
@@ -116,7 +116,7 @@ exports.remove  = function(req, res, next) {
     sql.query('DELETE FROM class WHERE class.id = ?', req.params.id, function(err, result) {
         if (err) {
             console.log(err);
-            res.status(500).send('Could not delete class');
+            res.status(500).send(err);
         } else {
             console.log('Removed class');
             res.send(200);  // Send back user id they they know who they are
@@ -139,14 +139,14 @@ exports.uploadSyllabus = function(req, res) {
 
             if(err) {
                 console.log(err)
-                res.send(500);
+                res.status(500).send(err);
             } else {
                 // Pass on data to AWS for S3 storage
                 s3.putObject({ Bucket:'UselessData141', Key:fileName ,ACL:"public-read", ContentType:file.type, Body:data},
                     function(s3err) {
                         if (s3err) {
                             console.log(s3err);
-                            res.send(500);
+                            res.status(500).send(err);
                         } else {
                             console.log('Success');
                             res.send(200);
@@ -165,7 +165,8 @@ exports.getSyllabus = function(req, res) {
     var classId = req.params.id;
     sql.query('SELECT syllabus FROM class WHERE class.id = ?', classId, function(err, rows) {
        if (err) {
-           res.status(500).send('Could not query syllabus');
+           console.log(err);
+           res.status(500).send(err);
        } else {
            console.log('Syllabus: '+JSON.stringify(rows));
            if (rows.length > 0) {
@@ -173,7 +174,8 @@ exports.getSyllabus = function(req, res) {
                // Use the name to get the actual file from S3
                s3.getObject({ Bucket:'UselessData141', Key:fileName }, function(s3err, data) {
                     if (s3err) {
-                        res.status(500).send('Could not retrieve from S3');
+                        console.log(err);
+                        res.status(500).send(err);
                     } else {
                         //console.log('s3data: '+JSON.stringify(data));
                         // Send the data to the client

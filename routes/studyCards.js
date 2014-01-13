@@ -24,7 +24,7 @@ exports.getAll = function(req, res, next) {
         sql.query(query.toString(), injects, function(err, rows, features) {
             if (err) {
                 console.log(err);
-                res.send(500);
+                res.status(500).send(err);
             } else {
                 //console.log('studyCards are: \n', JSON.stringify(rows));
 
@@ -44,7 +44,7 @@ exports.getOne = function(req, res) {
     sql.query('SELECT * FROM study_card WHERE id = ?', req.params.id, function(err, rows) {
         if (err) {
             console.log(err);
-            res.send(500);
+            res.status(500).send(err);
         } else {
             console.log('studyCards are: \n', JSON.stringify(rows));
             var response = rows.length == 1 ? rows[0] : {};
@@ -64,7 +64,7 @@ exports.createNew = function(req, res) {
         sql.query('SELECT start_date FROM class WHERE id=? LIMIT 1', req.body.class_id, function(err, result) {
             if (err) {
                 console.log(err);
-                res.send(500);
+                res.status(500).send(err);
             } else {
 
                 // Calculate difference in weeks to get current week number
@@ -80,7 +80,7 @@ exports.createNew = function(req, res) {
                 sql.query('INSERT INTO study_card SET ?', req.body, function(err, result) {
                     if (err) {
                         console.log(err);
-                        res.send(500);
+                        res.status(500).send(err);
                     } else {
                         //console.log('studyCards are: \n', JSON.stringify(rows));
                         res.status(200).send(result.insertId.toString());
@@ -92,7 +92,7 @@ exports.createNew = function(req, res) {
                 sql.query(enrollQuery, [req.session.userid,  req.body.class_id], function(err, result) {
                     if (err) {
                         console.log(err);
-                        res.send(500);
+                        res.status(500).send(err);
                     } else {
                         if (result.length == 0) {
                             // User is not enrolled. Enroll them!
@@ -121,7 +121,7 @@ exports.remove = function(req, res) {
     sql.query('DELETE FROM study_card WHERE id = ?', req.params.id, function(err, result) {
         if (err) {
             console.log(err);
-            res.send(500);
+            res.status(500).send(err);
         } else {
             console.log('Removed studycard');
             res.send(200);
@@ -143,7 +143,7 @@ exports.getNotes = function(req, res) {
         sql.query(query.toString(), injects, function(err, rows, features) {
             if (err) {
                 console.log(err);
-                res.send(500);
+                res.status(500).send(err);
             } else {
                 //console.log('Notes are: \n', JSON.stringify(rows));
                 res.set('Cache-Control', 'max-age=900, private, must-revalidate');

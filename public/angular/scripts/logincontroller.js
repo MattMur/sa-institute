@@ -29,7 +29,7 @@ app.controller('RegisterCntrl', function($scope, $http, md5) {
             // Success. Now lets login with new user.
             login($http, user.email, user.password, null);
         }).error(function(data) {
-            window.alert("Attempt to create new user failed. Please try again later." + data);
+            window.alert("Attempt to create new user failed. " + data);
         });
     };
 
