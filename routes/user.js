@@ -1,5 +1,4 @@
 var sql = require('../scripts/sqlconn');
-var crypt = require('../scripts/cryptpassword');
 var squel = require("squel");
 
 exports.getAll = function(req, res, next) {
