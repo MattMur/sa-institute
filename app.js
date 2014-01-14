@@ -1,3 +1,12 @@
+// All logs will have timestamps automatically
+require('./public/js/lib/date');
+var origLog = console.log;
+console.log = function(str) {
+    var date = new Date().toString('MM-dd HH:mm:ss');
+    str = date +' '+ str;
+    origLog(str);
+};
+
 var express = require('express');
 var path = require('path');
 var app = express();
@@ -10,8 +19,6 @@ var aws = require('./scripts/aws-functions');
 
 
 console.log("server started");
-
-//aws.test();
 
 // Setup
 /*app.use(function(req, res, next){
@@ -32,9 +39,12 @@ app.set('port', process.env.PORT || 8888);
 app.use(function(req, res, next) {
     //console.log("sess: " + JSON.stringify(req.session));
     if (/favicon.(png|ico)/.test(req.url)) { next(); return; }
+
     console.log(req.method +" "+ req.path + " " + JSON.stringify(req.query));
     next();
 });
+
+
 
 var UserAccess = 1;
 var AdminAccess = 2;

@@ -7,7 +7,6 @@
  */
 var sql = require('../scripts/sqlconn');
 var squel = require('squel');
-require('../public/js/lib/date');
 
 exports.getAll = function(req, res, next) {
 

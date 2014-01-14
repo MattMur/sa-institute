@@ -34,7 +34,7 @@ exports.getALL = function(req, res) {
             console.log(err);
             res.status(500).send(err);
         } else {
-            console.log('classes are: \n', JSON.stringify(rows));
+            //console.log('classes are: \n', JSON.stringify(rows));
             res.json(rows);
         }
     });
@@ -49,7 +49,7 @@ exports.getOne = function(req, res, next) {
             console.log(err);
             res.status(500).send(err);
         } else {
-            console.log('classes are: \n', JSON.stringify(rows));
+            //console.log('classes are: \n', JSON.stringify(rows));
             var response = rows.length == 1 ? rows[0] : {};
             res.json(response);
         }
@@ -148,7 +148,7 @@ exports.uploadSyllabus = function(req, res) {
                             console.log(s3err);
                             res.status(500).send(err);
                         } else {
-                            console.log('Success');
+                            console.log('Successfully uploaded syllabus');
                             res.send(200);
                         }
                     }
