@@ -68,6 +68,7 @@ exports.basicAuth = function(express, requiredaccess_level) {
           performAuth(req, res, next);
 
       } else if (req.session.access_level < requiredaccess_level) {  // check that user has required access
+          console.log('UserAccess:'+req.session.access_level +' RequiredAccess:'+ requiredaccess_level);
           res.status(403).send('HTTP 403 user does not have required permissions'); // Not high enough access_level. Forbidden!!
       } else {
           next(); // We do have a session, so nothing to worry about
