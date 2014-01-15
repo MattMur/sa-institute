@@ -23,7 +23,7 @@ var aws_db_config = {
 
 
 console.log('Creating new SQL connection');
-var connection = mysql.createConnection(aws_db_config);
+var connection = mysql.createConnection(local_db_config);
 
 connection.connect(function(err) {
     if (err) {
@@ -34,7 +34,7 @@ connection.connect(function(err) {
 connection.on('error', function(err) {
     console.log('db error', err);
     if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-        connection = mysql.createConnection(aws_db_config);  // lost due to either server restart, or a
+        connection = mysql.createConnection(local_db_config);  // lost due to either server restart, or a
     } else {                                      // connnection idle timeout (the wait_timeout
         throw err;                                 // server variable configures this)
     }

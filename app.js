@@ -120,9 +120,9 @@ app.get(/^\/admin/, function(req, res, next) {
 
 // Nginx should handle this
 // Static mapping
-/*var path_requested = path.join(__dirname, 'public');
+var path_requested = path.join(__dirname, 'public');
 app.use(express.static(path_requested, { maxAge : 3600 }));
-*/
+
 
 // Listen
 app.listen(app.get('port'));
