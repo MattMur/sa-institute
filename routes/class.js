@@ -142,7 +142,7 @@ exports.uploadSyllabus = function(req, res) {
                 res.status(500).send(err);
             } else {
                 // Pass on data to AWS for S3 storage
-                s3.putObject({ Bucket:'UselessData141', Key:fileName ,ACL:"public-read", ContentType:file.type, Body:data},
+                s3.putObject({ Bucket:'sainstitute-syllabus', Key:fileName ,ACL:"public-read", ContentType:file.type, Body:data},
                     function(s3err) {
                         if (s3err) {
                             console.log(s3err);
@@ -172,7 +172,7 @@ exports.getSyllabus = function(req, res) {
            if (rows.length > 0) {
                var fileName = rows[0].syllabus;
                // Use the name to get the actual file from S3
-               s3.getObject({ Bucket:'UselessData141', Key:fileName }, function(s3err, data) {
+               s3.getObject({ Bucket:'sainstitute-syllabus', Key:fileName }, function(s3err, data) {
                     if (s3err) {
                         console.log(err);
                         res.status(500).send(err);
