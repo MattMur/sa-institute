@@ -41,6 +41,7 @@ app.factory('uploadSyllabus', [ '$upload', function($upload) {
             }).progress(function(evt) {
                     //console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
                 }).success(callback).error(function(err) {
+                    spinner.stop();
                     alert('Could Not complete upload of syllabus. \n'+err);
                 });
             //.then(success, error, progress);
