@@ -10,7 +10,7 @@
     <div class="panel panel-default" ng-repeat="class in classes">
         <div class="panel-heading">
             {{ class.name }}
-            <a ng-href="/admin/classes/{{class.name | lowercase }}/edit?classid={{ class.id }}">Edit</a> |
+            <a ng-href="/admin/classes/{{ class.name.toCamel() }}/edit?classid={{ class.id }}">Edit</a> |
             <a href="" ng-click="confirmDelete(class)">Delete</a>
         </div>
         <div class="panel-body">

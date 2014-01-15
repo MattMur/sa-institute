@@ -174,7 +174,7 @@ exports.getSyllabus = function(req, res) {
                // Use the name to get the actual file from S3
                s3.getObject({ Bucket:'sainstitute-syllabus', Key:fileName }, function(s3err, data) {
                     if (s3err) {
-                        console.log(err);
+                        console.log(s3err);
                         res.status(500).send(err);
                     } else {
                         //console.log('s3data: '+JSON.stringify(data));

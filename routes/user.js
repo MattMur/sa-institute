@@ -17,7 +17,7 @@ exports.getOne = function(req, res, next) {
 
     // We do have session, however we need to check if user has access to requested resource
     // check that the user_id is the same as the requested user_id
-    console.log('Checking access2:', req.params.id, req.session.userid);
+    console.log('Checking access2: '+ req.params.id +' '+ req.session.userid);
     var isAuthorized = (req.session.access_level == 2) || (req.params.id == req.session.userid);
 
     if (isAuthorized) {
