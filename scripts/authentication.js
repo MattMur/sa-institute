@@ -26,7 +26,6 @@ exports.login = function (req, res, next) {
         } else {
             res.send(401); // Not authorized
         }
-
     });
 };
 
