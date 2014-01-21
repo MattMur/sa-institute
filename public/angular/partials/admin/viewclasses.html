@@ -3,7 +3,7 @@
 
     <br>
     <label>Classes on: </label>
-    <input type="date" ng-show="showDate" ng-model="selectedDate">
+    <input type="date" ng-show="showDate" ng-model="selectedDate" ng-change="changeDate()">
     <a href="" ng-hide="showDate" ng-click="selectDate()">Today</a>
     <br>
     <p ng-show="classes.length == 0" class="alert alert-warning">No classes on given time period. Either add classes for new semester or change the date.</p>
