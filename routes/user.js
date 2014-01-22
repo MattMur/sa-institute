@@ -69,23 +69,27 @@ exports.getCurrentClass = function(req, res, next) {
 exports.getUserClasses = function(req, res, next) {
     console.log('Checking access4:', req.params.id, req.session.userid);
     var isAuthorized = (req.session.access_level == 2) || (req.params.id == req.session.userid);
-
     if (isAuthorized) {
 
         var injects = [req.params.id];
-        var query = squel.select().field('class.*').from('class')
-            .join('user_enrolled_in_class', 'uc', 'class.id = uc.class_id')
-            .where('uc.user_id = ?')
-            .order('uc.enrolled_date', false); // false=DESC
+        if(req.query.registered){
+            var query = "select * from class where id in (select distinct class_id from study_card where user_id = ?)";
+        }else {
+            var query = squel.select().field('class.*').from('class')
+                .join('user_enrolled_in_class', 'uc', 'class.id = uc.class_id')
+                .where('uc.user_id = ?')
+                .order('uc.enrolled_date', false); // false=DESC
+        }
 
-        if (req.query.date) {  // Filter by classes that were active during the date given
-            query = query.where('? BETWEEN class.start_date AND class.end_date');  //filter += req.query.date ? ' WHERE ? BETWEEN class.startdate AND class.enddate' : "";
-            injects.push(req.query.date);
-        } //DATE_FORMAT(NOW(),'%m-%d-%Y')
+        // if (req.query.date) {  // Filter by classes that were active during the date given
+        //     query = query.where('? BETWEEN class.start_date AND class.end_date');  //filter += req.query.date ? ' WHERE ? BETWEEN class.startdate AND class.enddate' : "";
+        //     injects.push(req.query.date);
+        // } //DATE_FORMAT(NOW(),'%m-%d-%Y')
         if (req.query.limit) { // Limit to specific number of results
             var limit = parseInt(req.query.limit);
             query = query.limit(limit);
         }
+
 
         console.log('Get user classes query: ' + query.toString());
         console.log('Injects: '+injects);
