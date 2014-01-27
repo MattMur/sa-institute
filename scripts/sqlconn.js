@@ -26,14 +26,16 @@ console.log('Creating new SQL connection');
 var connection;
 
 function handleConnection() {
-    connection = mysql.createConnection(local_db_config); // Recreate the connection, since
+    connection = mysql.createConnection(aws_db_config); // Recreate the connection, since
     // the old one cannot be reused.
 
     connection.connect(function(err) {              // The server is either down
         if(err) {                                     // or restarting (takes a while sometimes).
-            console.log('error when connecting to db:', err);
+            console.log('error when connecting to db: '+ err);
             setTimeout(handleConnection, 2000); // We introduce a delay before attempting to reconnect,
-        }                                     // to avoid a hot loop, and to allow our node script to
+        } else {
+            console.log('Connected to database.')
+        }                                    // to avoid a hot loop, and to allow our node script to
     });                                     // process asynchronous requests in the meantime.
     // If you're also serving http, display a 503 error.
     connection.on('error', function(err) {
