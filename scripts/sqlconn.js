@@ -26,7 +26,7 @@ console.log('Creating new SQL connection');
 var connection;
 
 function handleConnection() {
-    connection = mysql.createConnection(aws_db_config); // Recreate the connection, since
+    connection = mysql.createConnection(local_db_config); // Recreate the connection, since
     // the old one cannot be reused.
 
     connection.connect(function(err) {              // The server is either down

@@ -128,6 +128,13 @@ body {
     bottom: -1px;
 }
 
+.forgotpass {
+    display: block;
+    height: 45px; /* to match button height in bordering coloumn*/
+    text-align: right;
+    padding: 15px 10px 0 10px;
+}
+
 
 
 /*.jumbotron {

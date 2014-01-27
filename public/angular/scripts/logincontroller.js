@@ -60,3 +60,35 @@ function login($http, user, pass, callback) {
             window.alert("Login failed. " + data);
         });
 }
+
+app.controller('ForgotPassCntrl', function($scope, $http, md5) {
+
+    $scope.sendEmail = function() {
+        $http.post('/api/users/forgotpass', { email : $scope.email }).success(function(data) {
+            //nothing
+        }).error(function(error) {
+            console.log(error);
+            alert('Something went wrong sending email. Please contact administrator');
+        });
+        alert('An email has been sent to your inbox. Please check it for further instructions on how to reset your password.');
+    };
+});
+
+app.controller('ResetPassCntrl', function($scope, $http, md5, $routeParams, $location) {
+    $scope.resetPassword = function() {
+
+        // check both passwords are the same
+        if ($scope.pass1 === $scope.pass2) {
+            var body = { pass : md5($scope.pass1), hash : $routeParams.id };
+            $http.post('/api/users/resetpass', body).success(function(data) {
+                alert(data); // Server will tell us if success or fail
+                $location.path('/login.html').search('');
+            }).error(function(error) {
+               console.log(error);
+                alert('Could not reset password. Please contact administrator');
+            });
+        } else {
+            alert('Passwords do not match.');
+        }
+    };
+});

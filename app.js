@@ -56,14 +56,18 @@ app.get('/api/users/:id(\\d+)', auth.basicAuth(express, UserAccess), user.getOne
 app.get('/api/users/:id(\\d+)/studycards', auth.basicAuth(express, UserAccess), user.getUserStudyCards);
 app.get('/api/users/:id(\\d+)/classes', auth.basicAuth(express, UserAccess), user.getUserClasses);
 app.post('/api/users', user.createNew); // No auth needed to create new user
+app.post('/api/users/forgotpass', user.forgotPassword);
+app.post('/api/users/resetpass', user.resetPassword);
 app.put('/api/users/:id(\\d+)', auth.basicAuth(express, UserAccess), user.modify);
 app.del('/api/users/:id(\\d+)', auth.basicAuth(express, AdminAccess), user.remove);
 
+
 app.get('/api/studycards', auth.basicAuth(express, UserAccess), studyCard.getAll);
-app.get('/api/studycards/:id(\\d+)', auth.basicAuth(express, UserAccess), studyCard.getOne)
+app.get('/api/studycards/:id(\\d+)', auth.basicAuth(express, UserAccess), studyCard.getOne);
+app.get('/api/studycards/notes', auth.basicAuth(express, AdminAccess), studyCard.getNotes);
 app.post('/api/studycards', auth.basicAuth(express, UserAccess), studyCard.createNew);
 app.del('/api/studycards/:id(\\d+)', auth.basicAuth(express, UserAccess), studyCard.remove);
-app.get('/api/studycards/notes', auth.basicAuth(express, AdminAccess), studyCard.getNotes);
+;
 
 app.get('/api/class', classSubject.getALL); // No auth needed
 app.get('/api/class/:id(\\d+)', classSubject.getOne); // No auth needed
@@ -74,17 +78,16 @@ app.put('/api/class/syllabus', classSubject.uploadSyllabus);
 app.put('/api/class/:id(\\d+)', auth.basicAuth(express, AdminAccess), classSubject.modify);
 app.del('/api/class/:id(\\d+)', auth.basicAuth(express, AdminAccess), classSubject.remove);
 
-
-// HTML Routes
 app.post('/login', auth.login);
 app.get('/logoff', auth.logoff);
 
+// HTML Routes
 app.get('/', function(req, res, next) {
     res.sendfile('public/angular/instituteapp.html', { maxAge : 3600 }, null);
 });
 
-// register or login html paths
-app.get(/^\/(login|register).html/, function(req, res, next) {
+// register, login, forgotpassword, resetpassword html paths
+app.get(/^\/(login|register|forgotpassword|resetpassword).html/, function(req, res, next) {
     res.sendfile('public/angular/instituteapp.html', { maxAge : 3600 }, null);
 });
 

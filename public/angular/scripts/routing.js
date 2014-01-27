@@ -22,6 +22,14 @@ app.config(function($routeProvider, $locationProvider) {
         templateUrl:'/angular/partials/login/registerpart.html',
         controller: 'RegisterCntrl'
     });
+    $routeProvider.when('/forgotpassword.html', {
+        templateUrl: '/angular/partials/login/forgotpassword.html',
+        controller: 'ForgotPassCntrl'
+    });
+    $routeProvider.when('/resetpassword.html', {
+        templateUrl: '/angular/partials/login/resetpassword.html',
+        controller: 'ResetPassCntrl'
+    });
 
 
     $routeProvider.when('/users/:id', {
@@ -39,6 +47,7 @@ app.config(function($routeProvider, $locationProvider) {
         templateUrl:'/angular/partials/studycard/show.html',
         controller: 'StudyCardsCntrl'
     });
+
 
 
     $routeProvider.when('/admin', {
