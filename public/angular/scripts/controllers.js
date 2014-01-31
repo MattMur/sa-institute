@@ -166,9 +166,10 @@ app.controller('StudyCardClasses', function($rootScope, $scope, $http, $routePar
     // Get all the classes for the user for current semester
     // We need to know what classes the user is enrolled in before we can get studycards
     var today = Date.today().toString('yyyy-MM-dd');
-    $http.get('/api/users/'+$routeParams.id+'/classes?date='+today).success(function(classes) {
+    $http.get("/api/users/"+$routeParams.id+"/classes?registered='no'&date="+today).success(function(classes) {
+        console.log("get classes");
         if (classes) {
-            //console.log(JSON.stringify(classes));
+            console.log(JSON.stringify(classes));
 
             /*if (classes.length == 1) {
                 // Only one class so automatically route to view studycards
@@ -176,11 +177,13 @@ app.controller('StudyCardClasses', function($rootScope, $scope, $http, $routePar
                 $location.path(classes[0].name+'/studycards?classid='+classes[0].id);
             } else*/
             if (classes.length > 0) {
+                console.log("+ One class");
                 // Display the list of classes from scope
                 //console.log('classes: '+ JSON.stringify(classes));
                 $scope.classes = classes;
                 loader.finish();
             } else {
+                console.log("No Classes");
                 // Display warning that user isn't enrolled in any classes. Automatic enrollment as soon as they submit studycard.
                 $scope.noCards = true;
                 loader.finish();
