@@ -104,7 +104,9 @@ function login(email, password, callback) {
     });
 }
 
-
+exports.getSessKey = function() {
+    return {secret: 'NEPHIISCOOL', key: 'inst.sess'};
+};
 
 //module.exports.checkSession = function (req, res, next) {
 //    console.log('Checking access:', req.params.id, req.session.userid);

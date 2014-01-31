@@ -23,7 +23,7 @@ app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
 app.use(express.compress());
 app.use(express.bodyParser());
 app.use(express.cookieParser());
-app.use(express.cookieSession({secret: 'NEPHIISCOOL', key: 'inst.sess'}));
+app.use(express.cookieSession(auth.getSessKey()));
 
 // Set port here - Compatibility with Nginx for AWS
 app.set('port', process.env.PORT || 8888);
