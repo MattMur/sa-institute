@@ -18,7 +18,7 @@ exports.test = function() {
     });
 
     console.log('Attempting to load from bucket...');
-    s3.listObjects({ Bucket:'UselessData141' }, function(err, data) {
+    s3.listObjects({ Bucket:'sainstitute-syllabus' }, function(err, data) {
 
         if (err) {
             console.log(err);
@@ -30,7 +30,7 @@ exports.test = function() {
 
 exports.uploadObject = function(req, res) {
     console.log("Uploading object: " + req.body);
-    s3.putObject({ Bucket:'UselessData141', Key:"NewFile.jpg" ,ACL:"public-read", Body:req.body}, function(err) {
+    s3.putObject({ Bucket:'sainstitute-syllabus', Key:"NewFile.jpg" ,ACL:"public-read", Body:req.body}, function(err) {
        if (err) {
            console.log(err);
        } else {

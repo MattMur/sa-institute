@@ -1,3 +1,12 @@
+// All logs will have timestamps automatically
+require('./public/js/lib/date');
+var origLog = console.log;
+console.log = function(str) {
+    var date = new Date().toString('MM-dd HH:mm:ss');
+    str = date +' '+ str;
+    origLog(str);
+};
+
 var express = require('express');
 var path = require('path');
 var app = express();
@@ -10,8 +19,6 @@ var aws = require('./scripts/aws-functions');
 
 
 console.log("server started");
-
-//aws.test();
 
 // Setup
 /*app.use(function(req, res, next){
@@ -32,9 +39,12 @@ app.set('port', process.env.PORT || 8888);
 app.use(function(req, res, next) {
     //console.log("sess: " + JSON.stringify(req.session));
     if (/favicon.(png|ico)/.test(req.url)) { next(); return; }
+
     console.log(req.method +" "+ req.path + " " + JSON.stringify(req.query));
     next();
 });
+
+
 
 var UserAccess = 1;
 var AdminAccess = 2;
@@ -46,14 +56,18 @@ app.get('/api/users/:id(\\d+)', auth.basicAuth(express, UserAccess), user.getOne
 app.get('/api/users/:id(\\d+)/studycards', auth.basicAuth(express, UserAccess), user.getUserStudyCards);
 app.get('/api/users/:id(\\d+)/classes', auth.basicAuth(express, UserAccess), user.getUserClasses);
 app.post('/api/users', user.createNew); // No auth needed to create new user
+app.post('/api/users/forgotpass', user.forgotPassword);
+app.post('/api/users/resetpass', user.resetPassword);
 app.put('/api/users/:id(\\d+)', auth.basicAuth(express, UserAccess), user.modify);
 app.del('/api/users/:id(\\d+)', auth.basicAuth(express, AdminAccess), user.remove);
 
+
 app.get('/api/studycards', auth.basicAuth(express, UserAccess), studyCard.getAll);
-app.get('/api/studycards/:id(\\d+)', auth.basicAuth(express, UserAccess), studyCard.getOne)
+app.get('/api/studycards/:id(\\d+)', auth.basicAuth(express, UserAccess), studyCard.getOne);
+app.get('/api/studycards/notes', auth.basicAuth(express, AdminAccess), studyCard.getNotes);
 app.post('/api/studycards', auth.basicAuth(express, UserAccess), studyCard.createNew);
 app.del('/api/studycards/:id(\\d+)', auth.basicAuth(express, UserAccess), studyCard.remove);
-app.get('/api/studycards/notes', auth.basicAuth(express, AdminAccess), studyCard.getNotes);
+;
 
 app.get('/api/class', classSubject.getALL); // No auth needed
 app.get('/api/class/:id(\\d+)', classSubject.getOne); // No auth needed
@@ -64,17 +78,16 @@ app.put('/api/class/syllabus', classSubject.uploadSyllabus);
 app.put('/api/class/:id(\\d+)', auth.basicAuth(express, AdminAccess), classSubject.modify);
 app.del('/api/class/:id(\\d+)', auth.basicAuth(express, AdminAccess), classSubject.remove);
 
-
-// HTML Routes
 app.post('/login', auth.login);
 app.get('/logoff', auth.logoff);
 
+// HTML Routes
 app.get('/', function(req, res, next) {
     res.sendfile('public/angular/instituteapp.html', { maxAge : 3600 }, null);
 });
 
-// register or login html paths
-app.get(/^\/(login|register).html/, function(req, res, next) {
+// register, login, forgotpassword, resetpassword html paths
+app.get(/^\/(login|register|forgotpassword|resetpassword).html/, function(req, res, next) {
     res.sendfile('public/angular/instituteapp.html', { maxAge : 3600 }, null);
 });
 
@@ -118,7 +131,6 @@ app.get(/^\/admin/, function(req, res, next) {
 });
 
 
-// Nginx should handle this
 // Static mapping
 var path_requested = path.join(__dirname, 'public');
 app.use(express.static(path_requested, { maxAge : 3600 }));

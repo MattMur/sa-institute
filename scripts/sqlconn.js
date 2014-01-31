@@ -13,6 +13,15 @@ var local_db_config = {
 };
 
 var aws_db_config = {
+    host     : 'aaqnwfkjbf61bq.cehwjzheqoag.us-east-1.rds.amazonaws.com',
+    port     : '3306',
+    user     : 'ebroot',
+    password : 'institute1',
+    database : 'institute'
+};
+
+
+var aws_db_test = {
     host     : 'aa16kng1n50tqcy.cyp63uyd0j62.us-east-1.rds.amazonaws.com',
     port     : '3306',
     user     : 'ebroot',
@@ -23,22 +32,32 @@ var aws_db_config = {
 
 
 console.log('Creating new SQL connection');
-var connection = mysql.createConnection(local_db_config);
+var connection;
 
-connection.connect(function(err) {
-    if (err) {
-        console.log('Could not connect to Database!! :'+err);
-    }
-});
+function handleConnection() {
+    connection = mysql.createConnection(aws_db_test); // Recreate the connection, since
+    // the old one cannot be reused.
 
-connection.on('error', function(err) {
-    console.log('db error', err);
-    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-        connection = mysql.createConnection(local_db_config);  // lost due to either server restart, or a
-    } else {                                      // connnection idle timeout (the wait_timeout
-        throw err;                                 // server variable configures this)
-    }
-});
+    connection.connect(function(err) {              // The server is either down
+        if(err) {                                     // or restarting (takes a while sometimes).
+            console.log('error when connecting to db: '+ err);
+            setTimeout(handleConnection, 2000); // We introduce a delay before attempting to reconnect,
+        } else {
+            console.log('Connected to database.')
+        }                                    // to avoid a hot loop, and to allow our node script to
+    });                                     // process asynchronous requests in the meantime.
+    // If you're also serving http, display a 503 error.
+    connection.on('error', function(err) {
+        console.log('db error', err);
+        if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+            handleConnection();                         // lost due to either server restart, or a
+        } else {                                      // connnection idle timeout (the wait_timeout
+            throw err;                                  // server variable configures this)
+        }
+    });
+}
+
+handleConnection();
 
 
 

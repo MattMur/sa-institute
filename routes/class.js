@@ -34,7 +34,7 @@ exports.getALL = function(req, res) {
             console.log(err);
             res.status(500).send(err);
         } else {
-            console.log('classes are: \n', JSON.stringify(rows));
+            //console.log('classes are: \n', JSON.stringify(rows));
             res.json(rows);
         }
     });
@@ -49,7 +49,7 @@ exports.getOne = function(req, res, next) {
             console.log(err);
             res.status(500).send(err);
         } else {
-            console.log('classes are: \n', JSON.stringify(rows));
+            //console.log('classes are: \n', JSON.stringify(rows));
             var response = rows.length == 1 ? rows[0] : {};
             res.json(response);
         }
@@ -142,13 +142,13 @@ exports.uploadSyllabus = function(req, res) {
                 res.status(500).send(err);
             } else {
                 // Pass on data to AWS for S3 storage
-                s3.putObject({ Bucket:'UselessData141', Key:fileName ,ACL:"public-read", ContentType:file.type, Body:data},
+                s3.putObject({ Bucket:'sainstitute-syllabus', Key:fileName ,ACL:"public-read", ContentType:file.type, Body:data},
                     function(s3err) {
                         if (s3err) {
                             console.log(s3err);
                             res.status(500).send(err);
                         } else {
-                            console.log('Success');
+                            console.log('Successfully uploaded syllabus');
                             res.send(200);
                         }
                     }
@@ -172,9 +172,9 @@ exports.getSyllabus = function(req, res) {
            if (rows.length > 0) {
                var fileName = rows[0].syllabus;
                // Use the name to get the actual file from S3
-               s3.getObject({ Bucket:'UselessData141', Key:fileName }, function(s3err, data) {
+               s3.getObject({ Bucket:'sainstitute-syllabus', Key:fileName }, function(s3err, data) {
                     if (s3err) {
-                        console.log(err);
+                        console.log(s3err);
                         res.status(500).send(err);
                     } else {
                         //console.log('s3data: '+JSON.stringify(data));

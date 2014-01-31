@@ -7,6 +7,7 @@
  */
 
 var sql = require('./sqlconn');
+var MD5 = require('./md5');
 
 exports.login = function (req, res, next) {
     login(req.body.user, req.body.pass, function(isAuthorized, user) {
@@ -26,7 +27,6 @@ exports.login = function (req, res, next) {
         } else {
             res.send(401); // Not authorized
         }
-
     });
 };
 
@@ -46,6 +46,9 @@ exports.basicAuth = function(express, requiredaccess_level) {
           console.log('Auth requested but no session detected. Performing basic auth.');
           var performAuth = express.basicAuth(function (user, password, callback)
           {
+              // MD5 the password to match what is in database
+              password = MD5(password);
+
               // Login since they don't have a session id
                 login(user, password, function(isAuthorized) {
                     if (isAuthorized)
@@ -62,12 +65,11 @@ exports.basicAuth = function(express, requiredaccess_level) {
                     }
                     callback(null, isAuthorized);
                 });
-
-
           });
           performAuth(req, res, next);
 
       } else if (req.session.access_level < requiredaccess_level) {  // check that user has required access
+          console.log('UserAccess:'+req.session.access_level +' RequiredAccess:'+ requiredaccess_level);
           res.status(403).send('HTTP 403 user does not have required permissions'); // Not high enough access_level. Forbidden!!
       } else {
           next(); // We do have a session, so nothing to worry about
@@ -94,9 +96,9 @@ function login(email, password, callback) {
             {
                 var user = rows[0];
                 isAuthorized = (user.password == password);  // Does password match?
-                console.log('User?: \n', JSON.stringify(rows));
-                console.log('Password received?: ', password);
-                console.log("Authorized?: ", isAuthorized);
+                console.log('User?: \n'+ JSON.stringify(rows));
+                //console.log('Password received?: '+ password);
+                console.log("Authorized?: "+ isAuthorized);
             }
             callback(isAuthorized, user);
 

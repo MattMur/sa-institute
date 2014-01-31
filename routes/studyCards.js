@@ -7,7 +7,6 @@
  */
 var sql = require('../scripts/sqlconn');
 var squel = require('squel');
-require('../public/js/lib/date');
 
 exports.getAll = function(req, res, next) {
 
@@ -61,56 +60,62 @@ exports.createNew = function(req, res) {
     if (req.body) {
 
         //Find the current week_number. Get startdate from the class they selected
-        sql.query('SELECT start_date FROM class WHERE id=? LIMIT 1', req.body.class_id, function(err, result) {
+        sql.query("SELECT DATE_FORMAT(class.start_date,'%Y-%m-%d') AS startdate FROM class WHERE id=? LIMIT 1", req.body.class_id, function(err, result) {
             if (err) {
                 console.log(err);
                 res.status(500).send(err);
             } else {
 
                 // Calculate difference in weeks to get current week number
-                var startdate = new Date(result[0].startdate);
-                var week_number = (Date.today().getWeek() - startdate.getWeek()) + 1;
-                var created_date = Date.today();
-                req.body.week_number = week_number; // Add one to get current week
-                req.body.created_date = created_date;
-                //console.log('Current Week: ' + JSON.stringify(req.body.week_number));
-                //console.log("Studycard json: " + JSON.stringify(req.body));
+                if (result.length > 0) {
+                    //console.log('Class Selected: ' +JSON.stringify(result[0]));
+                    var startdate = Date.parse(result[0].startdate);
+                    var startweek = startdate.getWeek(); //console.log('startweek: '+ startweek);
+                    var todayweek = Date.today().getWeek(); //console.log('todayweek: '+ todayweek);
+                    var week_number = (todayweek - startweek) + 1;
+                    var created_date = Date.today();
+                    req.body.week_number = week_number; // Add one to get current week
+                    req.body.created_date = created_date;
+                    //console.log('Current Week: ' + week_number);
+                    //console.log("Studycard json: " + JSON.stringify(req.body));
 
-                // Insert new card into database
-                sql.query('INSERT INTO study_card SET ?', req.body, function(err, result) {
-                    if (err) {
-                        console.log(err);
-                        res.status(500).send(err);
-                    } else {
-                        //console.log('studyCards are: \n', JSON.stringify(rows));
-                        res.status(200).send(result.insertId.toString());
-                    }
-                });
 
-                // Enroll user to class they selected if not already enrolled
-                var enrollQuery = "SELECT * FROM user_enrolled_in_class WHERE user_id = ? AND class_id = ?";
-                sql.query(enrollQuery, [req.session.userid,  req.body.class_id], function(err, result) {
-                    if (err) {
-                        console.log(err);
-                        res.status(500).send(err);
-                    } else {
-                        if (result.length == 0) {
-                            // User is not enrolled. Enroll them!
-                            var enrollObj = { class_id : req.body.class_id, user_id : req.session.userid };
-                            sql.query('INSERT INTO user_enrolled_in_class SET ?', enrollObj, function(err, result) {
-                                if (err) {
-                                    console.log('Could not enroll user in class:\n'+err);
-                                } else {
-                                    console.log('User successfully enrolled in class: '+req.body.class_id);
-                                }
-                            });
+                    // Insert new card into database
+                    sql.query('INSERT INTO study_card SET ?', req.body, function(err, result) {
+                        if (err) {
+                            console.log(err);
+                            res.status(500).send(err);
                         } else {
-                            console.log('User already enrolled in class');
-                            // User is already enrolled. We're done here.
+                            //console.log('studyCards are: \n', JSON.stringify(result));
+                            res.status(200).send(result.insertId.toString());
                         }
+                    });
 
-                    }
-                });
+                    // Enroll user to class they selected if not already enrolled
+                    var enrollQuery = "SELECT * FROM user_enrolled_in_class WHERE user_id = ? AND class_id = ?";
+                    sql.query(enrollQuery, [req.session.userid,  req.body.class_id], function(err, result) {
+                        if (err) {
+                            console.log(err);
+                            res.status(500).send(err);
+                        } else {
+                            if (result.length == 0) {
+                                // User is not enrolled. Enroll them!
+                                var enrollObj = { class_id : req.body.class_id, user_id : req.session.userid };
+                                sql.query('INSERT INTO user_enrolled_in_class SET ?', enrollObj, function(err, result) {
+                                    if (err) {
+                                        console.log('Could not enroll user in class:\n'+err);
+                                    } else {
+                                        console.log('User successfully enrolled in class: '+req.body.class_id);
+                                    }
+                                });
+                            } else {
+                                console.log('User already enrolled in class');
+                                // User is already enrolled. We're done here.
+                            }
+
+                        }
+                    });
+                }
             }
         });
     }

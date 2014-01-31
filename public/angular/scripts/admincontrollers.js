@@ -22,26 +22,39 @@ app.controller('AdminViewStudentsCntrl', function ($scope, $http, $routeParams, 
     };
 });
 
-app.controller('AdminViewClassesCntrl', function ($scope, $http) {
-    var date = Date.today();
+app.controller('AdminViewClassesCntrl', function ($scope, $http, $routeParams, $location) {
 
-    // Query server for classes within selected date. Whenever the date changes we update.
-    $scope.$watch('selectedDate', function(newDate) { //FORMAT: YYYY-MM-DD
-        //console.log('SelectedDate modified. '+newDate+'\nUpdating class list...');
-        $http.get('/api/class?date='+newDate).success(function(data) {
-            $scope.classes = data;
-        }).error(function(data) {
-            console.log("Classes request failed" + data);
-            alert('Request for classes failed.');
-        });
+    // Check if url contains date for class range
+    var date;
+    if ($routeParams.date) {
+        $scope.selectedDate = $routeParams.date; // get date from query string
+    } else {
+        var today = Date.today(); // default date
+        $scope.selectedDate = today.toString('yyyy-MM-dd');
+
+    }
+    console.log('Date: ' +$scope.selectedDate);
+
+    // Make request for classes using selectedDate
+    $http.get('/api/class?date='+$scope.selectedDate).success(function(data) {
+        console.log('Got classes');
+        $scope.classes = data;
 
         // Hide date selector if date is Today!
-        var selDate = Date.parse(newDate);
+        var selDate = Date.parse($scope.selectedDate);
         $scope.showDate = Date.compare(selDate.clearTime(), Date.today().clearTime()) != 0;
+    }).error(function(data) {
+        console.log("Classes request failed" + data);
+        alert('Request for classes failed.');
     });
 
-    // Default date to today
-    $scope.selectedDate = date.toString('yyyy-MM-dd');
+
+    $scope.changeDate = function() { //FORMAT: YYYY-MM-DD
+        if ($scope.selectedDate) {
+            console.log('SelectedDate modified. '+$scope.selectedDate+'\nUpdating class list...');
+            $location.search({ date : $scope.selectedDate }); // reload with new date search
+        }
+    };
 
     // Show date selector if they click "Today"
     $scope.selectDate = function() {
