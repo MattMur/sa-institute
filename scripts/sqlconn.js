@@ -13,13 +13,12 @@ var local_db_config = {
 };
 
 var aws_db_config = {
+    host     : process.env.PARAM1,
     port     : '3306',
     user     : 'ebroot',
+    password : process.env.PARAM2,
     database : 'institute'
 };
-aws_db_config.host = process.env.PARAM1;
-aws_db_config.password = process.env.PARAM2;
-
 
 var aws_db_test = {
     host     : 'aa16kng1n50tqcy.cyp63uyd0j62.us-east-1.rds.amazonaws.com',
@@ -33,14 +32,11 @@ var aws_db_test = {
 
 console.log('Creating new SQL connection.');
 console.log(JSON.stringify(aws_db_config));
-if (process.env.PARAM1) {
-    console.log('Host: '+process.env.PARAM1 +' '+process.env.PARAM2);
-}
 var connection;
 
 
 function handleConnection() {
-    connection = mysql.createConnection(aws_db_test); // Recreate the connection, since
+    connection = mysql.createConnection(aws_db_config); // Recreate the connection, since
     // the old one cannot be reused.
 
     connection.connect(function(err) {              // The server is either down
