@@ -135,15 +135,28 @@ body {
     padding: 15px 10px 0 10px;
 }
 
+#slider {
+    display: inline;
+}
 
+.jumbotron-outer {
+    background-color: #ebebeb;
+    padding: 5px !important;
+}
 
-/*.jumbotron {
-    background-image: url(../images/Sunshine.jpg);
+.jumbotron .jumbotron-inner {
+    width: inherit;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     color: #fffaf5;
     text-shadow: #232323 0.1em 0.1em 0.1em;
-    border-style: solid;
-    border: #000000 1px;
-}*/
+    margin: 0 !important;
+}
+
+.bgtransulcent {
+    width: auto;
+    padding: 5px;
+    /*background-color: rgba(0, 0, 0, 0.10);*/
+    border-radius: 5px;
+}

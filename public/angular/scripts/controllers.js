@@ -15,6 +15,8 @@ var MenuItem = function(name, href) {
 app.controller('RootCntrl', function($scope, $rootScope, $http, $location) {
     var userMenuItems, adminMenuItems;
 
+
+
     // get the current user from cookie
     //console.log("Cookies: " + JSON.stringify($.cookie()));
     if ($.cookie('userid')) {
@@ -79,6 +81,19 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $location) {
 });
 
 app.controller('WelcomeCntrl', function($scope, $http) {
+
+    var curImage = 0;
+    var images = ['url(../images/theteacher_small.jpg)', 'url(../images/friends_small.jpg)',
+        'url(../images/president_small.jpg)'];
+
+    // Set initial image.
+    $('.jumbotron-inner').css('background-image', images[0]);
+
+    //Change image every 7 seconds!
+    setInterval(function() {
+        curImage= (curImage+1) % images.length;
+        $('.jumbotron-inner').css('background-image', images[curImage]);
+    }, 8000);
 
     var today = Date.today().toString('yyyy-MM-dd');
 
