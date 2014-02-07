@@ -32,7 +32,7 @@ var aws_db_test = {
 
 
 console.log('Creating new SQL connection.');
-console.log(JSON.stringify(process.env));
+console.log(JSON.stringify(aws_db_config));
 if (process.env.PARAM1) {
     console.log('Host: '+process.env.PARAM1 +' '+process.env.PARAM2);
 }
