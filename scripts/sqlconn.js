@@ -31,8 +31,12 @@ var aws_db_test = {
 
 
 
-console.log('Creating new SQL connection');
+console.log('Creating new SQL connection.');
+if (process.env.PARAM1) {
+    console.log('Host: '+aws_db_config.host +' '+aws_db_config.password);
+}
 var connection;
+
 
 function handleConnection() {
     connection = mysql.createConnection(aws_db_test); // Recreate the connection, since

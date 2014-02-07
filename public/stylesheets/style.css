@@ -145,11 +145,10 @@ body {
 }
 
 .jumbotron .jumbotron-inner {
-    width: inherit;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    color: #c7c7c7;
+    color: #ffffff;
     text-shadow: #232323 0.1em 0.1em 0.1em;
     margin: 0 !important;
 }
@@ -157,6 +156,12 @@ body {
 .bgtransulcent {
     width: auto;
     padding: 5px;
-    /*background-color: rgba(0, 0, 0, 0.10);*/
+    background-color: rgba(0, 0, 0, 0.30);
     border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.jumbotron-inner .btn {
+    text-shadow: #232323 0 0 0;
+    box-shadow: 0.1em 0.1em 0.1em #232323;
 }
