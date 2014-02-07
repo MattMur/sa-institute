@@ -67,7 +67,7 @@ app.get('/api/studycards/:id(\\d+)', auth.basicAuth(express, UserAccess), studyC
 app.get('/api/studycards/notes', auth.basicAuth(express, AdminAccess), studyCard.getNotes);
 app.post('/api/studycards', auth.basicAuth(express, UserAccess), studyCard.createNew);
 app.del('/api/studycards/:id(\\d+)', auth.basicAuth(express, UserAccess), studyCard.remove);
-;
+
 
 app.get('/api/class', classSubject.getALL); // No auth needed
 app.get('/api/class/:id(\\d+)', classSubject.getOne); // No auth needed

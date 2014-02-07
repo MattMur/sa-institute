@@ -11,7 +11,6 @@ var fs=require('fs');
 
 // Config for Amazon S3 services
 var AWS = require('aws-sdk');
-AWS.config.loadFromPath('./scripts/aws-config.json');
 var s3 = new AWS.S3();
 
 exports.getALL = function(req, res) {

@@ -84,7 +84,7 @@ app.controller('WelcomeCntrl', function($scope, $http) {
 
     var curImage = 0;
     var images = ['url(../images/theteacher_small.jpg)', 'url(../images/friends_small.jpg)',
-        'url(../images/president_small.jpg)', 'url(../images/oddsinfavor_small.jpg)'];
+        'url(../images/president_small.jpg)'];
 
     // Set initial image.
     $('.jumbotron-inner').css('background-image', images[0]);
@@ -93,7 +93,7 @@ app.controller('WelcomeCntrl', function($scope, $http) {
     setInterval(function() {
         curImage= (curImage+1) % images.length;
         $('.jumbotron-inner').css('background-image', images[curImage]);
-    }, 7000);
+    }, 8000);
 
     var today = Date.today().toString('yyyy-MM-dd');
 

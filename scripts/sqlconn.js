@@ -13,10 +13,10 @@ var local_db_config = {
 };
 
 var aws_db_config = {
-    host     : 'aaqnwfkjbf61bq.cehwjzheqoag.us-east-1.rds.amazonaws.com',
+    host     : process.env.PARAM1,
     port     : '3306',
     user     : 'ebroot',
-    password : 'institute1',
+    password : process.env.PARAM2,
     database : 'institute'
 };
 
