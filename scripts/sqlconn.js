@@ -13,12 +13,12 @@ var local_db_config = {
 };
 
 var aws_db_config = {
-    host     : process.env.PARAM1,
     port     : '3306',
     user     : 'ebroot',
-    password : process.env.PARAM2,
     database : 'institute'
 };
+aws_db_config.host = process.env.PARAM1;
+aws_db_config.password = process.env.PARAM2;
 
 
 var aws_db_test = {
