@@ -20,21 +20,12 @@ var aws_db_config = {
     database : 'institute'
 };
 
-var aws_db_test = {
-    host     : 'aa16kng1n50tqcy.cyp63uyd0j62.us-east-1.rds.amazonaws.com',
-    port     : '3306',
-    user     : 'ebroot',
-    password : 'password',
-    database : 'institute'
-};
-
-
 
 console.log('Creating new SQL connection.');
 //console.log(JSON.stringify(aws_db_config));
 
 
-var pool = mysql.createPool(local_db_config);
+var pool = mysql.createPool(aws_db_config);
 
 var connection = {
     // Override this query method to use MySQL connection pools
@@ -57,7 +48,7 @@ var connection = {
                     // make sure we callback we call is the right one
                     return callback;
                 }
-                
+
                 // Make the real request now that we have a new connection to db
                 if (typeof b === 'function') {
                     connection.query(a, outercallback(b));
