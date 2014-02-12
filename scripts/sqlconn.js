@@ -31,11 +31,48 @@ var aws_db_test = {
 
 
 console.log('Creating new SQL connection.');
-console.log(JSON.stringify(aws_db_config));
-var connection;
+//console.log(JSON.stringify(aws_db_config));
 
 
-function handleConnection() {
+var pool = mysql.createPool(local_db_config);
+
+var connection = {
+    // Override this query method to use MySQL connection pools
+    query : function(a,b,c) {
+        pool.getConnection(function(err, connection) {
+
+            if(err) {                                     // or restarting (takes a while sometimes).
+                console.log('error when connecting to db: '+ err);
+                // Return error to respective callback function
+                if (typeof b === 'function') {
+                    b(err);
+                } else {
+                    c(err);
+                }
+                //setTimeout(handleConnection, 2000); // We introduce a delay before attempting to reconnect,
+            } else {
+                function outercallback(callback) {
+                    // Release connection to pool now that we are done
+                    connection.release();
+                    // make sure we callback we call is the right one
+                    return callback;
+                }
+                
+                // Make the real request now that we have a new connection to db
+                if (typeof b === 'function') {
+                    connection.query(a, outercallback(b));
+                } else {
+                    connection.query(a, b, outercallback(c));
+                }
+            }
+        });
+    }
+}
+
+module.exports = connection;
+
+
+/*function handleConnection() {
     connection = mysql.createConnection(aws_db_config); // Recreate the connection, since
     // the old one cannot be reused.
 
@@ -58,9 +95,9 @@ function handleConnection() {
     });
 }
 
-handleConnection();
+handleConnection();*/
 
 
 
 
-module.exports = connection;
+

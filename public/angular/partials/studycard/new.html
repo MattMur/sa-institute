@@ -18,8 +18,15 @@
                        type="number" ng-model="studycard.frequency" placeholder="0-7" max="7" min="0" required>
             <label for='frequency' class="control-label" style="display:inline; margin-left: 5px">How many days did you read?</label>
         </div>
-       
 
+        <div class="form-group row">
+            <div class="input-group ig-no-border">
+                    <span class="input-group-addon">
+                        <input id='block' type="checkbox" ng-model="studycard.block">
+                    </span>
+                <label for='block' class="form-control">Did you read the assigned block?</label>
+            </div><!-- /input-group -->
+        </div>
 
         <div class="form-group row">
 
@@ -80,20 +87,9 @@
                 </div><!-- /input-group -->
         </div>
 
-        <div class="form-group row">
-                <div class="input-group ig-no-border">
-                    <span class="input-group-addon">
-                        <input id='block' type="checkbox" ng-model="studycard.block">
-                    </span>
-                    <label for='block' class="form-control">Did you read the assigned block?</label>
-                </div><!-- /input-group -->
-        </div>
-
-       
-
         <!-- Thoughts & Comments -->
         <div class="form-group row">
-            <label for='comments' class='control-label'>Thoughts &amp; feelings
+            <label for='comments' class='control-label'>Thoughts &amp; questions
                 <button type="button" class="btn btn-link" tooltip-placement="right"
                         tooltip="Comments may be reviewed by the teacher.">
                     <span class="glyphicon glyphicon-info-sign" ></span>
