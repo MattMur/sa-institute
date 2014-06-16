@@ -12,6 +12,8 @@ var local_db_config = {
     database : 'institute'
 };
 
+
+// These environment variables are set in the aws elastic beanstalk configuration online
 var aws_db_config = {
     host     : process.env.PARAM1,
     port     : '3306',
@@ -20,12 +22,19 @@ var aws_db_config = {
     database : 'institute'
 };
 
+var aws_db_test = {
+    host     : process.env.RDS_HOSTNAME,
+    port     : process.env.RDS_PORT,
+    user     : process.env.RDS_USERNAME,
+    password : process.env.RDS_PASSWORD
+};
+
 
 console.log('Creating new SQL connection.');
 //console.log(JSON.stringify(aws_db_config));
 
 
-var pool = mysql.createPool(aws_db_config);
+var pool = mysql.createPool(aws_db_test);
 
 var connection = {
     // Override this query method to use MySQL connection pools
@@ -58,7 +67,7 @@ var connection = {
             }
         });
     }
-}
+};
 
 module.exports = connection;
 
