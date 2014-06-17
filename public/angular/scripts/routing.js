@@ -6,6 +6,10 @@
  * To change this template use File | Settings | File Templates.
  */
 
+// Use this global variable to add and check for testing functionality. Set to false when in Prod.
+var isTestMode = true;
+
+
 var app = angular.module('instituteApp', ['ngRoute', 'ui.bootstrap', 'angularFileUpload']);
 
 app.config(function($routeProvider, $locationProvider) {

@@ -2,7 +2,11 @@ SA-Institute
 ============
 
 RESTful Node.js backend with Angular.js frontend for San Antonio's Institute website.
-Amazon test environment: http://isainstitute-aws-env-9jagwgv6j8.elasticbeanstalk.com/
+Amazon test environment: saldsinstitute-test-p2bm3mppk9.elasticbeanstalk.com
+
+Test Admin Credentials:
+admin@gmail.com
+password
 
 **Node.js content:**  
 app.js  

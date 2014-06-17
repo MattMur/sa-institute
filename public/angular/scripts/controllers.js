@@ -16,7 +16,6 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $location) {
     var userMenuItems, adminMenuItems;
 
 
-
     // get the current user from cookie
     //console.log("Cookies: " + JSON.stringify($.cookie()));
     if ($.cookie('userid')) {
@@ -54,7 +53,7 @@ app.controller('RootCntrl', function($scope, $rootScope, $http, $location) {
     }
 
     $scope.logoff = function() {
-        $.removeCookie('userid', { path:'/'})
+        $.removeCookie('userid', { path:'/'});
         $rootScope.user = null;
         $location.path('/');
     };

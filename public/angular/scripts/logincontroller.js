@@ -9,6 +9,12 @@
 
 app.controller('LoginCntrl', function($scope, $http, md5) {
 
+    // When in test, autofill login to admin
+    if (isTestMode) {
+        $scope.user = "admin@gmail.com";
+        $scope.pass = "password";
+    }
+
     $scope.login = function() {
         login($http, $scope.user, md5($scope.pass), null);
     };

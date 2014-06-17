@@ -1,4 +1,4 @@
-USE institute;
+USE ebdb;
 SET FOREIGN_KEY_CHECKS = 0;
 
 TRUNCATE TABLE allowed_days;
@@ -28,23 +28,23 @@ INSERT INTO class
 
 INSERT INTO user 
 	(first_name, last_name, email, phone, password, access_level) VALUES
-	('Matthew’, 'Murray', 'mattm.trinsic@gmail.com', '210-555-5555', ‘password’, 2),
+	('Matthew', 'Murray', 'mattm.trinsic@gmail.com', '210-555-5555', 'password', 2),
 	('Spencer', 'Carlson', 'spencercarlson@gmail.com', '210-555-5555', 'password', 2),
 	('Teacher', '', 'teacher@gmail.com', '210-555-5555', 'password', 2),
 	('Teacher', 'one', 'teacherone@gmail.com', '210-555-5555', 'password', 2),
-	(‘Kari’, ‘Mac’, 'student@gmail.com', '210-555-5555', 'password', 1),
-	('David’, ‘Blain’, 'studentone@gmail.com', '210-555-5555', 'password', 1),
-	(‘Cory’, ‘Rochester’, 'studenttwo@gmail.com', '210-555-5555', 'password', 1),
-	(‘Paul’, ‘DePase’, 'studentthree@gmail.com', '210-555-5555', 'password', 1),
-	(‘Mandi’, ’Straight’, 'studentfour@gmail.com', '210-555-5555', 'password', 1),
-	(‘Rick’, ‘James’, 'studentfive@gmail.com', '210-555-5555', 'password', 1),
-	(‘David’, ‘Nash’, 'studentsix@gmail.com', '210-555-5555', 'password', 1),
-	(‘Steven’, ‘Lynch’, 'studentseven@gmail.com', '210-555-5555', 'password', 1),
-	(‘Blair’, ‘Waldorf’, 'studenteight@gmail.com', '210-555-5555', 'password', 1),
-	(‘Calvin’, ’Phillips’, 'studentnine@gmail.com', '210-555-5555', 'password', 1),
-	(‘Tanner’, ’Micheals’, 'studentten@gmail.com', '210-555-5555', 'password', 1),
-	(‘James’, ‘Blake’, 'studenteleven@gmail.com', '210-555-5555', 'password', 1),
-	(‘Charles’, ‘Bass’, 'studenttwelve@gmail.com', '210-555-5555', 'password', 1);
+	('Kari', 'Mac', 'student@gmail.com', '210-555-5555', 'password', 1),
+	('David', 'Blain', 'studentone@gmail.com', '210-555-5555', 'password', 1),
+	('Cory', 'Rochester', 'studenttwo@gmail.com', '210-555-5555', 'password', 1),
+	('Paul', 'DePase', 'studentthree@gmail.com', '210-555-5555', 'password', 1),
+	('Mandi', 'Straight', 'studentfour@gmail.com', '210-555-5555', 'password', 1),
+	('Rick', 'James', 'studentfive@gmail.com', '210-555-5555', 'password', 1),
+	('David', 'Nash', 'studentsix@gmail.com', '210-555-5555', 'password', 1),
+	('Steven', 'Lynch', 'studentseven@gmail.com', '210-555-5555', 'password', 1),
+	('Blair', 'Waldorf', 'studenteight@gmail.com', '210-555-5555', 'password', 1),
+	('Calvin', 'Phillips', 'studentnine@gmail.com', '210-555-5555', 'password', 1),
+	('Tanner', 'Micheals', 'studentten@gmail.com', '210-555-5555', 'password', 1),
+	('James', 'Blake', 'studenteleven@gmail.com', '210-555-5555', 'password', 1),
+	('Charles', 'Bass', 'studenttwelve@gmail.com', '210-555-5555', 'password', 1);
 
 	
 INSERT INTO user_enrolled_in_class
@@ -76,18 +76,18 @@ INSERT INTO user_teaches_class
 INSERT INTO study_card 
 	(frequency, prepare, seek, do, teach, block, notes, week_number, user_id, class_id, created_date) VALUES
 	(1, TRUE, TRUE, TRUE, TRUE, TRUE, 'First study card', 1, 3, 1, '2014-5-28'),
-	(2, TRUE, FALSE, TRUE, TRUE, TRUE, 'Second study card', 2, 4, 2, '2014-6-4’),
+	(2, TRUE, FALSE, TRUE, TRUE, TRUE, 'Second study card', 2, 4, 2, '2014-6-4'),
 	(3, TRUE, TRUE, FALSE, TRUE, TRUE, 'Third study card', 3, 5, 3, '2014-6-11'),
 	(4, TRUE, TRUE, TRUE, FALSE, TRUE, 'Fourth study card', 4, 6, 4, '2014–5-18'),
 	(5, TRUE, TRUE, TRUE, TRUE, FALSE, 'Fifth study card', 5, 7, 5, '2014-5-25'),
-	(6, FALSE, FALSE, TRUE, TRUE, TRUE, 'Sixth study card', 6, 8, 6, '2014-6-2’),
-	(7, FALSE, TRUE, FALSE, TRUE, TRUE, 'Seventh study card', 7, 9, 7, '2014-6-9’),
+	(6, FALSE, FALSE, TRUE, TRUE, TRUE, 'Sixth study card', 6, 8, 6, '2014-6-2'),
+	(7, FALSE, TRUE, FALSE, TRUE, TRUE, 'Seventh study card', 7, 9, 7, '2014-6-9'),
 	(1, FALSE, FALSE, FALSE, FALSE, FALSE, 'Eighth study card', 8, 10, 8, '2014-6-16'),
 	(2, FALSE, FALSE, FALSE, FALSE, FALSE, 'Ninth study card', 9, 7, 9, '2014-5-18'),
 	(3, FALSE, FALSE, FALSE, FALSE, FALSE, 'Tenth study card', 10, 12, 10, '2014-5-18'),
-	(4, FALSE, FALSE, FALSE, FALSE, FALSE, 'Eleventh study card', 11, 13, 1, '2014-6-6’),
+	(4, FALSE, FALSE, FALSE, FALSE, FALSE, 'Eleventh study card', 11, 13, 1, '2014-6-6'),
 	(5, FALSE, FALSE, FALSE, FALSE, FALSE, 'Twelfth study card', 12, 14, 2, '2014-5-30'),
-	(6, FALSE, FALSE, FALSE, FALSE, FALSE, 'Thirteenth study card', 13, 2, 1, '2014-6-7’),
+	(6, FALSE, FALSE, FALSE, FALSE, FALSE, 'Thirteenth study card', 13, 2, 1, '2014-6-7'),
 	(7, FALSE, FALSE, FALSE, FALSE, FALSE, 'Fourteenth study card', 14, 9, 2, '2014-6-14');
 
 SET FOREIGN_KEY_CHECKS = 1;
